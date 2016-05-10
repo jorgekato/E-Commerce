@@ -1,0 +1,190 @@
+<%@page import="e_commer.dominio.EntidadeDominio"%>
+<%@page import="e_commer.core.aplicacao.Resultado"%>
+<%@page import="e_commer.dominio.Cliente"%>
+<!--A Design by W3layouts 
+Author: W3layout
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html>
+    <%
+
+        Resultado resultado = (Resultado) request.getAttribute("resultado");
+
+        Resultado categoria = (Resultado) request.getAttribute("resultado");
+        
+        Cliente cliente = null;
+        cliente = (Cliente)request.getSession().getAttribute("usuario");
+        
+    %>
+    <head>
+        <!-- Ver como faz para colocar um title para cada página-->
+        <title>Admin</title>
+        <link href="${pageContext.request.contextPath}/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+        <!-- Custom Theme files -->
+        <!--theme-style-->
+        <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css" media="all" />	
+        <!--//theme-style-->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="keywords" content="Mihstore Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
+              Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+        <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+        <!--fonts-->
+        <link href='http://fonts.googleapis.com/css?family=Cabin:400,500,600,700' rel='stylesheet' type='text/css'>
+        <!--//fonts-->
+        <!--//slider-script-->
+        <script>$(document).ready(function (c) {
+                $('.alert-close').on('click', function (c) {
+                    $('.message').fadeOut('slow', function (c) {
+                        $('.message').remove();
+                    });
+                });
+            });
+        </script>
+        <script>$(document).ready(function (c) {
+                $('.alert-close1').on('click', function (c) {
+                    $('.message1').fadeOut('slow', function (c) {
+                        $('.message1').remove();
+                    });
+                });
+            });
+        </script>
+        <script>$(document).ready(function (c) {
+                $('.alert-close2').on('click', function (c) {
+                    $('.message2').fadeOut('slow', function (c) {
+                        $('.message2').remove();
+                    });
+                });
+            });
+        </script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/move-top.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/easing.js"></script>
+        <script type="text/javascript">
+            jQuery(document).ready(function ($) {
+                $(".scroll").click(function (event) {
+                    event.preventDefault();
+                    $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1000);
+                });
+            });
+        </script>
+        <!-- start menu -->
+        <link href="${pageContext.request.contextPath}/css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/megamenu.js"></script>
+        <script>$(document).ready(function () {
+                $(".megamenu").megamenu();
+            });</script>		
+    </head>
+    <body> 
+        <!--header-->
+        <div class="container">
+            <div class="header" id="home">	
+                <div class="header-para">
+                    <p>The quick brown <span>fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog.</span></p>	
+                </div>	
+                <ul class="header-in">
+                    <%
+                        if (cliente != null) {
+                            StringBuilder sbCliente = new StringBuilder();
+                            sbCliente.setLength(0);
+
+                            sbCliente.append(cliente.getNome());
+                            sbCliente.append("<li><a href=\"/RodrigoLES/ServletAutenticacao?operacao=SAIR\">Sair</a> </li>");
+                            out.print(sbCliente.toString());
+                        }
+                    %>                    
+
+
+                    <li ><a href="contact.html" > CONTACT US</a></li>
+                </ul>
+                <div class="clearfix"> </div>
+            </div>
+            <!---->
+            <div class="header-top">
+                <div class="logo">
+                    <a href="${pageContext.request.contextPath}/adminprinc.jsp"><img src="${pageContext.request.contextPath}/images/logo.png" alt="" ></a>
+                </div>
+
+                <div class="clearfix"> </div>
+            </div>
+            <!-- Menu -->
+            <div class="header-bottom">
+                <div class="top-nav">
+
+                    <ul class="megamenu skyblue">
+                        <li class="active grid"><a  href="/RodrigoLES/LadoAdmin/adminprinc.jsp">Home</a>
+                        <li class="active grid"><a  href="/RodrigoLES/LadoAdmin/gestaoprodutos.jsp">Produtos</a>
+                            <div class="megapanel">
+                                <div class="row">
+                                    <div class="col1">
+                                        <div class="h_nav">
+                                            <ul>
+                                                <li><a href="/RodrigoLES/LadoAdmin/cadproduto.jsp">Cadastrar Produtos</a></li>  
+                                                <li><a href="/RodrigoLES/LadoAdmin/pesqprodutos.jsp">Pesquisar Produtos</a></li>
+                                                <li><a href="/RodrigoLES/LadoAdmin/cadcategoria.jsp">Cadastro de categorias</a></li>
+                                                <li><a href="/RodrigoLES/LadoAdmin/pesqcategoria.jsp">Pesquisar categorias</a></li>
+                                                <li><a href="/RodrigoLES/LadoAdmin/cadartesanato.jsp">Cadastro de artesanatos</a></li>
+                                                <li><a href="/RodrigoLES/LadoAdmin/pesqartesanato.jsp">Pesquisar artesanatos</a></li>
+                                            </ul>	
+                                        </div>							
+                                    </div>                                    
+                                </div>
+                            </div>
+                        </li>
+                        <li class="grid"><a  href="/RodrigoLES/LadoAdmin/gestaocliente.jsp">Clientes</a>
+                            <div class="megapanel">
+                                <div class="row">
+                                    <div class="col1">
+                                        <div class="h_nav">
+                                            <ul>
+                                                <li><a href="/RodrigoLES/LadoAdmin/pesqcliente.jsp">Consultar Cliente</a></li>
+                                                <li><a href="#">Ativar/Desativar</a></li>
+                                                <li><a href="#">Email Marketing</a></li>
+                                            </ul>	
+                                        </div>							
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li><a class="pink" href="/RodrigoLES/LadoAdmin/gestaovenda.jsp">Pedidos</a>
+                            <div class="megapanel">
+                                <div class="row">
+                                    <div class="col1">
+                                        <div class="h_nav">
+                                            <ul>
+                                                <li><a href="/RodrigoLES/LadoAdmin/pesqpedido.jsp">Pedidos de Compra</a></li> 
+                                                <li><a href="${pageContext.request.contextPath}/SalvarTrocaDevolucao?operacao=CONSULTAR">Pedidos Troca/Cancelamento</a></li> 
+                                                <li><a href="/RodrigoLES/LadoAdmin/admin_pedidos.html">Troca de </a></li> 
+                                            </ul>	
+                                        </div>							
+                                    </div>                                    
+                                </div>
+                            </div>
+                        </li>
+                        <li class="grid"><a  href="/RodrigoLES/LadoAdmin/gestaorelat.jsp">Relatórios</a>
+                            <div class="megapanel">
+                                <div class="row">
+                                    <div class="col1">
+                                        <div class="h_nav">
+                                            <ul>
+                                                <li><a href="#">Accessories</a></li>                                                
+                                            </ul>	
+                                        </div>							
+                                    </div>                                    
+                                </div>
+                            </div>
+                        </li>
+                    </ul> 
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+
+            <!--Conteudo -->
+            <div class="page">
+                <h6><a href="#">Alguma informação relevante</a><b>|</b>ou mensagem importante <span class="for">alguma coisa assim</span></h6>
+            </div>

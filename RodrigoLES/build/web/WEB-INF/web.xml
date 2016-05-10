@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <display-name>RodrigoLES</display-name>
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+    <!-- Configuração das servlet´s -->
+    <servlet>
+        <description/>
+        <display-name>Servlet</display-name>
+        <servlet-name>Servlet</servlet-name>
+        <servlet-class>e_commer.controle.web.Servlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletAutenticacao</servlet-name>
+        <servlet-class>e_commer.controle.web.ServletAutenticacao</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletCarrinho</servlet-name>
+        <servlet-class>e_commer.controle.web.ServletCarrinho</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletAutenticacao</servlet-name>
+        <url-pattern>/do.logar</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/SalvarFornecedor</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/SalvarCliente</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/SalvarProduto</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/SalvarCategoria</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/SalvarArtesanato</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/SalvarCarrinho</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/SalvarPedidos</url-pattern>
+    </servlet-mapping>  
+    <servlet-mapping>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/SalvarTrocaDevolucao</url-pattern>
+    </servlet-mapping>      
+    <servlet-mapping>
+        <servlet-name>ServletAutenticacao</servlet-name>
+        <url-pattern>/ServletAutenticacao</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletCarrinho</servlet-name>
+        <url-pattern>/ServletCarrinho</url-pattern>
+    </servlet-mapping>
+    <!--Fim Configuração Servlet's-->
+    
+    <!--Configurações de Cabeçalho e Rodapé padrões-->
+    <jsp-config>
+        <jsp-property-group>
+            <description>Definições de cabeçalho e rodapé lado Admin</description>
+            <url-pattern>/WEB/jspf/*</url-pattern>
+            <url-pattern>/LadoAdmin/adminprinc.jsp</url-pattern>
+            <url-pattern>/LadoAdmin/gestaoprodutos.jsp</url-pattern>
+            <url-pattern>/LadoAdmin/gestaocliente.jsp</url-pattern>
+            <url-pattern>/LadoAdmin/gestaovenda.jsp</url-pattern>
+            <url-pattern>/LadoAdmin/gestaorelat.jsp</url-pattern>
+            <url-pattern>/LadoAdmin/msggeral.jsp</url-pattern>
+            <url-pattern>/LadoAdmin/cadproduto.jsp</url-pattern>
+            <url-pattern>/LadoAdmin/cadartesanato.jsp</url-pattern>
+            <url-pattern>/LadoAdmin/cadcategoria.jsp</url-pattern>
+            <url-pattern>/LadoAdmin/pesqartesanato.jsp</url-pattern>
+            <url-pattern>/LadoAdmin/pesqcategoria.jsp</url-pattern>
+            <url-pattern>/LadoAdmin/pesqprodutos.jsp</url-pattern>
+            <url-pattern>/LadoAdmin/pesqcliente.jsp</url-pattern>
+            <url-pattern>/LadoAdmin/pesqpedido.jsp</url-pattern>
+            <url-pattern>/LadoAdmin/pedidodetalhe.jsp</url-pattern>
+            <url-pattern>/LadoAdmin/pesqtrocadevolucao.jsp</url-pattern>
+            <url-pattern>/LadoAdmin/detalhestrocadevolucao.jsp</url-pattern>
+            <include-prelude>/WEB-INF/jspf/header.jspf</include-prelude>
+            <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>
+        </jsp-property-group>
+        <jsp-property-group>
+            <display-name>Grupo loja</display-name>
+            <url-pattern>/index.jsp</url-pattern>
+            <url-pattern>/single.jsp</url-pattern>
+            <url-pattern>/singleartesanato.jsp</url-pattern>
+            <url-pattern>/singleproduto.jsp</url-pattern>
+            <url-pattern>/singlepedido.jsp</url-pattern>
+            <url-pattern>/register.jsp</url-pattern>
+            <url-pattern>/artesanatos.jsp</url-pattern>
+            <url-pattern>/artesanatostore.jsp</url-pattern>
+            <url-pattern>/produtostore.jsp</url-pattern>
+            <url-pattern>/cart.jsp</url-pattern>
+            <url-pattern>/cartendereco.jsp</url-pattern>
+            <url-pattern>/cartpayment.jsp</url-pattern>
+            <url-pattern>/cartmsg.jsp</url-pattern>
+            <url-pattern>/cartconfirmar.jsp</url-pattern>
+            <url-pattern>/erro.jsp</url-pattern>
+            <url-pattern>/account.jsp</url-pattern>
+            <url-pattern>/minhaconta.jsp</url-pattern>
+            <url-pattern>/meuspedidos.jsp</url-pattern>
+            <url-pattern>/meusdados.jsp</url-pattern>
+            <url-pattern>/singlepedidos.jsp</url-pattern>
+            <url-pattern>/pedidoTrocaDevolucao.jsp</url-pattern>
+            <url-pattern>/consultaTrocaDevolucao.jsp</url-pattern>
+            <include-prelude>/WEB-INF/jspf/headerSite.jspf</include-prelude>
+            <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>
+        </jsp-property-group>
+    </jsp-config>
+    <!--Fim Configuração Header's e Footer-->
+    
+    <!--Configuração dos Filtros-->
+    
+    <filter>
+        <filter-name>FiltroAutorizacao</filter-name>
+        <filter-class>e_commer.core.filtros.FiltroAutorizacao</filter-class>
+    </filter>
+    <filter>
+        <filter-name>FiltroCategoria</filter-name>
+        <filter-class>e_commer.core.filtros.FiltroCategoria</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>FiltroCategoria</filter-name>           
+        <url-pattern>/LadoAdmin/cadproduto.jsp</url-pattern>
+        <url-pattern>/LadoAdmin/cadartesanato.jsp</url-pattern>
+        <url-pattern>/LadoAdmin/pesqartesanato.jsp</url-pattern>
+        <url-pattern>/LadoAdmin/pesqcategoria.jsp</url-pattern>
+        <url-pattern>/LadoAdmin/pesqprodutos.jsp</url-pattern>
+        <url-pattern>/LadoAdmin/pesqcliente.jsp</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>FiltroAutorizacao</filter-name>
+        <url-pattern>/LadoAdmin/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+    <!--Configuração dos Filtros-->
+</web-app>
