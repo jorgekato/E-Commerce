@@ -1,9 +1,11 @@
 <%-- 
-    Document   : minhaconta
-    Created on : 07/04/2016, 17:19:06
-    Author     : Henrique
+    Document   : meusvalecreditos
+    Created on : 14/05/2016, 14:45:50
+    Author     : Jorge
 --%>
 
+<%@page import="e_commer.core.util.ConverteDate"%>
+<%@page import="e_commer.dominio.Credito"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="content">
     <div class="col-md-3 col-md">
@@ -107,8 +109,33 @@
 
         </div>
         <div class="content-bottom">
-            <h3>Featured products</h3>
-            ${mensagem}
+            <%
+                resultado = (Resultado) request.getAttribute("credito");
+                if (resultado.getMsg() != null) {
+                }
+                if (resultado.getEntidades() != null) {
+                    for (int i = 0; i < resultado.getEntidades().size(); i++) {
+
+                        Credito credito = (Credito) resultado.getEntidades().get(i);
+
+            %>
+            <h3>Meu Vale-Credito</h3>
+            <table border="3" width="1000%" CELLPADDING="4" CELLSPACING="3">
+                <tr>
+                    <th>Código</th>
+                    <th>Valor</th>
+                    <th>Validade</th>
+                </tr>
+                <tr>
+                    <td><%= credito.getCodigo()%></td>
+                    <td><%= credito.getSaldo()%></td>
+                    <td><%= ConverteDate.converteDateString(credito.getDtValidade())%></td>
+                </tr>
+            </table>
+            <%
+                    }
+                }
+            %>
         </div>
 
     </div>

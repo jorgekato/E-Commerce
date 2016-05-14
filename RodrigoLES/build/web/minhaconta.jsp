@@ -33,6 +33,14 @@
                 </ul>
             </div>
             <div class="tab4">
+                <ul class="place">
+                    <li class="sort">
+                        <a href="SalvarCredito?txtCliId=<%= cliente.getId()%>&operacao=CONSULTAR1">Meus Vale-Creditos</a></li>
+                    <li class="by"></li>
+                    <div class="clearfix"> </div>
+                </ul>
+            </div>        
+            <div class="tab4">
             </div>
             <div class="tab5">
 

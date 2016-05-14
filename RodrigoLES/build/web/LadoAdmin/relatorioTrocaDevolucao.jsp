@@ -48,7 +48,7 @@
             </tr>
         </table>
         <h3>Relatório</h3>
-        <table>
+        <table border="3" width="1000%" CELLPADDING="4" CELLSPACING="3">
             <tr>
                 <th>Data do Registro</th>
                 <th>Comentário</th>
@@ -62,7 +62,7 @@
             <tr>
                 <td><%= ConverteDate.converteDateString(rel.getDtCadastro())%></td>
                 <td><%= rel.getComentario()%> </td>
-                <td><%= td.getStatus()%></td>
+                <td><%= rel.getStatus()%></td>
             </tr>
 
             <%

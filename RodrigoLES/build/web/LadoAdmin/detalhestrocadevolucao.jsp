@@ -26,6 +26,7 @@
     <form action="SalvarTrocaDevolucao" method="post">
         <input type="hidden" name="txtIdPed" value="<%= td.getPedido().getId()%>"/>
         <input type="hidden" name="txtIdtd" value="<%= td.getId()%>"/>
+        <input type="hidden" name="txtCliId" value="<%= td.getPedido().getCliente().getId()%>"/>
 
         <table border="3" width="1000%" CELLPADDING="4" CELLSPACING="3">
             <tr>
@@ -71,10 +72,17 @@
                 <td><input type="text" name="txtVlrUnit" value="<%= item.getArtesanato().getPrecoUnit()%>" readonly/></td>
             </tr>
             <tr>
-                <th>Sub Total</th>
+                <th>Total</th>
                 <td><input type="text" name="txtSubTotal" value="<%= item.getQuantidade() * item.getArtesanato().getPrecoUnit()%>" readonly/></td>
             </tr>
-
+            <tr>
+                <th>Qtde para Troca/Devolução</th>
+                <td><input type="text" name="txtQtdeDev" value="<%= td.getQuantidade()%>" readonly/></td>
+            </tr>
+            <tr>
+                <th>Total da Devolução</th>
+                <td><input type="text" name="txtTotalDev" value="<%= td.getQuantidade() * item.getArtesanato().getPrecoUnit()%>" readonly/></td>
+            </tr>
             <%
             } else if (ItemProduto.class.getName().equals(td.getPedido().getItens().get(i).getClass().getName())) {
                 ItemProduto item = (ItemProduto) td.getPedido().getItens().get(i);
@@ -96,20 +104,23 @@
                 <td><input type="text" name="txtVlrUnit" value="<%= item.getProduto().getPrecoUnit()%>" readonly/></td>
             </tr>
             <tr>
-                <th>Sub Total</th>
+                <th>Total</th>
                 <td><input type="text" name="txtSubTotal" value="<%= item.getQuantidade() * item.getProduto().getPrecoUnit()%>" readonly/></td>
             </tr>
-
-
+            <tr>
+                <th>Qtde para Troca/Devolução</th>
+                <td><input type="text" name="txtQtdeDev" value="<%= td.getQuantidade()%>" readonly/></td>
+            </tr>
+            <tr>
+                <th>Total da Devolução</th>
+                <td><input type="text" name="txtTotalDev" value="<%= td.getQuantidade() *item.getProduto().getPrecoUnit()%>" readonly/></td>
+            </tr>
             <%
                     }//else
                 }//for i
 %> 
             <tr><td>==========</td></tr>
-            <tr>
-                <th>Qtde para Troca/Devolução</th>
-                <td><input type="text" name="txtQtdeDev" value="<%= td.getQuantidade()%>" readonly/></td>
-            </tr>
+            
             <tr>
                 <th>Motivo</th>
                 <td><input type="text" name="txtMotivo" value="<%= td.getMotivo()%>" readonly/></td>

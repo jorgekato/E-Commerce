@@ -56,6 +56,10 @@
         <url-pattern>/SalvarTrocaDevolucao</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/SalvarCredito</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ServletAutenticacao</servlet-name>
         <url-pattern>/ServletAutenticacao</url-pattern>
     </servlet-mapping>
@@ -114,6 +118,7 @@
             <url-pattern>/singlepedidos.jsp</url-pattern>
             <url-pattern>/pedidoTrocaDevolucao.jsp</url-pattern>
             <url-pattern>/consultaTrocaDevolucao.jsp</url-pattern>
+            <url-pattern>/meusvalecreditos.jsp</url-pattern>
             <include-prelude>/WEB-INF/jspf/headerSite.jspf</include-prelude>
             <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>
         </jsp-property-group>

@@ -16,10 +16,12 @@ import e_commer.core.impl.dao.FornecedorDAO;
 import e_commer.core.impl.dao.ProdutoDAO;
 import e_commer.core.impl.dao.CategoriasDAO;
 import e_commer.core.impl.dao.ArtesanatoDAO;
+import e_commer.core.impl.dao.CreditoDAO;
 import e_commer.core.impl.dao.PedidoDAO;
 import e_commer.core.impl.dao.TrocaDevolucaoDAO;
 
 import e_commer.core.impl.negocio.ComplementarDtCadastro;
+import e_commer.core.impl.negocio.ComplementarDtValidadeCredito;
 import e_commer.core.impl.negocio.ValidadorCnpj;
 import e_commer.core.impl.negocio.ValidadorCpf;
 import e_commer.core.impl.negocio.ValidadorDadosObrigatoriosFornecedor;
@@ -31,6 +33,7 @@ import e_commer.dominio.Fornecedor;
 import e_commer.dominio.Produto;
 import e_commer.dominio.Categorias;
 import e_commer.dominio.Artesanato;
+import e_commer.dominio.Credito;
 import e_commer.dominio.Pedido;
 import e_commer.dominio.TrocaDevolucao;
 
@@ -64,6 +67,7 @@ public class Fachada implements IFachada {
         ArtesanatoDAO artDAO = new ArtesanatoDAO();
         PedidoDAO pedDAO = new PedidoDAO();
         TrocaDevolucaoDAO tdDAO = new TrocaDevolucaoDAO();
+        CreditoDAO creDAO = new CreditoDAO();
         
         /* Adicionando cada dao no MAP indexando pelo nome da classe */
         daos.put(Fornecedor.class.getName(), forDAO);
@@ -73,6 +77,7 @@ public class Fachada implements IFachada {
         daos.put(Artesanato.class.getName(), artDAO);
         daos.put(Pedido.class.getName(), pedDAO);
         daos.put(TrocaDevolucao.class.getName(), tdDAO);
+        daos.put(Credito.class.getName(), creDAO);
 
         //-------------------------------------------------------------------------------------------
         /* Criando inst�ncias de regras de neg�cio a serem utilizados*/
@@ -81,6 +86,7 @@ public class Fachada implements IFachada {
         ComplementarDtCadastro cDtCadastro = new ComplementarDtCadastro();
         ValidadorCpf vCpf = new ValidadorCpf();
         ValidadorQtdProduto vQtd = new ValidadorQtdProduto();
+        ComplementarDtValidadeCredito cDtValidade = new ComplementarDtValidadeCredito();
 
         //FORNECEDOR------------------------------------------------------------------------------------------
         /* Criando uma lista para conter as regras de neg�cio de fornencedor
@@ -255,6 +261,28 @@ public class Fachada implements IFachada {
          * pelo nome da entidade.
          */
         rns.put(TrocaDevolucao.class.getName(), rnsTrocaDevolucao);
+        //Credito-------------------------------------------------------------------------------------------------------------------
+        /* Criando uma lista para conter as regras de negócio de Credito
+         * quando a operação for salvar
+         */
+        List<IStrategy> rnsSalvarCredito = new ArrayList<IStrategy>();
+        /* Adicionando as regras a serem utilizadas na operação salvar da CATEGORIA */
+        rnsSalvarCredito.add(cDtCadastro);
+        rnsSalvarCredito.add(cDtValidade);
+        /* Cria o mapa que poderá conter todas as listas de regras de negócio específica 
+         * por operação de Credito
+         */
+        Map<String, List<IStrategy>> rnsCredito = new HashMap<String, List<IStrategy>>();
+        /*
+         * Adiciona a listra de regras na operação salvar no mapa do produto 
+         */
+        rnsCredito.put("SALVAR", rnsSalvarCredito);
+        
+        /* Adiciona o mapa(criado na linha 129) com as regras indexadas pelas operações no mapa geral indexado 
+         * pelo nome da entidade.
+         */
+        rns.put(Credito.class.getName(), rnsCredito);
+        
     }
 
     @Override

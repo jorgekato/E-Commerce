@@ -22,6 +22,7 @@ import e_commer.controle.web.vh.impl.FornecedorViewHelper;
 import e_commer.controle.web.vh.impl.ProdutoViewHelper;
 import e_commer.controle.web.vh.impl.CategoriaViewHelper;
 import e_commer.controle.web.vh.impl.CarrinhoViewHelper;
+import e_commer.controle.web.vh.impl.CreditoViewHelper;
 import e_commer.controle.web.vh.impl.PedidoViewHelper;
 import e_commer.controle.web.vh.impl.TrocaDevolucaoViewHelper;
 import e_commer.core.aplicacao.Resultado;
@@ -77,6 +78,7 @@ public class Servlet extends HttpServlet {
         vhs.put("/RodrigoLES/SalvarCarrinho", new CarrinhoViewHelper());
         vhs.put("/RodrigoLES/SalvarPedidos", new PedidoViewHelper());
         vhs.put("/RodrigoLES/SalvarTrocaDevolucao", new TrocaDevolucaoViewHelper());
+        vhs.put("/RodrigoLES/SalvarCredito", new CreditoViewHelper());
     }
 
     /**

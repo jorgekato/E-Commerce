@@ -3,7 +3,9 @@ package e_commer.controle.web.vh.impl;
 import e_commer.controle.web.vh.IViewHelper;
 import e_commer.core.aplicacao.Resultado;
 import e_commer.core.impl.controle.Fachada;
+import e_commer.core.util.GeraCodigo;
 import e_commer.dominio.Cliente;
+import e_commer.dominio.Credito;
 import e_commer.dominio.EntidadeDominio;
 import e_commer.dominio.ItemArtesanato;
 import e_commer.dominio.ItemProduto;
@@ -12,6 +14,8 @@ import e_commer.dominio.Produto;
 import e_commer.dominio.Relatorio;
 import e_commer.dominio.TrocaDevolucao;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +39,7 @@ public class TrocaDevolucaoViewHelper implements IViewHelper {
             String status = request.getParameter("txtStatus");
             String anotacoes = request.getParameter("txtAnotacao");
             String qtdeDev = request.getParameter("txtQtdeDev");
+            String totDev = request.getParameter("txtTotalDev");
             String proId = request.getParameter("txtIdpro");
             String acao = request.getParameter("txtAcao");
             String tdId = request.getParameter("txtIdtd");
@@ -66,11 +71,28 @@ public class TrocaDevolucaoViewHelper implements IViewHelper {
                 td.setMotivo(motivo);
                 td.setQuantidade(Integer.parseInt(qtdeDev));
                 td.setAnotacao(anotacoes);
-                td.setAcao(acao);
+
                 td.setStatus(status);
                 if (tdId != null && !tdId.trim().equals("")) {
                     td.setId(Integer.parseInt(tdId));
                 }
+                if (acao != null && !acao.trim().equals("")) {
+                    td.setAcao(acao);
+                    if (acao.equals("CREDITO NA LOJA")) {
+                        Credito cred = new Credito();
+                        Cliente cli = new Cliente();
+                        //gerar um codigo de credito(obs: nao foi feito uma verificação de geracao de mesmo codigo)
+                        String cod = GeraCodigo.geraCodigoAleatorio();
+                        cred.setCodigo(cod);
+                        cred.setSaldo(Double.valueOf(totDev));
+                        cred.setFlgAtivo(true);
+                        cli.setId(Integer.valueOf(cliId));
+                        cred.setCliente(cli);
+                        Fachada fac = new Fachada();
+                        fac.salvar((EntidadeDominio) cred);
+                    }
+                }
+
             } else if (operacao.equals("CONSULTAR") || operacao.equals("CONSULTAR1")) {
                 td = new TrocaDevolucao();
                 Cliente cli = new Cliente();
@@ -80,19 +102,19 @@ public class TrocaDevolucaoViewHelper implements IViewHelper {
                     ped.setCliente(cli);
                     td.setPedido(ped);
                 }
-            }else{
-             String txtId = request.getParameter("txtIdtd");
+            } else {
+                String txtId = request.getParameter("txtIdtd");
 
-            int pedid = 0;
+                int pedid = 0;
 
-            if (txtId != null && !txtId.trim().equals("")) {
-                pedid = Integer.parseInt(txtId);
+                if (txtId != null && !txtId.trim().equals("")) {
+                    pedid = Integer.parseInt(txtId);
+                }
+
+                td = new TrocaDevolucao();
+                td.setId(pedid);
             }
 
-            td = new TrocaDevolucao();
-            td.setId(pedid);
-            }
-                
         } else {
             Resultado resultado = null;
             String txtId = request.getParameter("txtIdtd");

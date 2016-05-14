@@ -36,6 +36,7 @@ public class TrocaDevolucaoDAO extends AbstractJdbcDAO {
     private final String relDtRegistro = "rel_dt_registro";
     private final String relComentario = "rel_comentario";
     private final String relStatus = "rel_status";
+    
 
     public TrocaDevolucaoDAO() {
         super("tb_troca_devolucao", "td_id");
@@ -71,6 +72,7 @@ public class TrocaDevolucaoDAO extends AbstractJdbcDAO {
 
             Relatorio rel = new Relatorio();
             rel.setComentario("Inicio do Relatorio");
+            rel.setStatus("AGUARDANDO PRODUTO");
             td.addRelatorio(rel);
 
             ResultSet rs = pst.getGeneratedKeys();
@@ -118,7 +120,7 @@ public class TrocaDevolucaoDAO extends AbstractJdbcDAO {
 
         try {
             connection.setAutoCommit(false);
-
+            //altera a tabela de troca de devolucoes
             StringBuilder sql = new StringBuilder();
             sql.append("UPDATE " + table + " SET " + status + "=?," + acao + "=?," + dtUltModificacao + "=?");
             sql.append(" WHERE " + idTable + "=?");
@@ -131,13 +133,18 @@ public class TrocaDevolucaoDAO extends AbstractJdbcDAO {
 
             pst.executeUpdate();
 
+            //se acao for dar credito ao cliente
+            if(td.getAcao().equals("CREDITO NA LOJA")){
+                
+            }
+            
+            
             sql = new StringBuilder();
             pst = null;
-
+            //altera a tabela de relatorios
             sql.append("INSERT INTO " + tbRelatorio + " (");
             sql.append(idTable + ", " + relDtRegistro + ", " + relComentario + ", " + relStatus);
             sql.append(") VALUES (?,?,?,?)");
-
             pst = connection.prepareStatement(sql.toString());
             pst.setInt(1, td.getId());
             pst.setTimestamp(2, dtmodficacao);
@@ -261,7 +268,6 @@ public class TrocaDevolucaoDAO extends AbstractJdbcDAO {
                 }//for
                 td.setPedido(ped);
 
-                List<Relatorio> relatorios = new ArrayList<Relatorio>();
                 sql = new StringBuilder();
                 pst = null;
                 sql.append("SELECT * FROM " + tbRelatorio);

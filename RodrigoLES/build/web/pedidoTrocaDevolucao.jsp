@@ -208,7 +208,6 @@
                     <tr>
                         <th>Motivo</th>
                         <td><input type="radio" name="txtMotivo" value="Defeito"/>Defeito
-                            <input type="radio" name="txtMotivo" value="ProdutoErrado"/>Produto Errado
                             <input type="radio" name="txtMotivo" value="Cancelamento"/>Cancelamento
                             <input type="radio" name="txtMotivo" value="Outro"/>Outro
                         </td>
