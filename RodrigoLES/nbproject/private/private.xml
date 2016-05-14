@@ -2,29 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="2"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Jorge/Downloads/Documents/GitHub/eCommerce/RodrigoLES/web/LadoAdmin/detalhestrocadevolucao.jsp</file>
-            <file>file:/C:/Users/Jorge/Downloads/Documents/GitHub/eCommerce/RodrigoLES/src/java/e_commer/core/impl/negocio/ValidadorQtdeVendas.java</file>
-            <file>file:/C:/Users/Jorge/Downloads/Documents/GitHub/eCommerce/RodrigoLES/src/java/e_commer/dominio/Pedido.java</file>
-            <file>file:/C:/Users/Jorge/Downloads/Documents/GitHub/eCommerce/RodrigoLES/src/java/e_commer/controle/web/Servlet.java</file>
-            <file>file:/C:/Users/Jorge/Downloads/Documents/GitHub/eCommerce/RodrigoLES/src/java/e_commer/core/impl/dao/ProdutoDAO.java</file>
-            <file>file:/C:/Users/Jorge/Downloads/Documents/GitHub/eCommerce/RodrigoLES/src/java/e_commer/core/impl/dao/PedidoDAO.java</file>
-            <file>file:/C:/Users/Jorge/Downloads/Documents/GitHub/eCommerce/RodrigoLES/src/java/e_commer/controle/web/vh/impl/TrocaDevolucaoViewHelper.java</file>
-            <file>file:/C:/Users/Jorge/Downloads/Documents/GitHub/eCommerce/RodrigoLES/src/java/e_commer/core/impl/negocio/ValidadorQtdeEstoque.java</file>
-            <file>file:/C:/Users/Jorge/Downloads/Documents/GitHub/eCommerce/RodrigoLES/src/java/e_commer/dominio/ItemProduto.java</file>
-            <file>file:/C:/Users/Jorge/Downloads/Documents/GitHub/eCommerce/RodrigoLES/src/java/e_commer/core/impl/controle/Fachada.java</file>
-            <file>file:/C:/Users/Jorge/Downloads/Documents/GitHub/eCommerce/RodrigoLES/web/LadoAdmin/cadproduto.jsp</file>
-            <file>file:/C:/Users/Jorge/Downloads/Documents/GitHub/eCommerce/RodrigoLES/src/java/e_commer/core/impl/dao/ClienteDAO.java</file>
-            <file>file:/C:/Users/Jorge/Downloads/Documents/GitHub/eCommerce/RodrigoLES/src/java/e_commer/controle/web/vh/impl/CategoriaViewHelper.java</file>
-            <file>file:/C:/Users/Jorge/Downloads/Documents/GitHub/eCommerce/RodrigoLES/web/LadoAdmin/pesqpedido.jsp</file>
-            <file>file:/C:/Users/Jorge/Downloads/Documents/GitHub/eCommerce/RodrigoLES/web/LadoAdmin/pesqtrocadevolucao.jsp</file>
-            <file>file:/C:/Users/Jorge/Downloads/Documents/GitHub/eCommerce/RodrigoLES/src/java/e_commer/controle/web/vh/impl/ProdutoViewHelper.java</file>
-            <file>file:/C:/Users/Jorge/Downloads/Documents/GitHub/eCommerce/RodrigoLES/src/java/e_commer/core/impl/dao/TrocaDevolucaoDAO.java</file>
-            <file>file:/C:/Users/Jorge/Downloads/Documents/GitHub/eCommerce/RodrigoLES/web/LadoAdmin/cadcategoria.jsp</file>
-            <file>file:/C:/Users/Jorge/Downloads/Documents/GitHub/eCommerce/RodrigoLES/src/java/e_commer/controle/web/vh/impl/PedidoViewHelper.java</file>
-            <file>file:/C:/Users/Jorge/Downloads/Documents/GitHub/eCommerce/RodrigoLES/web/LadoAdmin/pedidodetalhe.jsp</file>
-            <file>file:/C:/Users/Jorge/Downloads/Documents/GitHub/eCommerce/RodrigoLES/web/WEB-INF/web.xml</file>
-            <file>file:/C:/Users/Jorge/Downloads/Documents/GitHub/eCommerce/RodrigoLES/src/java/e_commer/dominio/TrocaDevolucao.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

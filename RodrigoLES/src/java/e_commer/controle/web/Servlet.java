@@ -1,4 +1,4 @@
-﻿package e_commer.controle.web;
+package e_commer.controle.web;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -59,6 +59,7 @@ public class Servlet extends HttpServlet {
         commands.put("ALTERAR1", new AlterarCommand());
         commands.put("CONSULTAR2", new ConsultarCommand());
         commands.put("ENVIAR", new SalvarCommand());
+        commands.put("HISTORICO", new ConsultarCommand());
        // commands.put("ATUALIZAR", new AlterarCommand());
 
         /* Utilizando o ViewHelper para tratar especificações de qualquer tela e indexando 

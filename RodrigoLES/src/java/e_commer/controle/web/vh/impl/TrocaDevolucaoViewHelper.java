@@ -9,6 +9,7 @@ import e_commer.dominio.ItemArtesanato;
 import e_commer.dominio.ItemProduto;
 import e_commer.dominio.Pedido;
 import e_commer.dominio.Produto;
+import e_commer.dominio.Relatorio;
 import e_commer.dominio.TrocaDevolucao;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
@@ -37,6 +38,7 @@ public class TrocaDevolucaoViewHelper implements IViewHelper {
             String proId = request.getParameter("txtIdpro");
             String acao = request.getParameter("txtAcao");
             String tdId = request.getParameter("txtIdtd");
+            String comentario = request.getParameter("txtComentario");
 
             if (operacao.equals("ENVIAR") || operacao.equals("ALTERAR")) {
                 //String[] ids = request.getParameterValues("txtIdPed");//recebe um ou varios pedidos de troc/dev
@@ -49,8 +51,14 @@ public class TrocaDevolucaoViewHelper implements IViewHelper {
                 td = new TrocaDevolucao();
                 ped = new Pedido();
                 Produto prod = new Produto();
+
+                if (comentario != null && !comentario.trim().equals("")) {
+                    Relatorio rel = new Relatorio();
+                    rel.setComentario(comentario);
+                    td.addRelatorio(rel);
+                }
                 prod.setId(Integer.parseInt(proId));
-                
+
                 ped.setId(Integer.parseInt(pedId));
                 ped.setStatus(status);
                 td.setPedido(ped);
@@ -60,7 +68,7 @@ public class TrocaDevolucaoViewHelper implements IViewHelper {
                 td.setAnotacao(anotacoes);
                 td.setAcao(acao);
                 td.setStatus(status);
-                if(tdId != null && !tdId.trim().equals("")){
+                if (tdId != null && !tdId.trim().equals("")) {
                     td.setId(Integer.parseInt(tdId));
                 }
             } else if (operacao.equals("CONSULTAR") || operacao.equals("CONSULTAR1")) {
@@ -72,7 +80,19 @@ public class TrocaDevolucaoViewHelper implements IViewHelper {
                     ped.setCliente(cli);
                     td.setPedido(ped);
                 }
+            }else{
+             String txtId = request.getParameter("txtIdtd");
+
+            int pedid = 0;
+
+            if (txtId != null && !txtId.trim().equals("")) {
+                pedid = Integer.parseInt(txtId);
             }
+
+            td = new TrocaDevolucao();
+            td.setId(pedid);
+            }
+                
         } else {
             Resultado resultado = null;
             String txtId = request.getParameter("txtIdtd");
@@ -118,6 +138,9 @@ public class TrocaDevolucaoViewHelper implements IViewHelper {
         } else if (resultado.getMsg() == null && operacao.equals("VISUALIZAR")) {
             request.setAttribute("trocadevolucao", resultado);
             d = request.getRequestDispatcher("LadoAdmin/detalhestrocadevolucao.jsp");
+        } else if (resultado.getMsg() == null && operacao.equals("HISTORICO")) {
+            request.setAttribute("trocadevolucao", resultado);
+            d = request.getRequestDispatcher("LadoAdmin/relatorioTrocaDevolucao.jsp");
         } else if (resultado.getMsg() == null && operacao.equals("ALTERAR")) {
             request.setAttribute("trocadevolucao", resultado);
             d = request.getRequestDispatcher("LadoAdmin/pesqtrocadevolucao.jsp");

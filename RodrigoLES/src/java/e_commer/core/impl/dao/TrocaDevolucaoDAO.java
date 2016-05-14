@@ -6,6 +6,7 @@ import e_commer.dominio.ItemArtesanato;
 import e_commer.dominio.ItemProduto;
 import e_commer.dominio.Pedido;
 import e_commer.dominio.Produto;
+import e_commer.dominio.Relatorio;
 import e_commer.dominio.TrocaDevolucao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,6 +32,10 @@ public class TrocaDevolucaoDAO extends AbstractJdbcDAO {
     private final String anotacao = "td_anotacao";
     private final String acao = "td_acao";
     private final String dtUltModificacao = "td_dt_ultima_modificacao";
+    private final String tbRelatorio = "tb_relatorios";
+    private final String relDtRegistro = "rel_dt_registro";
+    private final String relComentario = "rel_comentario";
+    private final String relStatus = "rel_status";
 
     public TrocaDevolucaoDAO() {
         super("tb_troca_devolucao", "td_id");
@@ -48,7 +53,7 @@ public class TrocaDevolucaoDAO extends AbstractJdbcDAO {
 
             sql.append("INSERT INTO " + table + "(");
             sql.append(pedId + ", " + proId + ", " + qtde + ", " + dtSolicitacao + ", ");
-            sql.append(motivo + ", " + status + ", " + anotacao + ", " + acao +") ");
+            sql.append(motivo + ", " + status + ", " + anotacao + ", " + acao + ") ");
             sql.append("VALUES(?,?,?,?,?,?,?,?)");
 
             pst = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
@@ -62,6 +67,29 @@ public class TrocaDevolucaoDAO extends AbstractJdbcDAO {
             pst.setString(6, "AGUARDANDO PRODUTO");
             pst.setString(7, td.getAnotacao());
             pst.setString(8, "");
+            pst.executeUpdate();
+
+            Relatorio rel = new Relatorio();
+            rel.setComentario("Inicio do Relatorio");
+            td.addRelatorio(rel);
+
+            ResultSet rs = pst.getGeneratedKeys();
+            int id = 0;
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+            td.setId(id);
+            sql = new StringBuilder();
+            pst = null;
+            sql.append("INSERT INTO " + tbRelatorio + " (");
+            sql.append(idTable + ", " + relDtRegistro + ", " + relComentario + ", " + relStatus);
+            sql.append(") VALUES (?,?,?,?)");
+
+            pst = connection.prepareStatement(sql.toString());
+            pst.setInt(1, td.getId());
+            pst.setTimestamp(2, dtSolic);
+            pst.setString(3, td.getRelatorio().get(0).getComentario());
+            pst.setString(4, td.getStatus());
             pst.executeUpdate();
 
             connection.commit();
@@ -100,14 +128,28 @@ public class TrocaDevolucaoDAO extends AbstractJdbcDAO {
             Timestamp dtmodficacao = new Timestamp(td.getDtCadastro().getTime());
             pst.setTimestamp(3, dtmodficacao);
             pst.setInt(4, td.getId());
-            
+
             pst.executeUpdate();
-            
-            if(td.getStatus().equals("CANCELADO")){
+
+            sql = new StringBuilder();
+            pst = null;
+
+            sql.append("INSERT INTO " + tbRelatorio + " (");
+            sql.append(idTable + ", " + relDtRegistro + ", " + relComentario + ", " + relStatus);
+            sql.append(") VALUES (?,?,?,?)");
+
+            pst = connection.prepareStatement(sql.toString());
+            pst.setInt(1, td.getId());
+            pst.setTimestamp(2, dtmodficacao);
+            pst.setString(3, td.getRelatorio().get(0).getComentario());
+            pst.setString(4, td.getStatus());
+            pst.executeUpdate();
+
+            if (td.getStatus().equals("CANCELADO")) {
                 PedidoDAO pedDAO = new PedidoDAO();
                 pedDAO.alterar(td.getPedido());
             }
-//            
+
             connection.commit();
         } catch (SQLException e) {
             try {
@@ -131,15 +173,15 @@ public class TrocaDevolucaoDAO extends AbstractJdbcDAO {
         openConnection();
         PreparedStatement pst = null;
         TrocaDevolucao td = (TrocaDevolucao) entidade;
-        
-        if(td.getPedido()== null){
+
+        if (td.getPedido() == null) {
             Cliente cli = new Cliente();
             cli.setId(null);
             Pedido ped = new Pedido();
             ped.setCliente(cli);
             td.setPedido(ped);
         }
-        
+
         try {
             StringBuilder sql = new StringBuilder();
 
@@ -153,8 +195,6 @@ public class TrocaDevolucaoDAO extends AbstractJdbcDAO {
             } else {
                 sql.append("SELECT * FROM " + table);
             }
-
-            
 
 //            
 //                ResultSet rs = pst.executeQuery();
@@ -172,10 +212,10 @@ public class TrocaDevolucaoDAO extends AbstractJdbcDAO {
             pst = connection.prepareStatement(sql.toString());
             if (td.getId() != null) {
                 pst.setInt(1, td.getId());
-            }else if(td.getPedido().getCliente().getId() != null){
+            } else if (td.getPedido().getCliente().getId() != null) {
                 pst.setInt(1, td.getPedido().getCliente().getId());
             }
-            
+
             List<EntidadeDominio> td_lista = new ArrayList<EntidadeDominio>();
             ResultSet rs = pst.executeQuery();
 
@@ -206,7 +246,7 @@ public class TrocaDevolucaoDAO extends AbstractJdbcDAO {
                     if (ItemProduto.class.getName().equals(ped.getItens().get(i).getClass().getName())) {
                         ItemProduto itemp = (ItemProduto) ped.getItens().get(i);
                         if (itemp.getProduto().getId() != td.getProId()) {
-                            ped.remove(itemp);
+                            ped.remove(itemp);//retira da lista
                         } else {
                             i++;
                         }
@@ -219,8 +259,26 @@ public class TrocaDevolucaoDAO extends AbstractJdbcDAO {
                         }
                     }
                 }//for
-
                 td.setPedido(ped);
+
+                List<Relatorio> relatorios = new ArrayList<Relatorio>();
+                sql = new StringBuilder();
+                pst = null;
+                sql.append("SELECT * FROM " + tbRelatorio);
+                sql.append(" WHERE " + idTable + "=?");
+                pst = connection.prepareStatement(sql.toString());
+                pst.setInt(1, td.getId());
+                ResultSet rs1 = pst.executeQuery();
+                while (rs1.next()) {
+                    Relatorio rel = new Relatorio();
+                    java.sql.Date datarel = rs1.getDate(relDtRegistro);
+                    Date d = new Date(datarel.getTime());
+                    rel.setDtCadastro(d);
+                    rel.setComentario(rs1.getString(relComentario));
+                    rel.setStatus(rs1.getString(relStatus));
+                    td.addRelatorio(rel);
+                }
+
                 td_lista.add(td);
             }//WHILE
 

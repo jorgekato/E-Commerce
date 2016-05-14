@@ -51,9 +51,9 @@ public class Fachada implements IFachada {
     private Resultado resultado;
 
     public Fachada() {
-        /* Int�nciando o Map de DAOS */
+        /* Intanciando o Map de DAOS */
         daos = new HashMap<String, IDAO>();
-        /* Int�nciando o Map de Regras de Neg�cio */
+        /* Intanciando o Map de Regras de Negocio */
         rns = new HashMap<String, Map<String, List<IStrategy>>>();
 
         /* Criando inst�ncias dos DAOs a serem utilizados*/

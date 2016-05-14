@@ -50,11 +50,11 @@
     <servlet-mapping>
         <servlet-name>Servlet</servlet-name>
         <url-pattern>/SalvarPedidos</url-pattern>
-    </servlet-mapping>  
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Servlet</servlet-name>
         <url-pattern>/SalvarTrocaDevolucao</url-pattern>
-    </servlet-mapping>      
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ServletAutenticacao</servlet-name>
         <url-pattern>/ServletAutenticacao</url-pattern>
@@ -64,7 +64,6 @@
         <url-pattern>/ServletCarrinho</url-pattern>
     </servlet-mapping>
     <!--Fim Configuração Servlet's-->
-    
     <!--Configurações de Cabeçalho e Rodapé padrões-->
     <jsp-config>
         <jsp-property-group>
@@ -87,6 +86,7 @@
             <url-pattern>/LadoAdmin/pedidodetalhe.jsp</url-pattern>
             <url-pattern>/LadoAdmin/pesqtrocadevolucao.jsp</url-pattern>
             <url-pattern>/LadoAdmin/detalhestrocadevolucao.jsp</url-pattern>
+            <url-pattern>/LadoAdmin/relatorioTrocaDevolucao.jsp</url-pattern>
             <include-prelude>/WEB-INF/jspf/header.jspf</include-prelude>
             <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>
         </jsp-property-group>
@@ -119,9 +119,7 @@
         </jsp-property-group>
     </jsp-config>
     <!--Fim Configuração Header's e Footer-->
-    
     <!--Configuração dos Filtros-->
-    
     <filter>
         <filter-name>FiltroAutorizacao</filter-name>
         <filter-class>e_commer.core.filtros.FiltroAutorizacao</filter-class>
@@ -131,7 +129,7 @@
         <filter-class>e_commer.core.filtros.FiltroCategoria</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>FiltroCategoria</filter-name>           
+        <filter-name>FiltroCategoria</filter-name>
         <url-pattern>/LadoAdmin/cadproduto.jsp</url-pattern>
         <url-pattern>/LadoAdmin/cadartesanato.jsp</url-pattern>
         <url-pattern>/LadoAdmin/pesqartesanato.jsp</url-pattern>

@@ -155,9 +155,17 @@
                     <%}%>
                 </td>
             </tr>
-
+            <tr>
+                <th>Comentario</th>
+            </tr>
+            <tr>
+                <td>
+                    <textarea name="txtComentario" cols="40"></textarea>
+                </td>
+            </tr>
             <tr>
                 <td><input type="submit" name="operacao" value="ALTERAR"/></td>
+                <td><input type="submit" name="operacao" value="HISTORICO"/></td>
             </tr>
         </table>
         <%

@@ -1,5 +1,8 @@
 package e_commer.dominio;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Jorge
@@ -12,7 +15,7 @@ public class TrocaDevolucao extends EntidadeDominio{
     private int quantidade;
     private String anotacao;
     private String acao;
-    
+    private List<Relatorio> relatorio = new ArrayList<Relatorio>();
 
     
     public Pedido getPedido(){
@@ -69,6 +72,14 @@ public class TrocaDevolucao extends EntidadeDominio{
 
     public void setAcao(String acao) {
         this.acao = acao;
+    }
+
+    public List<Relatorio> getRelatorio() {
+        return relatorio;
+    }
+
+    public void addRelatorio(Relatorio relatorio) {
+        this.relatorio.add(relatorio);
     }
     
     
