@@ -1,5 +1,7 @@
 package e_commer.dominio;
 
+import java.util.Date;
+
 /**
  *
  * @author Henrique
@@ -9,6 +11,7 @@ public class Login extends EntidadeDominio {
     private String user;
     private String password;
     private boolean flg_ativo;
+    private Date ultimoAcesso;
 
     public Login() {
     }
@@ -40,6 +43,14 @@ public class Login extends EntidadeDominio {
 
     public void setFlg_ativo(boolean flg_ativo) {
         this.flg_ativo = flg_ativo;
+    }
+
+    public Date getUltimoAcesso() {
+        return ultimoAcesso;
+    }
+
+    public void setUltimoAcesso(Date ultimoAcesso) {
+        this.ultimoAcesso = ultimoAcesso;
     }
     
     

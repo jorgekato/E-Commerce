@@ -109,16 +109,6 @@
 
         </div>
         <div class="content-bottom">
-            <%
-                resultado = (Resultado) request.getAttribute("credito");
-                if (resultado.getMsg() != null) {
-                }
-                if (resultado.getEntidades() != null) {
-                    for (int i = 0; i < resultado.getEntidades().size(); i++) {
-
-                        Credito credito = (Credito) resultado.getEntidades().get(i);
-
-            %>
             <h3>Meu Vale-Credito</h3>
             <table border="3" width="1000%" CELLPADDING="4" CELLSPACING="3">
                 <tr>
@@ -126,16 +116,31 @@
                     <th>Valor</th>
                     <th>Validade</th>
                 </tr>
+            <%
+                resultado = (Resultado) request.getAttribute("credito");
+                double total = 0;
+                if (resultado.getMsg() != null) {
+                }
+                if (resultado.getEntidades() != null) {
+                    for (int i = 0; i < resultado.getEntidades().size(); i++) {
+                        Credito credito = (Credito) resultado.getEntidades().get(i);
+                        total+=credito.getSaldo();
+            %>
+            
                 <tr>
                     <td><%= credito.getCodigo()%></td>
                     <td><%= credito.getSaldo()%></td>
                     <td><%= ConverteDate.converteDateString(credito.getDtValidade())%></td>
+                    
                 </tr>
-            </table>
+            
             <%
                     }
                 }
             %>
+            </table>
+            <label for="total">Valor Total do Crédito: R$ </label>
+            <input type="text" value="<%= total%>" readonly/>
         </div>
 
     </div>

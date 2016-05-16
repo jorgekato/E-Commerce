@@ -12,6 +12,7 @@ package e_commer.dominio;
 public abstract class AbstractItem extends EntidadeDominio{
     
     private int quantidade;
+    private double valorUnit;
     private String tipo_item; //tem que ser tipo enum
     private String item_Status;
     public enum Tipo_Item {ARTESANATO, PRODUTO};
@@ -23,6 +24,15 @@ public abstract class AbstractItem extends EntidadeDominio{
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
+
+    public double getValorUnit() {
+        return valorUnit;
+    }
+
+    public void setValorUnit(double valorUnit) {
+        this.valorUnit = valorUnit;
+    }
+    
 
     public String getTipo_item() {
         return tipo_item;

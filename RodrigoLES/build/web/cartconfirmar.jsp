@@ -20,7 +20,7 @@
             </TR>
 
             <TR>
-                <TH ALIGN='CENTER'><input type="checkbox"></input></TH>
+                <TH ALIGN='CENTER'><input type="checkbox"/></TH>
                 <TH>Nome</TH>
                 <TH>Quantidade</TH>                
                 <TH>Status:</TH>

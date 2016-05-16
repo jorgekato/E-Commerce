@@ -10,6 +10,7 @@ import e_commer.dominio.ItemArtesanato;
 import e_commer.dominio.ItemProduto;
 import e_commer.dominio.Pedido;
 import e_commer.dominio.Produto;
+import e_commer.dominio.Relatorio;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,8 +36,14 @@ public class PedidoDAO extends AbstractJdbcDAO {
     private final String pedId = "ped_id";
     private final String proId = "pro_id";
     private final String ite_qtde = "ite_qtde";
+    private final String vlrUnit = "ite_valor_unit";
     private final String item_status = "item_status";
     private final String item_tipo = "item_tipo";
+
+    private final String tbHistorico = "tb_historico_pedido";
+    private final String hisDtRegistro = "his_dt_registro";
+    private final String hisComentario = "his_comentario";
+    private final String hisStatus = "his_status";
 
     public PedidoDAO() {
         super("tb_pedidos", "ped_id");
@@ -74,8 +81,8 @@ public class PedidoDAO extends AbstractJdbcDAO {
             pst.setInt(1, pedido.getCliente().getId());
             pst.setString(2, pedido.getPagamento());
             pst.setString(3, pedido.getServico());
-            Timestamp time = new Timestamp(pedido.getDtCadastro().getTime());
-            pst.setTimestamp(4, time);
+            Timestamp dtPed = new Timestamp(pedido.getDtCadastro().getTime());
+            pst.setTimestamp(4, dtPed);
             pst.setString(5, pedido.getStatus());
 
             pst.executeUpdate();
@@ -94,8 +101,8 @@ public class PedidoDAO extends AbstractJdbcDAO {
                     sql = new StringBuilder();
                     sql.append("INSERT INTO ");
                     sql.append(tbItensPedido);
-                    sql.append("(" + pedId + "," + proId + "," + ite_qtde + "," + item_status + "," + item_tipo + ")");
-                    sql.append(" VALUES (?,?,?,?,?)");
+                    sql.append("(" + pedId + "," + proId + "," + ite_qtde + "," + vlrUnit + "," + item_status + "," + item_tipo + ")");
+                    sql.append(" VALUES (?,?,?,?,?,?)");
 
                     pst = connection.prepareStatement(sql.toString(),
                             Statement.RETURN_GENERATED_KEYS);
@@ -105,21 +112,38 @@ public class PedidoDAO extends AbstractJdbcDAO {
                         ItemArtesanato item = (ItemArtesanato) entidades.get(i);
                         pst.setInt(2, item.getArtesanato().getId());
                         pst.setInt(3, item.getQuantidade());
-                        pst.setString(4, "APROVADO");
-                        pst.setString(5, item.getTipo_item());
+                        pst.setDouble(4, item.getArtesanato().getPrecoUnit());
+                        pst.setString(5, "APROVADO");
+                        pst.setString(6, item.getTipo_item());
 
                     } else if (ItemProduto.class.getName().equals(entidades.get(i).getClass().getName())) {
                         ItemProduto item = (ItemProduto) entidades.get(i);
                         pst.setInt(2, item.getProduto().getId());
                         pst.setInt(3, item.getQuantidade());
-                        pst.setString(4, "APROVADO");
-                        pst.setString(5, item.getTipo_item());
+                        pst.setDouble(4, item.getProduto().getPrecoUnit());
+                        pst.setString(5, "APROVADO");
+                        pst.setString(6, item.getTipo_item());
                     }
-
                     pst.executeUpdate();
-
                 }
             }
+
+            Relatorio rel = new Relatorio();
+            rel.setComentario("Inicio do Relatorio");
+            rel.setStatus("APROVADO");
+
+            sql = new StringBuilder();
+            pst = null;
+            sql.append("INSERT INTO " + tbHistorico + " (");
+            sql.append(idTable + ", " + hisDtRegistro + ", " + hisComentario + ", " + hisStatus);
+            sql.append(") VALUES (?,?,?,?)");
+
+            pst = connection.prepareStatement(sql.toString());
+            pst.setInt(1, pedido.getId());
+            pst.setTimestamp(2, dtPed);
+            pst.setString(3, rel.getComentario());
+            pst.setString(4, rel.getStatus());
+            pst.executeUpdate();
 
             connection.commit();
         } catch (SQLException e) {
@@ -196,7 +220,21 @@ public class PedidoDAO extends AbstractJdbcDAO {
                     }
                 }
             }
-                
+
+            sql = new StringBuilder();
+            pst = null;
+            //altera a tabela de historico de pedidos
+            sql.append("INSERT INTO " + tbHistorico + " (");
+            sql.append(idTable + ", " + hisDtRegistro + ", " + hisComentario + ", " + hisStatus);
+            sql.append(") VALUES (?,?,?,?)");
+            pst = connection.prepareStatement(sql.toString());
+            pst.setInt(1, pedido.getId());
+            Timestamp dtmodificacao = new Timestamp(new Date().getTime());
+            pst.setTimestamp(2, dtmodificacao);
+            pst.setString(3, pedido.getHistorico().get(0).getComentario());
+            pst.setString(4, pedido.getStatus());
+            pst.executeUpdate();
+
             connection.commit();
         } catch (SQLException e) {
             try {
@@ -216,7 +254,7 @@ public class PedidoDAO extends AbstractJdbcDAO {
     }
 
     @Override
-    public List<EntidadeDominio> consultar(EntidadeDominio entidade) throws NullPointerException{
+    public List<EntidadeDominio> consultar(EntidadeDominio entidade) throws NullPointerException {
         PreparedStatement pst = null;
 
         Pedido pedido = (Pedido) entidade;
@@ -225,7 +263,7 @@ public class PedidoDAO extends AbstractJdbcDAO {
 
         try {
             openConnection();
-            
+
             if (pedido.getPagamento() == null) {
                 pedido.setPagamento("");
             }
@@ -264,7 +302,7 @@ public class PedidoDAO extends AbstractJdbcDAO {
 
             Pedido p = new Pedido();
             Cliente c;
-            
+
             ResultSet rs = pst.executeQuery();
             List<EntidadeDominio> pedidos = new ArrayList<EntidadeDominio>();
             while (rs.next()) {
@@ -284,6 +322,23 @@ public class PedidoDAO extends AbstractJdbcDAO {
                 java.sql.Date dtCadastroEmLong = rs.getDate("ped_dt_compra");
                 Date dtCadastro = new Date(dtCadastroEmLong.getTime());
                 p.setDtCadastro(dtCadastro);
+                
+                
+                sql = null;
+                pst = null;
+                sql= "SELECT * FROM " + tbHistorico + " WHERE " + idTable + "=?";
+                pst = connection.prepareStatement(sql.toString());
+                pst.setInt(1, p.getId());
+                ResultSet rs1 = pst.executeQuery();
+                while (rs1.next()) {
+                    Relatorio rel = new Relatorio();
+                    java.sql.Date datarel = rs1.getDate(hisDtRegistro);
+                    Date d = new Date(datarel.getTime());
+                    rel.setDtCadastro(d);
+                    rel.setComentario(rs1.getString(hisComentario));
+                    rel.setStatus(rs1.getString(hisStatus));
+                    p.addHistorico(rel);
+                }
                 pedidos.add(p);
             }
 
@@ -300,10 +355,11 @@ public class PedidoDAO extends AbstractJdbcDAO {
 
                         Artesanato artesanato = new Artesanato();
                         artesanato.setId((rs.getInt("pro_id")));
+                        //artesanato.setPrecoUnit(rs.getDouble("art_valor_unit"));
                         ArtesanatoDAO daoa = new ArtesanatoDAO();
                         ItemArtesanato itema = new ItemArtesanato();
                         List<EntidadeDominio> art = daoa.consultar((EntidadeDominio) artesanato);
-                        
+
 //                        fachada = new Fachada();
 //                        resultado = fachada.consultar((EntidadeDominio) artesanato);
                         for (EntidadeDominio e : art) {
@@ -312,6 +368,7 @@ public class PedidoDAO extends AbstractJdbcDAO {
                             }
                         }
                         itema.setQuantidade((rs.getInt("ite_qtde")));
+                        itema.setValorUnit(rs.getDouble("ite_valor_unit"));
                         itema.setTipo_item(rs.getString("item_tipo"));
                         //preciso add o campo item_status
                         itema.setItem_Status(rs.getString("item_status"));
@@ -324,6 +381,7 @@ public class PedidoDAO extends AbstractJdbcDAO {
 
                         Produto produto = new Produto();
                         produto.setId((rs.getInt("pro_id")));
+                        // produto.setPrecoUnit(rs.getDouble("pro_valor_unit"));
                         ProdutoDAO daop = new ProdutoDAO();
                         ItemProduto itemp = new ItemProduto();
                         List<EntidadeDominio> prod = daop.consultar((EntidadeDominio) produto);
@@ -335,6 +393,7 @@ public class PedidoDAO extends AbstractJdbcDAO {
                             }
                         }
                         itemp.setQuantidade((rs.getInt("ite_qtde")));
+                        itemp.setValorUnit(rs.getDouble("ite_valor_unit"));
                         itemp.setTipo_item(rs.getString("item_tipo"));
                         //preciso add o campo item_status
                         itemp.setItem_Status(rs.getString("item_status"));

@@ -60,28 +60,33 @@
                                   ></p>
                 <p>Categoria: <select name="categorias" id="categorias">
                         <%
-                            categoria = (Resultado) request.getAttribute("categorias");
-                            if (resultado != null) {
-                                List<EntidadeDominio> entidades = resultado.getEntidades();
-                                StringBuilder sbRegistro = new StringBuilder();
-                                StringBuilder sbLink = new StringBuilder();
+                            if (produto != null) {%>
+                            <option value="<%= produto.getCategoria().getId()%>"> <%= produto.getCategoria().getNomeCategoria()%></option>
+                            <%
+                                
+                            } else {
+                                categoria = (Resultado) request.getAttribute("categorias");
+                                if (categoria != null) {
+                                    List<EntidadeDominio> entidades = categoria.getEntidades();
+                                    StringBuilder sbRegistro = new StringBuilder();
+                                    StringBuilder sbLink = new StringBuilder();
 
-                                if (entidades != null) {
-                                    for (int i = 0; i < entidades.size(); i++) {
-                                        Categorias cat = (Categorias) entidades.get(i);
-                                        sbRegistro.setLength(0);
-                                        sbLink.setLength(0);
+                                    if (entidades != null) {
+                                        for (int i = 0; i < entidades.size(); i++) {
+                                            Categorias cat = (Categorias) entidades.get(i);
+                                            sbRegistro.setLength(0);
+                                            sbLink.setLength(0);
 
-                                        sbRegistro.append("<option value\"");
-                                        sbRegistro.append(cat.getNomeCategoria());
-                                        sbRegistro.append("\">");
-                                        sbRegistro.append(cat.getNomeCategoria());
-                                        sbRegistro.append("</option>");
-                                        out.print(sbRegistro.toString());
+                                            sbRegistro.append("<option value\"");
+                                            sbRegistro.append(cat.getId());
+                                            sbRegistro.append("\">");
+                                            sbRegistro.append(cat.getNomeCategoria());
+                                            sbRegistro.append("</option>");
+                                            out.print(sbRegistro.toString());
+                                        }
                                     }
                                 }
                             }
-
                         %>
 
                     </select></p>
@@ -90,18 +95,20 @@
 
                                       <%
                                           if (produto != null) {
-                                              out.print("'" + produto.getCategoria() + "'");
+                                              out.print("'" + produto.getQuantidade() + "'");
                                           }
                                       %>
                                       ></input></p>
-                <p>Fabricante: <input type="text" name="fabricante" value= 
+                
+                <p>Qtde Maxima Venda: <input type="text" name="qtdeMaxVenda" value= 
 
                                       <%
                                           if (produto != null) {
-                                              out.print("'" + produto.getFabricante() + "'");
+                                              out.print("'" + produto.getQtdeMaxVenda()+ "'");
                                           }
                                       %>
-                                      ></p>
+                                      ></input></p>
+
                 <p>Valor unitário: <input type="text" name="valorUnit" value= 
 
                                           <%

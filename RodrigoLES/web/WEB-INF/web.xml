@@ -91,6 +91,7 @@
             <url-pattern>/LadoAdmin/pesqtrocadevolucao.jsp</url-pattern>
             <url-pattern>/LadoAdmin/detalhestrocadevolucao.jsp</url-pattern>
             <url-pattern>/LadoAdmin/relatorioTrocaDevolucao.jsp</url-pattern>
+            <url-pattern>/LadoAdmin/historicoPedido.jsp</url-pattern>
             <include-prelude>/WEB-INF/jspf/header.jspf</include-prelude>
             <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>
         </jsp-property-group>
@@ -133,6 +134,10 @@
         <filter-name>FiltroCategoria</filter-name>
         <filter-class>e_commer.core.filtros.FiltroCategoria</filter-class>
     </filter>
+    <filter>
+        <filter-name>FiltroAutenticacao</filter-name>
+        <filter-class>e_commer.core.filtros.FiltroAutenticacao</filter-class>
+    </filter>
     <filter-mapping>
         <filter-name>FiltroCategoria</filter-name>
         <url-pattern>/LadoAdmin/cadproduto.jsp</url-pattern>
@@ -155,4 +160,18 @@
         <dispatcher>ERROR</dispatcher>
     </filter-mapping>
     <!--Configuração dos Filtros-->
+    <filter-mapping>
+        <filter-name>FiltroAutenticacao</filter-name>
+        <url-pattern>/minhaconta.jsp</url-pattern>
+        <url-pattern>/meuspedidos.jsp</url-pattern>
+        <url-pattern>/cartendereco.jsp</url-pattern>
+        <url-pattern>/cartconfirmar.jsp</url-pattern>
+        <url-pattern>/cartpayment.jsp</url-pattern>
+        <url-pattern>/cartmsg.jsp</url-pattern>
+        <url-pattern>/cartconfirmar.jsp</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
 </web-app>

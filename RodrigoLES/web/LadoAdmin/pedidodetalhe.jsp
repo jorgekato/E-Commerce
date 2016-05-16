@@ -14,105 +14,109 @@
 
 
 <div class="content">
-    
-        <div class="content-bottom">
-            <h3>Detalhe do Pedido</h3>
-            <%                //Resultado resultado = (Resultado) session.getAttribute("resultado");
-                Resultado pedido = (Resultado) request.getAttribute("pedidos");
 
-                if (pedido != null && pedido.getMsg() != null) {
-                    out.print(pedido.getMsg());
-                }
+    <div class="content-bottom">
+        <h3>Detalhe do Pedido</h3>
+        <%                //Resultado resultado = (Resultado) session.getAttribute("resultado");
+            Resultado pedido = (Resultado) request.getAttribute("pedidos");
 
-                if (pedido != null) {
-                    List<EntidadeDominio> entidades = pedido.getEntidades();
-                    if (entidades != null) {
-                        Pedido p = (Pedido) entidades.get(0);
-                        //esta pegando 01 pedido e preciso que ande mais de uma vez no itens do pedido
+            if (pedido != null && pedido.getMsg() != null) {
+                out.print(pedido.getMsg());
+            }
 
-            %>
-            <div class="clearfix"> </div>
-            <form action="${pageContext.request.contextPath}/SalvarPedidos" method="post">
+            if (pedido != null) {
+                List<EntidadeDominio> entidades = pedido.getEntidades();
+                if (entidades != null) {
+                    Pedido p = (Pedido) entidades.get(0);
+                    //esta pegando 01 pedido e preciso que ande mais de uma vez no itens do pedido
 
-                <table border="3" width="100%" CELLPADDING="4" CELLSPACING="3">
+        %>
+        <div class="clearfix"> </div>
+        <form action="${pageContext.request.contextPath}/SalvarPedidos" method="post">
 
-                    <tr>
-                        <th colspan="7"><strong>Pedidos</strong></th>
-                    </tr>
-                    <tr>
-                        <td>Nº Pedido</td>
-                        <td>Data da Compra</td>
-                        <td>Cliente</td>
-                        <td>Email</td>
-                        <td>Status</td>
-                    </tr>
-                    <tr>
-                        <td><%= p.getId()%></td>
-                        <td><%= ConverteDate.converteDateString(p.getDtCadastro())%></td>
-                        <td><%= p.getCliente().getNome()%></td>
-                        <td><%= p.getCliente().getEmail()%></td>
-                        <td><%= p.getStatus()%></td>
-                    </tr>
-                </table>
-                    <label for="novoStatus">Novo Status</label>
-                        <select name="txtStatus" >
-                        <option value="" disabled="" selected></option>
-                        <option value="APROVADO">APROVADO</option>
-                        <option value="ENVIADO">ENVIADO</option>
-                        <option value="AGUARDANDO PAGAMENTO">AGUARDANDO PAGAMENTO</option>
-                        <option value="CONCLUIDO">CONCLUIDO</option>
-                    </select>
-                    <input type="hidden" name="txtId" value="<%= p.getId()%>"/>
-                    <input type="submit" name="operacao" value="ALTERAR1"/>
-                <h3>Detalhes do Produto</h3>
-                <table border="3" width="100%" CELLPADDING="4" CELLSPACING="3">
-                    <tr>
-                        <td>Cod. Produto</td>
-                        <td>Descrição</td>
-                        <td>Quantidade</td>
-                        <td>Valor Unit.</td>
-                        <td>Sub Total</td>
-                    </tr>
-                    <%
-                        for (int i = 0; i < p.getItens().size(); i++) {
-                            if (ItemProduto.class.getName().equals(p.getItens().get(i).getClass().getName())) {
-                                ItemProduto item = (ItemProduto) p.getItens().get(i);
+            <table border="3" width="100%" CELLPADDING="4" CELLSPACING="3">
 
-                    %> 
-                    <tr>
-                        <td><%= item.getProduto().getId()%></td>
-                        <td><%= item.getProduto().getNome()%></td>
-                        <td><%= item.getQuantidade()%></td>
-                        <td><%= item.getProduto().getPrecoUnit()%></td>
-                        <td><%= item.getQuantidade() * item.getProduto().getPrecoUnit()%></td>
-                    </tr>
+                <tr>
+                    <th colspan="7"><strong>Pedidos</strong></th>
+                </tr>
+                <tr>
+                    <th>Nº Pedido</th>
+                    <th>Data da Compra</th>
+                    <th>Cliente</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                </tr>
+                <tr>
+                    <td><%= p.getId()%></td>
+                    <td><%= ConverteDate.converteDateString(p.getDtCadastro())%></td>
+                    <td><%= p.getCliente().getNome()%></td>
+                    <td><%= p.getCliente().getEmail()%></td>
+                    <td><%= p.getStatus()%></td>
+                </tr>
+            </table>
+                <p><label for="novoStatus">Novo Status</label>
+            <select name="txtStatus" >
+                <option value="" disabled="" selected></option>
+                <option value="APROVADO">APROVADO</option>
+                <option value="ENVIADO">ENVIADO</option>
+                <option value="CANCELADO">CANCELADO</option>
+                <option value="REENVIADO">REENVIADO</option>
+                <option value="AGUARDANDO PAGAMENTO">AGUARDANDO PAGAMENTO</option>
+                <option value="CONCLUIDO">CONCLUIDO</option>
+            </select></p>
+            <p><label for="comentario">Comentario</label>
+                <textarea name="txtComentario" cols="40"></textarea></p>
+            
+            <input type="hidden" name="txtId" value="<%= p.getId()%>"/>
+            <input type="submit" name="operacao" value="ALTERAR1"/>
+            <input type="submit" name="operacao" value="HISTORICO"/>
+            <h3>Detalhes do Produto</h3>
+            <table border="3" width="100%" CELLPADDING="4" CELLSPACING="3">
+                <tr>
+                    <th>Cod. Produto</th>
+                    <th>Descrição</th>
+                    <th>Quantidade</th>
+                    <th>Valor Unit.</th>
+                    <th>Sub Total</th>
+                </tr>
+                <%
+                    for (int i = 0; i < p.getItens().size(); i++) {
+                        if (ItemProduto.class.getName().equals(p.getItens().get(i).getClass().getName())) {
+                            ItemProduto item = (ItemProduto) p.getItens().get(i);
 
-                    <%
-                    } else {
-                        ItemArtesanato itemA = (ItemArtesanato) p.getItens().get(i);
+                %> 
+                <tr>
+                    <td><%= item.getProduto().getId()%></td>
+                    <td><%= item.getProduto().getNome()%></td>
+                    <td><%= item.getQuantidade()%></td>
+                    <td><%= item.getValorUnit()%></td>
+                    <td><%= item.getQuantidade() * item.getValorUnit()%></td>
+                </tr>
 
-                    %>
-                    <tr>
-                        <td><%= itemA.getArtesanato().getId()%></td>
-                        <td><%= itemA.getArtesanato().getNome()%></td>
-                        <td><%= itemA.getQuantidade()%></td>
-                        <td><%= itemA.getArtesanato().getPrecoUnit()%></td>
-                        <td><%= itemA.getQuantidade() * itemA.getArtesanato().getPrecoUnit()%></td>
-                    </tr>
-                </table>
-                    
-            </form>
+                <%
+                } else {
+                    ItemArtesanato itemA = (ItemArtesanato) p.getItens().get(i);
+                %>
+                <tr>
+                    <td><%= itemA.getArtesanato().getId()%></td>
+                    <td><%= itemA.getArtesanato().getNome()%></td>
+                    <td><%= itemA.getQuantidade()%></td>
+                    <td><%= itemA.getValorUnit()%></td>
+                    <td><%= itemA.getQuantidade() * itemA.getValorUnit()%></td>
+                </tr>
 
-            <%
+
+                <%
+                                }
                             }
                         }
                     }
-                }
-            %>
-        </div>
-
+                %>
+            </table>
+        </form>
     </div>
 
-
-    <div class="clearfix"> </div>
 </div>
+
+
+

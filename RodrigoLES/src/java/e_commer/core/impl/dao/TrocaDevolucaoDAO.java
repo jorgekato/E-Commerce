@@ -1,5 +1,6 @@
 package e_commer.core.impl.dao;
 
+import e_commer.core.aplicacao.Resultado;
 import e_commer.dominio.Cliente;
 import e_commer.dominio.EntidadeDominio;
 import e_commer.dominio.ItemArtesanato;
@@ -67,7 +68,7 @@ public class TrocaDevolucaoDAO extends AbstractJdbcDAO {
             pst.setString(5, td.getMotivo());
             pst.setString(6, "AGUARDANDO PRODUTO");
             pst.setString(7, td.getAnotacao());
-            pst.setString(8, "");
+            pst.setString(8, "");//acao
             pst.executeUpdate();
 
             Relatorio rel = new Relatorio();
@@ -90,8 +91,8 @@ public class TrocaDevolucaoDAO extends AbstractJdbcDAO {
             pst = connection.prepareStatement(sql.toString());
             pst.setInt(1, td.getId());
             pst.setTimestamp(2, dtSolic);
-            pst.setString(3, td.getRelatorio().get(0).getComentario());
-            pst.setString(4, td.getStatus());
+            pst.setString(3, rel.getComentario());
+            pst.setString(4, rel.getStatus());
             pst.executeUpdate();
 
             connection.commit();
@@ -127,17 +128,11 @@ public class TrocaDevolucaoDAO extends AbstractJdbcDAO {
             pst = connection.prepareStatement(sql.toString());
             pst.setString(1, td.getStatus());
             pst.setString(2, td.getAcao());
-            Timestamp dtmodficacao = new Timestamp(td.getDtCadastro().getTime());
-            pst.setTimestamp(3, dtmodficacao);
+            Timestamp dtmodificacao = new Timestamp(td.getDtCadastro().getTime());
+            pst.setTimestamp(3, dtmodificacao);
             pst.setInt(4, td.getId());
 
             pst.executeUpdate();
-
-            //se acao for dar credito ao cliente
-            if(td.getAcao().equals("CREDITO NA LOJA")){
-                
-            }
-            
             
             sql = new StringBuilder();
             pst = null;
@@ -147,12 +142,19 @@ public class TrocaDevolucaoDAO extends AbstractJdbcDAO {
             sql.append(") VALUES (?,?,?,?)");
             pst = connection.prepareStatement(sql.toString());
             pst.setInt(1, td.getId());
-            pst.setTimestamp(2, dtmodficacao);
+            pst.setTimestamp(2, dtmodificacao);
             pst.setString(3, td.getRelatorio().get(0).getComentario());
             pst.setString(4, td.getStatus());
             pst.executeUpdate();
-
-            if (td.getStatus().equals("CANCELADO")) {
+            
+            //em caso de mudanca de status do pedido para CANCELADO OU ENVIADO
+            if (td.getStatus().equals("CANCELADO")|| td.getStatus().equals("ENVIADO")) {
+                //buscar o item pedido
+                TrocaDevolucaoDAO tdDAO = new TrocaDevolucaoDAO();
+                List<EntidadeDominio> tdev = tdDAO.consultar(td);
+                for(EntidadeDominio t : tdev){
+                    td = (TrocaDevolucao) t;
+                }
                 PedidoDAO pedDAO = new PedidoDAO();
                 pedDAO.alterar(td.getPedido());
             }

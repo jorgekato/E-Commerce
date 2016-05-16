@@ -93,14 +93,14 @@
                         //sexo
                         sbRegistro.append("<TD>");
                         sbRegistro.append(sbLink.toString());
-                        //sbRegistro.append(c.getSexo());
+                        sbRegistro.append(c.getSexo());
                         sbRegistro.append("</a>");
                         sbRegistro.append("</TD>");
 
                         //data de nascimento
                         sbRegistro.append("<TD>");
                         sbRegistro.append(sbLink.toString());
-                        //String dtNasc = ConverteDate.converteDateString(c.getDtNasc());
+                        //String dtNasc = ConverteDate.converteDateString(c.getDtCadastro());
                         sbRegistro.append(c.getLogin().getPassword());
                         sbRegistro.append("</a>");
                         sbRegistro.append("</TD>");

@@ -26,6 +26,8 @@ import e_commer.core.impl.negocio.ValidadorCnpj;
 import e_commer.core.impl.negocio.ValidadorCpf;
 import e_commer.core.impl.negocio.ValidadorDadosObrigatoriosFornecedor;
 import e_commer.core.impl.negocio.ValidadorQtdProduto;
+import e_commer.core.impl.negocio.ValidadorQtdeEstoque;
+import e_commer.core.impl.negocio.ValidadorQtdeVendas;
 //import entidades domínio
 import e_commer.dominio.Cliente;
 import e_commer.dominio.EntidadeDominio;
@@ -80,13 +82,15 @@ public class Fachada implements IFachada {
         daos.put(Credito.class.getName(), creDAO);
 
         //-------------------------------------------------------------------------------------------
-        /* Criando inst�ncias de regras de neg�cio a serem utilizados*/
+        /* Criando instancias de regras de negocio a serem utilizados*/
         ValidadorDadosObrigatoriosFornecedor vrDadosObrigatoriosFornecedor = new ValidadorDadosObrigatoriosFornecedor();
         ValidadorCnpj vCnpj = new ValidadorCnpj();
         ComplementarDtCadastro cDtCadastro = new ComplementarDtCadastro();
         ValidadorCpf vCpf = new ValidadorCpf();
         ValidadorQtdProduto vQtd = new ValidadorQtdProduto();
         ComplementarDtValidadeCredito cDtValidade = new ComplementarDtValidadeCredito();
+        ValidadorQtdeEstoque vQtdeEst = new ValidadorQtdeEstoque();
+        ValidadorQtdeVendas vQtdeVen = new ValidadorQtdeVendas();
 
         //FORNECEDOR------------------------------------------------------------------------------------------
         /* Criando uma lista para conter as regras de neg�cio de fornencedor
@@ -217,6 +221,8 @@ public class Fachada implements IFachada {
         List<IStrategy> rnsSalvarPedido = new ArrayList<IStrategy>();
         /* Adicionando as regras a serem utilizadas na operação salvar da CATEGORIA */
         rnsSalvarPedido.add(cDtCadastro);
+        rnsSalvarPedido.add(vQtdeEst);
+        rnsSalvarPedido.add(vQtdeVen);
         /* Cria o mapa que poderá conter todas as listas de regras de negócio específica 
          * por operação do PRODUTO
          */

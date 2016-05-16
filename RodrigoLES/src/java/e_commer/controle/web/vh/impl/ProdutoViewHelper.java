@@ -13,6 +13,7 @@ import e_commer.controle.web.vh.IViewHelper;
 import e_commer.core.aplicacao.Resultado;
 import e_commer.core.impl.controle.Fachada;
 import e_commer.core.util.ConverteDate;
+import e_commer.dominio.Categorias;
 import e_commer.dominio.EntidadeDominio;
 import e_commer.dominio.Produto;
 
@@ -28,13 +29,14 @@ public class ProdutoViewHelper implements IViewHelper {
             String marca = request.getParameter("marca");    //ok        
             String modelo = request.getParameter("modelo");
             String quantidade = request.getParameter("qtde");
+            String qtdeMaxVenda = request.getParameter("qtdeMaxVenda");
             String valor_unit = request.getParameter("valorUnit");
             String estoque_min = request.getParameter("estoMin");
             String descricao = request.getParameter("descricao");
             String flg_ativo = request.getParameter("txtFlgAtivo");
             String id = request.getParameter("txtId");
             String dtCadastro = request.getParameter("txtDtCadastro");
-
+            String catId = request.getParameter("categorias");
             produto = new Produto();
 
             if (nome != null && !nome.trim().equals("")) {
@@ -51,6 +53,10 @@ public class ProdutoViewHelper implements IViewHelper {
             
             if (quantidade != null && !quantidade.trim().equals("")) {
                 produto.setQuantidade(Integer.parseInt(quantidade));
+            }
+            
+            if(qtdeMaxVenda != null && !qtdeMaxVenda.trim().equals("")){
+                produto.setQtdeMaxVenda(Integer.valueOf(qtdeMaxVenda));
             }
             
             if (valor_unit != null && !valor_unit.trim().equals("")) {
@@ -84,6 +90,11 @@ public class ProdutoViewHelper implements IViewHelper {
             if (dtCadastro != null && !dtCadastro.trim().equals("")) {
                 produto.setDtCadastro(ConverteDate.converteStringDate(dtCadastro));
             }
+            Categorias cat = new Categorias();
+            if(catId != null && !catId.trim().equals("")){
+                cat.setId(Integer.valueOf(catId));
+            }
+            produto.setCategoria(cat);
         } else {
             
             Resultado resultado = null;

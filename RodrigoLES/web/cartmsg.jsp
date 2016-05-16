@@ -18,7 +18,7 @@
         </h3>
         
         <p>Exibir os dados do pedido e do cliente</p><br />
-
+        ${mensagem}
 
         <%
                 //Resultado resultado = (Resultado) session.getAttribute("resultado");

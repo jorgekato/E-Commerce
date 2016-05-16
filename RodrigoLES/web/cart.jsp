@@ -76,7 +76,7 @@
                     <TD>Total: <%= carrinhos.getTotal()%></TD>
                 </TR>
                 <TR>
-                    <TD COLSPAN="5"></TD>
+                    <TH COLSPAN="5"><input type="checkbox" name=""/> Utilizar Vale Credito</TH>
                     <TD>
                         <a href="${pageContext.request.contextPath}/cartconfirmar.jsp">Comprar</a>
                         <!--

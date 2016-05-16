@@ -134,11 +134,11 @@
                     <th colspan="6"><strong>Pedido</strong></th>
                 </tr>
                 <tr>
-                    <td>Nº Pedido</td>
-                    <td>Data</td>
-                    <td>Cliente</td>
-                    <td>Email</td>
-                    <td>Status</td>
+                    <th>Nº Pedido</th>
+                    <th>Data</th>
+                    <th>Cliente</th>
+                    <th>Email</th>
+                    <th>Status</th>
                 </tr>
                 <tr>
                     <td><%= p.getId()%></td>
@@ -168,8 +168,8 @@
                     <td><%= item.getArtesanato().getId()%></td>
                     <td><%= item.getArtesanato().getNome()%></td>
                     <td><%= item.getQuantidade()%></td>
-                    <td><%= item.getArtesanato().getPrecoUnit()%></td>
-                    <td><%= item.getQuantidade() * item.getArtesanato().getPrecoUnit()%></td>
+                    <td><%= item.getValorUnit()%></td>
+                    <td><%= item.getQuantidade() * item.getValorUnit()%></td>
                     <td><a href="SalvarPedidos?operacao=CONSULTAR2&txtId=<%= p.getId()%>&txtIdPro=<%= item.getArtesanato().getId()%>">Troca/Devolução</a></td>
                 </tr>
                 <%
@@ -181,22 +181,27 @@
                     <td><%= item.getProduto().getId()%></td>
                     <td><%= item.getProduto().getNome()%></td>
                     <td><%= item.getQuantidade()%></td>
-                    <td><%= item.getProduto().getPrecoUnit()%></td>
-                    <td><%= item.getQuantidade() * item.getProduto().getPrecoUnit()%></td>
+                    <td><%= item.getValorUnit()%></td>
+                    <td><%= item.getQuantidade() * item.getValorUnit()%></td>
                     <td><a href="SalvarPedidos?operacao=CONSULTAR2&txtId=<%= p.getId()%>&txtIdPro=<%= item.getProduto().getId()%>">Troca/Devolução</a></td>
                 </tr>  
                 <%
-                                    }//else
-                                }//for j
-                            }//for i
-                        }//if(entidade)
-                    }//if(resultado)
-
+                            }//else
+                        }//for j
+                    }//for i
                 %>        
             </table>
             <br/>
-            <a href="SalvarPedidos?txtId=<%= pedido.getEntidades().get(0).getId()%>&txtStatus=CANCELAR&operacao=ALTERAR"><input type="button" name="operacao" value="Cancelar Pedido" /></a>
-
+            <%//se o status do pedido nao for CONCLUIDO, habilitar o botao de cancelar pedido
+                if (!p.getStatus().equals("CONCLUIDO")) {
+            %>
+            <a href="SalvarPedidos?txtId=<%= pedido.getEntidades().get(0).getId()%>&txtStatus=CANCELAR&operacao=ALTERAR">
+                <input type="button" name="operacao" value="Cancelar Pedido" /></a>
+                <%
+                            }
+                        }//if(entidade)
+                    }//if(resultado)
+%>
         </div>
 
     </div>

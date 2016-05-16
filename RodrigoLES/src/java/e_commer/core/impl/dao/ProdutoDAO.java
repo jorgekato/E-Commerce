@@ -126,12 +126,12 @@ public class ProdutoDAO extends AbstractJdbcDAO {
                 pst.executeUpdate();
 
             } else {
-
+                produto = (Produto) entidade;
                 sql = new StringBuilder();
-                sql.append("UPDATE" + table + " SET " + nome + "=?," + marca + "=?," + modelo + "=?,");
-                sql.append(qtde_estoque + "=?," + valor_unit + "=?," + estoque_min + "=?," + qtde_max_venda + "=?,");
-                sql.append(descricao + "=?," + flg_ativo + "=?,"  + cat_id + "=?,");
-                sql.append("WHERE" + idTable + "=?");
+                sql.append("UPDATE " + table + " SET " + nome + "=?, " + marca + "=?, " + modelo + "=?, ");
+                sql.append(qtde_estoque + "=?, " + valor_unit + "=?, " + estoque_min + "=?, " + qtde_max_venda + "=?, ");
+                sql.append(descricao + "=?, " + flg_ativo + "=?, "  + cat_id + "=? ");
+                sql.append("WHERE " + idTable + "=?");
                 
 
                 pst = connection.prepareStatement(sql.toString());
@@ -186,11 +186,11 @@ public class ProdutoDAO extends AbstractJdbcDAO {
         }
 
         if (produto.getId() == null && produto.getDescricao().equals("")) {
-            sql = "SELECT * FROM "+ table + " JOIN " + tbCategoria + " USING(cat_id)";
+            sql = "SELECT * FROM "+ table + " JOIN " + tbCategoria + " USING(cat_id) WHERE " + flg_ativo +"= true";
         } else if (produto.getId() != null && produto.getDescricao().equals("")) {
             sql = "SELECT * FROM " + table + " JOIN " + tbCategoria + " USING(cat_id) WHERE " + idTable +"=?";
         } else if (produto.getId() == null && !produto.getDescricao().equals("")) {
-            sql = "SELECT * FROM " + table + "JOIN" + tbCategoria + "USING(cat_id) WHERE " + descricao + " like ?";
+            sql = "SELECT * FROM " + table + "JOIN" + tbCategoria + "USING(cat_id) WHERE " + nome + " like ?";
         }
 
         try {
@@ -223,7 +223,7 @@ public class ProdutoDAO extends AbstractJdbcDAO {
                 p.setDtCadastro(dtCadastro);
                 Categorias cat = new Categorias();
                 cat.setId(rs.getInt(cat_id));
-                cat.setNomeCategoria(cat_nome);
+                cat.setNomeCategoria(rs.getString(cat_nome));
                 p.setCategoria(cat);
                 
                 produtos.add(p);
@@ -235,6 +235,54 @@ public class ProdutoDAO extends AbstractJdbcDAO {
         return null;
     }
 
+    /**
+     * TODO Descri��o do M�todo
+     *
+     * @param entidade
+     * @return
+     * @see fai.dao.IDAO#consulta(fai.domain.EntidadeDominio)
+     */
+    public Produto consultar(int id) {
+        PreparedStatement pst = null;
+
+        String sql = null;
+
+        sql = "SELECT * FROM tb_produtos WHERE " + idTable + "=?";
+
+        try {
+            openConnection();
+            pst = connection.prepareStatement(sql);
+
+            pst.setInt(1, id);
+            
+            ResultSet rs = pst.executeQuery();
+            
+            Produto p = new Produto();
+            while (rs.next()) {
+                
+                p.setId(rs.getInt(idTable));
+                p.setNome(rs.getString(nome));
+                p.setMarca(rs.getString(marca));
+                p.setModelo(rs.getString(modelo));
+                p.setQuantidade(rs.getInt(qtde_estoque));
+                p.setPrecoUnit(rs.getDouble(valor_unit));
+                p.setEstoqueMin(rs.getInt(estoque_min));
+                p.setQtdeMaxVenda(rs.getInt(qtde_max_venda));
+                p.setDescricao(rs.getString(descricao));
+                p.setFlg_ativo(rs.getBoolean(flg_ativo));
+
+                java.sql.Date dtCadastroEmLong = rs.getDate(dtCadastro);
+                Date dtCadastro = new Date(dtCadastroEmLong.getTime());
+                p.setDtCadastro(dtCadastro);
+                
+            }
+            return p;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
 //    public List<EntidadeDominio> consultar(EntidadeDominio entidade, String operacao) {
 //        PreparedStatement pst = null;
 //

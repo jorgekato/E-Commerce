@@ -35,13 +35,17 @@ public class ClienteViewHelper implements IViewHelper {
         Cliente cliente = null;
 
         if (!operacao.equals("VISUALIZAR") && !operacao.equals("VISUALIZAR1")) {
-
+            
+            String id = request.getParameter("txtId");
             String nome = request.getParameter("txtNome");
             String email = request.getParameter("txtEmail");
             String sexo = request.getParameter("txtSexo");
+            String cpf = request.getParameter("txtCpf");
             String password = request.getParameter("txtPassWord");
             String nivel = request.getParameter("txtNivel");
             String dtNasc = request.getParameter("txtDataNascimento");
+            String flg_ativo = request.getParameter("txtFlgAtivo");
+            String dtCadastro = request.getParameter("txtDtCadastro");
             //colocar o endereço
             String endereco = request.getParameter("txtEndereco");
             String numero = request.getParameter("txtEnderecoNumero");
@@ -51,13 +55,11 @@ public class ClienteViewHelper implements IViewHelper {
             String cidade = request.getParameter("txtEnderecoCidade");
             String estado = request.getParameter("txtEnderecoEstado");
 
-            String cpf = request.getParameter("txtCpf");
-            String flg_ativo = request.getParameter("txtFlgAtivo");
-            String id = request.getParameter("txtId");
-            String dtCadastro = request.getParameter("txtDtCadastro");
+            
+            
 
             cliente = new Cliente();
-
+           
             if (nome != null && !nome.trim().equals("")) {
                 cliente.setNome(nome);
             }
@@ -218,8 +220,8 @@ public class ClienteViewHelper implements IViewHelper {
 
         if (resultado.getMsg() == null && operacao.equals("VISUALIZAR")) {
 
-            request.setAttribute("clientes", resultado.getEntidades().get(0));
-            d = request.getRequestDispatcher("LadoAdmin/cadartesanato.jsp");
+            request.setAttribute("clientes", resultado);
+            d = request.getRequestDispatcher("LadoAdmin/cadcliente.jsp");
         }
         if (resultado.getMsg() == null && operacao.equals("VISUALIZAR1")) {
 

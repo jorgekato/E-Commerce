@@ -131,7 +131,7 @@ public class CarrinhoViewHelper implements IViewHelper {
 
             if (request.getSession().getAttribute("carrinho") != null) {
                 resultado = (Resultado) request.getSession().getAttribute("carrinho");
-                String txtId = request.getParameter("idItem");
+                String txtId = request.getParameter("txtId");
                 double vlrUnit = Double.parseDouble(request.getParameter("vlrUnit"));
                 String subtotal = request.getParameter("subtotal");
                 int qtde = Integer.parseInt(request.getParameter("qtde"));

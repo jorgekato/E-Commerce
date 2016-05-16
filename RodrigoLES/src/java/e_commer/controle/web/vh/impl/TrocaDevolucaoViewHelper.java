@@ -56,12 +56,13 @@ public class TrocaDevolucaoViewHelper implements IViewHelper {
                 td = new TrocaDevolucao();
                 ped = new Pedido();
                 Produto prod = new Produto();
-
+                Relatorio rel = new Relatorio();
                 if (comentario != null && !comentario.trim().equals("")) {
-                    Relatorio rel = new Relatorio();
                     rel.setComentario(comentario);
-                    td.addRelatorio(rel);
+                }else{
+                    rel.setComentario(" ");
                 }
+                td.addRelatorio(rel);    
                 prod.setId(Integer.parseInt(proId));
 
                 ped.setId(Integer.parseInt(pedId));

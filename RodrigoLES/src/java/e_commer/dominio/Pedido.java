@@ -15,7 +15,8 @@ public class Pedido extends EntidadeDominio{
 //    public enum Tipo_Item {ARTESANATO, PRODUTO};
     private Date dt_compra;
     private List<AbstractItem> itens = new ArrayList<AbstractItem>();
-
+     private List<Relatorio> historico = new ArrayList<Relatorio>();
+     
     public Pedido() {
     }
 
@@ -95,4 +96,14 @@ public class Pedido extends EntidadeDominio{
     public List<AbstractItem> getItens() {
         return itens;
     }
+
+    public List<Relatorio> getHistorico() {
+        return historico;
+    }
+
+    public void addHistorico(Relatorio historico) {
+        this.historico.add(historico);
+    }
+    
+    
 }

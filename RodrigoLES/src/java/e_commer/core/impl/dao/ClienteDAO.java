@@ -261,9 +261,9 @@ public class ClienteDAO extends AbstractJdbcDAO {
         } else if (cliente.getId() == null && cliente.getNome().equals("") && !cliente.getEmail().equals("")) {
             sql = "SELECT * FROM " + table + " join " + tableLoguin + " using(" + idTable + ") join " + tableEndereco + " using (" + idTable + ") where " + email + "=?";
         } else if (cliente.getId() != null && cliente.getNome().equals("")) {
-            sql = "SELECT * FROM " + table + " join " + tableEndereco + " using (" + idTable + ") WHERE " + idTable + "=?";
+            sql = "SELECT * FROM " + table + " join " + tableLoguin + " using(" + idTable + ") join " + tableEndereco + " using (" + idTable + ") WHERE " + idTable + "=?";
         } else if (cliente.getId() == null && !cliente.getNome().equals("")) {
-            sql = "SELECT * FROM " + table + " WHERE " + nome + " like ?";
+            sql = "SELECT * FROM " + table + " join " + tableLoguin + " using(" + idTable + ") join " + tableEndereco + " using (" + idTable + ") WHERE " + nome + " like ?";
         }
 
         try {
@@ -299,18 +299,20 @@ public class ClienteDAO extends AbstractJdbcDAO {
                 } else if (nivel.equals(Nivel.CLIENTE.toString())) {
                     cli.setNivel(Nivel.CLIENTE);
                 }
-                //cli.setSexo(rs.getString("cli_sexo"));
-                //cli.setDtNasc(rs.getDate("cli_dt_nascimento"));
+                cli.setSexo(rs.getString(sexo));
+                java.sql.Date date = rs.getDate(dt_nascimento);
+                Date dtNasc = new Date(date.getTime());
+                cli.setDtNascimento(dtNasc);
+                
+                java.sql.Date datCad = rs.getDate(dt_cadastro);
+                Date dtCad = new Date(datCad.getTime());
+                cli.setDtCadastro(dtCad);
 
                 log.setPassword(rs.getString(senha));
-                //java.sql.Date dtCadastroEmLong = rs.getDate("login_dt_ultimo_acesso");
-                //Date dtAcesso = new Date(dtCadastroEmLong.getTime());
-                //log.setUltimoAcesso(dtAcesso);
-//                java.sql.Date dtNascimEmLong = rs.getDate("cli_dtnasc");
-//                Date dtNascimento = new Date (dtNascimEmLong.getTime());
-//                cli.setDtNasc(dtNascimento);
+                java.sql.Date dtCadastroEmLong = rs.getDate(ultimo_acesso);
+                Date dtAcesso = new Date(dtCadastroEmLong.getTime());
+                log.setUltimoAcesso(dtAcesso);
                 cli.setLogin(log);
-
                 estado.setNome(rs.getString(this.estado));
                 cid.setEstado(estado);
                 cid.setNome(rs.getString(cidade));
@@ -318,13 +320,8 @@ public class ClienteDAO extends AbstractJdbcDAO {
                 end.setLogradouro(rs.getString(logradouro));
                 end.setNumero(rs.getString(numero));
                 end.setCep(rs.getString(cep));
-                //end.setBairro(rs.getString("bairro"));
+                end.setBairro(rs.getString(bairro));
                 cli.setEndereco(end);
-
-                java.sql.Date dtCadastroEmLong = rs.getDate(dt_cadastro);
-                Date dtCadastro = new Date(dtCadastroEmLong.getTime());
-                cli.setDtCadastro(dtCadastro);
-
                 cli.setFlg_ativo(rs.getBoolean(flg_ativo));
                 clientes.add(cli);
             }
