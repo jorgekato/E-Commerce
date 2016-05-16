@@ -13,8 +13,7 @@
 
 
 <div class="content">
-    <%
-        Artesanato artesanato = (Artesanato) request.getAttribute("artesanato");
+    <%        Artesanato artesanato = (Artesanato) request.getAttribute("artesanato");
     %>
     <div class="account-in">
         <div>
@@ -22,63 +21,76 @@
         <div>
             <form action="${pageContext.request.contextPath}/SalvarArtesanato" method="POST">
                 <label for="txtId">Id:</label>
-		<input type="text" id="txtId" name="txtId" value=
-		
-		<%		
-			if(artesanato != null) out.print("'"+artesanato.getId()+"' readonly>");
-		%>
-		
-		></input>
-                <p>Nome: <input type="text" name="nome" value="<%
-                    if (artesanato != null) {
-                        out.print(artesanato.getNome());
-                    }
-                                %>" /></p>
-                <p>Categoria: <select name="categorias" id="categorias">
+                <input type="text" id="txtId" name="txtId" value=
+                       <%
+                           if (artesanato != null) {
+                               out.print("'" + artesanato.getId() + "' readonly>");
+                           } else {
+                               out.print(">");
+                           }
+                       %>
+
+
+                       <p>Nome: <input type="text" name="nome" value=
+                                <%
+                                    if (artesanato != null) {
+                                        out.print("'" + artesanato.getNome() + "' readonly>");
+                                    } else {
+                                        out.print(">");
+                                    }
+                                %>
+                </p>
+
+                <p>Categoria: <select name="catId" id="categorias">
                         <%
-                            categoria = (Resultado) request.getAttribute("categorias");
-                            if (resultado != null) {
-                                List<EntidadeDominio> entidades = resultado.getEntidades();
-                                StringBuilder sbRegistro = new StringBuilder();
-                                StringBuilder sbLink = new StringBuilder();
+                            if (artesanato != null) {%>
+                        <option value="<%= artesanato.getCategoria().getId()%>"> <%= artesanato.getCategoria().getNomeCategoria()%></option>
+                        <%
 
-                                if (entidades != null) {
-                                    for (int i = 0; i < entidades.size(); i++) {
-                                        Categorias cat = (Categorias) entidades.get(i);
-                                        sbRegistro.setLength(0);
-                                        sbLink.setLength(0);
+                            } else {
+                                categoria = (Resultado) request.getAttribute("categorias");
+                                if (categoria != null) {
+                                    List<EntidadeDominio> entidades = categoria.getEntidades();
+                                    StringBuilder sbRegistro = new StringBuilder();
+                                    StringBuilder sbLink = new StringBuilder();
 
-                                        sbRegistro.append("<option value\"");
-                                        sbRegistro.append(cat.getNomeCategoria());
-                                        sbRegistro.append("\">");
-                                        sbRegistro.append(cat.getNomeCategoria());
-                                        sbRegistro.append("</option>");
-                                        out.print(sbRegistro.toString());
+                                    if (entidades != null) {
+                                        for (int i = 0; i < entidades.size(); i++) {
+                                            Categorias cat = (Categorias) entidades.get(i);
+                                            sbRegistro.setLength(0);
+                                            sbLink.setLength(0);
+
+                                            sbRegistro.append("<option value=\"");
+                                            sbRegistro.append(cat.getId());
+                                            sbRegistro.append("\">");
+                                            sbRegistro.append(cat.getNomeCategoria());
+                                            sbRegistro.append("</option>");
+                                            out.print(sbRegistro.toString());
+                                        }
                                     }
                                 }
                             }
-                                        
                         %>
 
+
                     </select></p>
-                <p>Valor unitário: <input type="text" name="valorUnit" value="<%
-                    if (artesanato != null) {
+                <p>Valor unitário: <input type="text" name="valorUnit" value="<%                    if (artesanato != null) {
                         out.print(artesanato.getPrecoUnit());
                     }
-                                %>"/></p>
-                <p>Cores: <input type="text"name="cores" value="<%
+                                          %>"/></p>
+                <p>Cores: <input type="text" name="cores" value="<%
                     if (artesanato != null) {
                         out.print(artesanato.getCores());
                     }
-                                %>"/></p>
+                                 %>"/></p>
 
                 <!-- aumentar a textarea -->
                 <p><label for="desccricao">Descrição:</label>
                     <textarea name="descricao" id="coment"><%
-                    if (artesanato != null) {
-                        out.print(artesanato.getDescricao());
-                    }
-                                %></textarea></p>
+                        if (artesanato != null) {
+                            out.print(artesanato.getDescricao());
+                        }
+                        %></textarea></p>
                 <p>Imagem: Campo para inserir a imagem</p>  
                 <p><input type="radio" name="txtFlgAtivo" value="TRUE"  <%
                     if (artesanato != null) {

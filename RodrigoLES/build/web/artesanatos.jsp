@@ -20,7 +20,8 @@
                 <p>SHOES FALL 2014</p>
             </div>
         </div>
-        <%                Resultado resultado = (Resultado) request.getAttribute("resultado");
+        <%              
+            resultado = (Resultado) request.getAttribute("resultado");
         %>
 
         <div class="content-bottom">

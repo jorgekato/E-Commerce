@@ -35,10 +35,10 @@
             <th colspan="4"><strong>Pedidos</strong></th>
         </tr>
         <tr>
-            <td>ID</td>
-            <td>Nº Pedido</td>
-            <td>DATA</td>
-            <td>SITUAÇÃO</td>
+            <th>Nº Pedido</th>
+            <th>Cliente</th>
+            <th>DATA</th>
+            <th>SITUAÇÃO</th>
 
         </tr>
         <%
@@ -72,7 +72,7 @@
                         //nome
                         sbRegistro.append("<TD>");
                         sbRegistro.append(sbLink.toString());
-                        sbRegistro.append(p.getId());
+                        sbRegistro.append(p.getCliente().getNome());
                         sbRegistro.append("</a>");
                         sbRegistro.append("</TD>");
 

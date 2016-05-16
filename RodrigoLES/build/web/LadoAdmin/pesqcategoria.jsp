@@ -19,10 +19,11 @@
 
     <form action="${pageContext.request.contextPath}/SalvarCategoria" method="post">
 
-        <label for="txtId">Id:</label> <input type="text" id="txtId"
-                                              name="txtId" /> </br> <label for="txtDescricao">DESCRIÇÃO:</label> <input
-                                              type="text" id="txtDescricao" name="txtDescricao" /> <input
-                                              type="submit" id="operacao" name="operacao" value="CONSULTAR" />
+        <label for="txtId">Id:</label> 
+        <input type="text" id="txtId" name="txtId" /> 
+        <label for="txtNome">DESCRIÇÃO:</label> 
+        <input type="text" id="txtNome" name="txtNome" /> 
+        <input type="submit" id="operacao" name="operacao" value="CONSULTAR" />
     </form>
 
 

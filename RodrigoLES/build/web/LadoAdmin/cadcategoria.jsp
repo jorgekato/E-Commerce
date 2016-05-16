@@ -30,7 +30,7 @@
 		%>
 		
 		</p>
-                <p>Categoria: <input type="text" name="txtCategoria" value="<%
+                <p>Categoria: <input type="text" name="txtNome" value="<%
                     if (cat != null){  
                         out.print(cat.getNomeCategoria()); 
                     }

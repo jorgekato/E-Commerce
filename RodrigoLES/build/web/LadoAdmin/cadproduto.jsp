@@ -77,7 +77,7 @@
                                             sbRegistro.setLength(0);
                                             sbLink.setLength(0);
 
-                                            sbRegistro.append("<option value\"");
+                                            sbRegistro.append("<option value=\"");
                                             sbRegistro.append(cat.getId());
                                             sbRegistro.append("\">");
                                             sbRegistro.append(cat.getNomeCategoria());

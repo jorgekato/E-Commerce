@@ -32,7 +32,7 @@ public class CategoriaViewHelper implements IViewHelper {
         if (!operacao.equals("VISUALIZAR")) {
 
             //Recebe todos os dados que vieram do front_end
-            String nomeCategoria = request.getParameter("txtCategoria");
+            String nomeCategoria = request.getParameter("txtNome");
             String descricao = request.getParameter("txtDescricao");
             String flg_ativo = request.getParameter("txtFlgAtivo");
             String id = request.getParameter("txtId");
@@ -41,21 +41,15 @@ public class CategoriaViewHelper implements IViewHelper {
             categoria = new Categorias();
 
             //Verifica as condições dos atributos que vieram do front_end para quando for alteração
-            if (nomeCategoria
-                    != null && !nomeCategoria.trim()
-                    .equals("")) {
+            if (nomeCategoria != null && !nomeCategoria.trim().equals("")) {
                 categoria.setNomeCategoria(nomeCategoria);
             }
 
-            if (descricao
-                    != null && !descricao.trim()
-                    .equals("")) {
+            if (descricao != null && !descricao.trim().equals("")) {
                 categoria.setDescricao(descricao);
             }
 
-            if (flg_ativo
-                    != null && !flg_ativo.trim()
-                    .equals("")) {
+            if (flg_ativo != null && !flg_ativo.trim().equals("")) {
                 if (flg_ativo.equals("TRUE")) {
                     categoria.setFlg_ativo(true);
                 } else {
@@ -63,17 +57,14 @@ public class CategoriaViewHelper implements IViewHelper {
                 }
             }
 
-            if (id
-                    != null && !id.trim()
-                    .equals("")) {
+            if (id != null && !id.trim().equals("")) {
                 categoria.setId(Integer.parseInt(id));
             }
 
-            if (dtCadastro
-                    != null && !dtCadastro.trim()
-                    .equals("")) {
+            if (dtCadastro != null && !dtCadastro.trim().equals("")) {
                 categoria.setDtCadastro(ConverteDate.converteStringDate(dtCadastro));
             }
+            
         } else {
             
             Resultado resultado = null;

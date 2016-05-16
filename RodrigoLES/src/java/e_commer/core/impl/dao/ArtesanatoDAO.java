@@ -11,6 +11,7 @@ import java.util.List;
 
 import e_commer.dominio.EntidadeDominio;
 import e_commer.dominio.Artesanato;
+import e_commer.dominio.Categorias;
 
 /**
  *
@@ -19,16 +20,17 @@ import e_commer.dominio.Artesanato;
 public class ArtesanatoDAO extends AbstractJdbcDAO {
 
     private final String nome = "art_nome";
-    private final String categoria = "art_categoria";
+    private final String catId = "cat_id";
     private final String valor_unit = "art_valor_unit";
     private final String cores = "art_cores";
     private final String descricao = "art_descricao";
     private final String flg_ativo = "art_flg_ativo";
     private final String dt_cadastro = "art_dt_cadastro"; 
-    
+    private final String tbCategorias = "tb_categorias";
+    private final String cat_nome = "cat_nome_categoria";
     
     public ArtesanatoDAO() {
-        super("tb_Artesanatos", "art_id");
+        super("tb_artesanatos", "art_id");
     }
 
     public void salvar(EntidadeDominio entidade) {
@@ -52,18 +54,21 @@ public class ArtesanatoDAO extends AbstractJdbcDAO {
             sql.append(flg_ativo);
             sql.append(", ");
             sql.append(dt_cadastro);
+            sql.append(", ");
+            sql.append(catId);
             sql.append(") ");
-            sql.append("VALUES (?,?,?,?,?)");
+            sql.append("VALUES (?,?,?,?,?,?)");
 
             pst = connection.prepareStatement(sql.toString(),
                     Statement.RETURN_GENERATED_KEYS);
 
-            pst.setString(1, artesanato.getNome());
+            pst.setString(1, artesanato.getNome().toUpperCase());
             pst.setDouble(2, artesanato.getPrecoUnit());
-            pst.setString(3, artesanato.getDescricao());
+            pst.setString(3, artesanato.getDescricao().toUpperCase());
             pst.setBoolean(4, artesanato.getFlg_ativo());
             Timestamp time = new Timestamp(artesanato.getDtCadastro().getTime());
             pst.setTimestamp(5, time);
+            pst.setInt(6, artesanato.getCategoria().getId());
             pst.executeUpdate();
 
             ResultSet rs = pst.getGeneratedKeys();
@@ -168,11 +173,11 @@ public class ArtesanatoDAO extends AbstractJdbcDAO {
         }
 
         if (artesanato.getId() == null && artesanato.getNome().equals("")) {
-            sql = "SELECT * FROM " + table;
+            sql = "SELECT * FROM " + table + " JOIN " + tbCategorias + " USING(cat_id)";
         } else if (artesanato.getId() != null && artesanato.getNome().equals("")) {
-            sql = "SELECT * FROM " + table + " WHERE " + idTable + "=?";
+            sql = "SELECT * FROM " + table +  " JOIN " + tbCategorias + " USING(cat_id) WHERE " + idTable + "=?";
         } else if (artesanato.getId() == null && !artesanato.getNome().equals("")) {
-            sql = "SELECT * FROM " + table + " WHERE " + nome + " like ?";
+            sql = "SELECT * FROM " + table + " JOIN " + tbCategorias + " USING(cat_id) WHERE " + nome + " like ?";
 
         }
 
@@ -198,6 +203,10 @@ public class ArtesanatoDAO extends AbstractJdbcDAO {
                 java.sql.Date dtCadastroEmLong = rs.getDate(dt_cadastro);
                 Date dtCadastro = new Date(dtCadastroEmLong.getTime());
                 a.setDtCadastro(dtCadastro);
+                Categorias cat = new Categorias();
+                cat.setId(rs.getInt(catId));
+                cat.setNomeCategoria(cat_nome);
+                a.setCategoria(cat);
                 artesanatos.add(a);
             }
             return artesanatos;

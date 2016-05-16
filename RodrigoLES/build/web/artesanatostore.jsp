@@ -6,6 +6,8 @@
 
 <%@page import="e_commer.dominio.Artesanato"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+
 <div class="content">
 
     <div class="content-bottom store">
@@ -65,18 +67,10 @@
                                 nAux = contador+4;
                                 sbRegistro.append("<div class=\"clearfix\"> </div></div>");
                             }
-                            
-
                             out.print(sbRegistro.toString());
-
                         }
-
                     }
-
                 }
-
             %>
-
-        
     </div>
 </div>

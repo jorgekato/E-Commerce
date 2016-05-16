@@ -15,6 +15,7 @@ import e_commer.core.impl.controle.Fachada;
 import e_commer.core.util.ConverteDate;
 import e_commer.dominio.EntidadeDominio;
 import e_commer.dominio.Artesanato;
+import e_commer.dominio.Categorias;
 
 /**
  *
@@ -29,16 +30,15 @@ public class ArtesanatoViewHelper implements IViewHelper {
 
         if (!operacao.equals("VISUALIZAR") && !operacao.equals("VISUALIZAR1")) {
             String nome = request.getParameter("nome");
-            //falta categoria
-            //ver como mandar apenas o id
             String valor_unit = request.getParameter("valorUnit");
             String cor = request.getParameter("cores");
             String descricao = request.getParameter("descricao");
             String flg_ativo = request.getParameter("txtFlgAtivo");
             String id = request.getParameter("txtId");
             String dtCadastro = request.getParameter("txtDtCadastro");
-
+            String catId = request.getParameter("catId");
             artesanato = new Artesanato();
+            Categorias cat = new Categorias();
 
             if (nome != null && !nome.trim().equals("")) {
                 artesanato.setNome(nome);
@@ -47,19 +47,16 @@ public class ArtesanatoViewHelper implements IViewHelper {
 //            if (cor != null && !cor.trim().equals("")) {
 //                artesanato.setCores(cor);
 //            }
+            
             if (valor_unit != null && !valor_unit.trim().equals("")) {
                 artesanato.setPrecoUnit(Double.parseDouble(valor_unit));
             }
 
-            if (descricao
-                    != null && !descricao.trim()
-                    .equals("")) {
+            if (descricao != null && !descricao.trim().equals("")) {
                 artesanato.setDescricao(descricao);
             }
 
-            if (flg_ativo
-                    != null && !flg_ativo.trim()
-                    .equals("")) {
+            if (flg_ativo != null && !flg_ativo.trim().equals("")) {
                 if (flg_ativo.equals("TRUE")) {
                     artesanato.setFlg_ativo(true);
                 } else {
@@ -74,10 +71,14 @@ public class ArtesanatoViewHelper implements IViewHelper {
             if (dtCadastro != null && !dtCadastro.trim().equals("")) {
                 artesanato.setDtCadastro(ConverteDate.converteStringDate(dtCadastro));
             }
+            
+            if(catId != null && !catId.trim().equals("")){
+                cat.setId(Integer.valueOf(catId));
+                artesanato.setCategoria(cat);
+            }
         } else {
-            //HttpSession session = request.getSession();
-            //Resultado resultado = (Resultado) request.getAttribute("resultado");
-            Resultado resultado = null;
+    
+            Resultado resultado = null; 
             String txtId = request.getParameter("txtId");
             int id = 0;
 

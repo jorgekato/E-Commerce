@@ -39,14 +39,18 @@ public class ProdutoDAO extends AbstractJdbcDAO {
         PreparedStatement pst = null;
         Produto produto = (Produto) entidade;
 
+        if(produto.getModelo()== null)
+            produto.setModelo(" ");
+        if(produto.getMarca() == null)
+            produto.setMarca(" ");
         try {
             connection.setAutoCommit(false);
             //Falta incluir categoria	
             StringBuilder sql = new StringBuilder();
-            sql.append("INSERT INTO" + table +"(");
+            sql.append("INSERT INTO " + table +"(");
             sql.append(nome + "," + marca + "," + modelo + "," + qtde_estoque + "," + valor_unit + "," + estoque_min + ",");
             sql.append(qtde_max_venda + "," + descricao + "," + flg_ativo + "," + dtCadastro + "," + cat_id + ")");
-            sql.append("VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+            sql.append(" VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 
             pst = connection.prepareStatement(sql.toString(),
                     Statement.RETURN_GENERATED_KEYS);
@@ -181,26 +185,26 @@ public class ProdutoDAO extends AbstractJdbcDAO {
         Produto produto = (Produto) entidade;
         String sql = null;
 
-        if (produto.getDescricao() == null) {
-            produto.setDescricao("");
+        if (produto.getNome() == null) {
+            produto.setNome("");
         }
 
-        if (produto.getId() == null && produto.getDescricao().equals("")) {
+        if (produto.getId() == null && produto.getNome().equals("")) {
             sql = "SELECT * FROM "+ table + " JOIN " + tbCategoria + " USING(cat_id) WHERE " + flg_ativo +"= true";
-        } else if (produto.getId() != null && produto.getDescricao().equals("")) {
+        } else if (produto.getId() != null && produto.getNome().equals("")) {
             sql = "SELECT * FROM " + table + " JOIN " + tbCategoria + " USING(cat_id) WHERE " + idTable +"=?";
-        } else if (produto.getId() == null && !produto.getDescricao().equals("")) {
-            sql = "SELECT * FROM " + table + "JOIN" + tbCategoria + "USING(cat_id) WHERE " + nome + " like ?";
+        } else if (produto.getId() == null && !produto.getNome().equals("")) {
+            sql = "SELECT * FROM " + table + " JOIN " + tbCategoria + " USING(cat_id) WHERE " + nome + " like ?";
         }
 
         try {
             openConnection();
             pst = connection.prepareStatement(sql);
 
-            if (produto.getId() != null && produto.getDescricao().equals("")) {
+            if (produto.getId() != null && produto.getNome().equals("")) {
                 pst.setInt(1, produto.getId());
-            } else if (produto.getId() == null && !produto.getDescricao().equals("")) {
-                pst.setString(1, "%" + produto.getDescricao() + "%");
+            } else if (produto.getId() == null && !produto.getNome().equals("")) {
+                pst.setString(1, produto.getNome() + "%");
             }
 
             ResultSet rs = pst.executeQuery();
