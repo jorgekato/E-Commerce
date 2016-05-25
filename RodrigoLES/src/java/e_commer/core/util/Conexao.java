@@ -15,7 +15,7 @@ public class Conexao {
             SQLException {
         String driver = "org.postgresql.Driver";
         String url = "jdbc:postgresql://localhost:5432/E_CommerceArt_J";
-        //String url = "jdbc:postgresql://localhost:5432/fatec12016";
+       // String url = "jdbc:postgresql://localhost:5432/E_Commerce_H";
         String user = "postgres";
         String password = "kato";
         Class.forName(driver);

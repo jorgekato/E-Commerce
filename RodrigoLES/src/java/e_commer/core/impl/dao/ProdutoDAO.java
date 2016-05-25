@@ -189,12 +189,15 @@ public class ProdutoDAO extends AbstractJdbcDAO {
             produto.setNome("");
         }
 
-        if (produto.getId() == null && produto.getNome().equals("")) {
+        
+        if (produto.getId() == null && produto.getNome().equals("") && produto.getFlg_ativo()) {
             sql = "SELECT * FROM "+ table + " JOIN " + tbCategoria + " USING(cat_id) WHERE " + flg_ativo +"= true";
         } else if (produto.getId() != null && produto.getNome().equals("")) {
             sql = "SELECT * FROM " + table + " JOIN " + tbCategoria + " USING(cat_id) WHERE " + idTable +"=?";
         } else if (produto.getId() == null && !produto.getNome().equals("")) {
             sql = "SELECT * FROM " + table + " JOIN " + tbCategoria + " USING(cat_id) WHERE " + nome + " like ?";
+        }else{
+            sql = "SELECT * FROM "+ table + " JOIN " + tbCategoria + " USING(cat_id)";
         }
 
         try {

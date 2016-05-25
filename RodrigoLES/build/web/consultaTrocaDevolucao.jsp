@@ -43,7 +43,13 @@
                 </ul>
             </div>
             <div class="tab4">
-            </div>
+                <ul class="place">
+                    <li class="sort">
+                        <a href="SalvarCredito?txtCliId=<%= cliente.getId()%>&operacao=CONSULTAR1">Meus Vale-Creditos</a></li>
+                    <li class="by"></li>
+                    <div class="clearfix"> </div>
+                </ul>
+            </div>        
             <div class="tab5">
 
             </div>
@@ -132,10 +138,11 @@
                         <td>Quantidade</td>
                         <td>Status do Pedido</td>
                     </tr>
-                    <%                        for (int i = 0; i < resultado.getEntidades().size(); i++) {
+                    <%                        
+                    for (int i = 0; i < resultado.getEntidades().size(); i++) {
                             TrocaDevolucao td = (TrocaDevolucao) resultado.getEntidades().get(i);
                             for (int j = 0; j < td.getPedido().getItens().size(); j++) {
-                                if (ItemArtesanato.class.getName().equals(td.getPedido().getItens().getClass().getName())) {
+                                if (ItemArtesanato.class.getName().equals(td.getPedido().getItens().get(j).getClass().getName())) {
                                     ItemArtesanato item = (ItemArtesanato) td.getPedido().getItens().get(j);
                     %>
                     <tr>

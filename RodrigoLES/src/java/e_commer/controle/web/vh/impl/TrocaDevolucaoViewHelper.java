@@ -70,9 +70,17 @@ public class TrocaDevolucaoViewHelper implements IViewHelper {
                 td.setPedido(ped);
                 td.setProId(Integer.parseInt(proId));
                 td.setMotivo(motivo);
-                td.setQuantidade(Integer.parseInt(qtdeDev));
                 td.setAnotacao(anotacoes);
-
+                try{
+                td.setQuantidade(Integer.parseInt(qtdeDev));
+                }catch(NumberFormatException e){
+                    if(qtdeDev.equals("")){
+                        request.setAttribute("qtde","Informe a quantidade para a troca ou cancelamento!");
+                    }
+                    e.printStackTrace();
+                    
+                }
+                
                 td.setStatus(status);
                 if (tdId != null && !tdId.trim().equals("")) {
                     td.setId(Integer.parseInt(tdId));

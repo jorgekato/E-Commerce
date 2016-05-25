@@ -110,6 +110,7 @@
 
         </div>
         <div class="content-bottom">
+            <h2>Formulário de Troca ou Cancelamento</h2>
             <h3>Meu Pedido</h3>
             <%
                 //Resultado resultado = (Resultado) session.getAttribute("resultado");
@@ -185,7 +186,7 @@
                     </tr>
                     <tr>
                         <th>Quantidade</th>
-                        <td><input type="text" name="txtQtde" value="<%= item.getQuantidade()%>" readonly/></td>
+                        <td><input type="text" name="txtQtde" value="<%= item.getQuantidade()%>" readonly/>${qtde}</td>
                     </tr>
                     <tr>
                         <th>Valor Unit</th>

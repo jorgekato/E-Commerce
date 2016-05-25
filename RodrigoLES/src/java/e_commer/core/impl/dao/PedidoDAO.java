@@ -295,7 +295,7 @@ public class PedidoDAO extends AbstractJdbcDAO {
             if (pedido.getId() != null && pedido.getPagamento().equals("") && pedido.getCliente().getId() == null) {
                 pst.setInt(1, pedido.getId());
             } else if (pedido.getId() == null && !pedido.getPagamento().equals("") && pedido.getCliente().getId() == null) {
-                pst.setString(1, "%" + pedido.getPagamento() + "%");
+                pst.setString(1, pedido.getPagamento() + "%");
             } else if (pedido.getId() == null && pedido.getPagamento().equals("") && pedido.getCliente().getId() != null) {
                 pst.setInt(1, pedido.getCliente().getId());
             }

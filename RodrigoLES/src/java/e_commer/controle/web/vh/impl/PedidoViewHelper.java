@@ -82,14 +82,14 @@ public class PedidoViewHelper implements IViewHelper {
             pedido.setCliente(cli);
             
             
-            Fachada fachada = new Fachada();
-            resultado = fachada.consultar((EntidadeDominio) pedido);
-
-            for (EntidadeDominio e : resultado.getEntidades()) {
-                if (e.getId() == pedido.getId()) {
-                    pedido = (Pedido) e;
-                }
-            }
+//            Fachada fachada = new Fachada();
+//            resultado = fachada.consultar((EntidadeDominio) pedido);
+//
+//            for (EntidadeDominio e : resultado.getEntidades()) {
+//                if (e.getId() == pedido.getId()) {
+//                    pedido = (Pedido) e;
+//                }
+//            }
             
             if (status != null && !status.trim().equals("")) {
                 pedido.setStatus(status);
