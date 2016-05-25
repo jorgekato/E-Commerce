@@ -256,7 +256,7 @@ public class PedidoDAO extends AbstractJdbcDAO {
     @Override
     public List<EntidadeDominio> consultar(EntidadeDominio entidade) throws NullPointerException {
         PreparedStatement pst = null;
-
+        Cliente cli;
         Pedido pedido = (Pedido) entidade;
         String sql = null;
         boolean flg;
@@ -269,9 +269,16 @@ public class PedidoDAO extends AbstractJdbcDAO {
             }
 
             if (pedido.getCliente() == null) {
-                Cliente cli = new Cliente();
+                cli = new Cliente();
                 pedido.setCliente(cli);
             }
+            
+            if(pedido.getCliente().getNome() == null){
+                cli = new Cliente();
+                cli.setNome((""));
+                pedido.setCliente(cli);
+            }
+            
 
             if (pedido.getId() != null) {
                 flg = true;
@@ -279,24 +286,45 @@ public class PedidoDAO extends AbstractJdbcDAO {
                 flg = false;
             }
 
-            if (pedido.getId() == null && pedido.getPagamento().equals("") && pedido.getCliente().getId() == null) {
-                sql = "SELECT * FROM " + table + " join  tb_clientes using (cli_id)";
-            } else if (pedido.getId() != null && pedido.getPagamento().equals("") && pedido.getCliente().getId() == null) {
-                sql = "SELECT * FROM " + table + " join tb_clientes using (cli_id) WHERE " + idTable + "=?";
-            } else if (pedido.getId() == null && pedido.getPagamento().equals("") && pedido.getCliente().getId() != null) {
-                sql = "SELECT * FROM " + table + " join tb_clientes using (cli_id) WHERE cli_id=?";
-            } else if (pedido.getId() == null && !pedido.getPagamento().equals("") && pedido.getCliente().getId() == null) {
-                sql = "SELECT * FROM " + table + " join tb_Clientes using (cli_id) WHERE art_nome like ?";
+//            if (pedido.getId() == null && pedido.getPagamento().equals("") && pedido.getCliente().getId() == null) {
+//                sql = "SELECT * FROM " + table + " join  tb_clientes using (cli_id)";
+//            } else if (pedido.getId() != null && pedido.getPagamento().equals("") && pedido.getCliente().getId() == null) {
+//                sql = "SELECT * FROM " + table + " join tb_clientes using (cli_id) WHERE " + idTable + "=?";
+//            } else if (pedido.getId() == null && pedido.getPagamento().equals("") && pedido.getCliente().getId() != null) {
+//                sql = "SELECT * FROM " + table + " join tb_clientes using (cli_id) WHERE cli_id=?";
+//            } else if (pedido.getId() == null && !pedido.getPagamento().equals("") && pedido.getCliente().getId() == null) {
+//                sql = "SELECT * FROM " + table + " join tb_Clientes using (cli_id) WHERE art_nome like ?";
+//
+//            }
+//
+//            pst = connection.prepareStatement(sql);
+//
+//            if (pedido.getId() != null && pedido.getPagamento().equals("") && pedido.getCliente().getId() == null) {
+//                pst.setInt(1, pedido.getId());
+//            } else if (pedido.getId() == null && !pedido.getPagamento().equals("") && pedido.getCliente().getId() == null) {
+//                pst.setString(1, pedido.getPagamento() + "%");
+//            } else if (pedido.getId() == null && pedido.getPagamento().equals("") && pedido.getCliente().getId() != null) {
+//                pst.setInt(1, pedido.getCliente().getId());
+//            }
+            
+            if (pedido.getId() == null && pedido.getCliente().getNome().equals("") && pedido.getCliente().getId() == null) {
+                sql = "SELECT * FROM " + table + " join  tb_clientes using (cli_id) order by " + dt_compra + " desc";
+            } else if (pedido.getId() != null && pedido.getCliente().getNome().equals("") && pedido.getCliente().getId() == null) {
+                sql = "SELECT * FROM " + table + " join tb_clientes using (cli_id) WHERE " + idTable + "=? order by " + dt_compra + " desc";
+            } else if (pedido.getId() == null && pedido.getCliente().getNome().equals("") && pedido.getCliente().getId() != null) {
+                sql = "SELECT * FROM " + table + " join tb_clientes using (cli_id) WHERE cli_id=? order by " + dt_compra + " desc";
+            } else if (pedido.getId() == null && !pedido.getCliente().getNome().equals("") && pedido.getCliente().getId() == null) {
+                sql = "SELECT * FROM " + table + " join tb_Clientes using (cli_id) WHERE cli_nome like ? order by " + dt_compra + " desc";
 
             }
 
             pst = connection.prepareStatement(sql);
 
-            if (pedido.getId() != null && pedido.getPagamento().equals("") && pedido.getCliente().getId() == null) {
+            if (pedido.getId() != null && pedido.getCliente().getNome().equals("") && pedido.getCliente().getId() == null) {
                 pst.setInt(1, pedido.getId());
-            } else if (pedido.getId() == null && !pedido.getPagamento().equals("") && pedido.getCliente().getId() == null) {
-                pst.setString(1, pedido.getPagamento() + "%");
-            } else if (pedido.getId() == null && pedido.getPagamento().equals("") && pedido.getCliente().getId() != null) {
+            } else if (pedido.getId() == null && !pedido.getCliente().getNome().equals("") && pedido.getCliente().getId() == null) {
+                pst.setString(1, (pedido.getCliente().getNome()+ "%").toUpperCase());
+            } else if (pedido.getId() == null && pedido.getCliente().getNome().equals("") && pedido.getCliente().getId() != null) {
                 pst.setInt(1, pedido.getCliente().getId());
             }
 

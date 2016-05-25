@@ -134,6 +134,10 @@ public class PedidoViewHelper implements IViewHelper {
             if (cli_id != null && !cli_id.trim().equals("")) {
                 cli.setId(Integer.parseInt(cli_id));
             }
+            
+            if (cliente != null && !cliente.trim().equals("")){
+                cli.setNome(cliente);
+            }
             pedido.setCliente(cli);
 
             if (formPagamento != null && !formPagamento.trim().equals("")) {
