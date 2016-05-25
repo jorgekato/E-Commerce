@@ -20,8 +20,8 @@
     <form action="${pageContext.request.contextPath}/SalvarPedidos" method="post">
         <p> <label for="id">Nº Pedido:</label>
             <input type="text" id="id" name="txtId">
-            <label for="nome">Nome Cliente:</label> 
-            <input type="text" id="nome" name="txtNome">
+            <label for="txtCliente">Nome Cliente:</label> 
+            <input type="text" id="txtCliente" name="txtCliente">
             <input type="submit" id="operacao" name="operacao" value="CONSULTAR"/></p>
     </form>
     <%
