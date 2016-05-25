@@ -172,7 +172,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                     <div class="col1">
                                         <div class="h_nav">
                                             <ul>
-                                                <li><a href="#">Accessories</a></li>                                                
+                                                <li><a href="/RodrigoLES/LadoAdmin/Relatorios/produtosmaisvendidos.jsp">Produtos Mais vendido</a></li>                                                
+                                                <li><a href="/RodrigoLES/LadoAdmin/Relatorios/clientecompraperiodo.jsp">Clientes Mais vendas</a></li>
+                                                <li><a href="${pageContext.request.contextPath}/EstoqueMin?operacao=CONSULTAR">Estoque mínimo</a></li>
+                                                <li><a href="/RodrigoLES/LadoAdmin/Relatorios/produtoperiodo.jsp">Produto por Periodo</a></li>
+                                                <li><a href="/RodrigoLES/LadoAdmin/Relatorios/analisecomparativoclienteperiodo.jsp">Clientes por Periodo</a></li>
                                             </ul>	
                                         </div>							
                                     </div>                                    

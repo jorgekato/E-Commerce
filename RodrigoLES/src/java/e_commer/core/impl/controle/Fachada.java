@@ -17,6 +17,10 @@ import e_commer.core.impl.dao.ProdutoDAO;
 import e_commer.core.impl.dao.CategoriasDAO;
 import e_commer.core.impl.dao.ArtesanatoDAO;
 import e_commer.core.impl.dao.CreditoDAO;
+import e_commer.core.impl.dao.FiltroClienteVendaPeriodoDAO;
+import e_commer.core.impl.dao.FiltroEstoqueMinimoDAO;
+import e_commer.core.impl.dao.FiltroProdutoQtdePeriodoDAO;
+import e_commer.core.impl.dao.FiltroProdutoVendaPeriodoDAO;
 import e_commer.core.impl.dao.PedidoDAO;
 import e_commer.core.impl.dao.TrocaDevolucaoDAO;
 
@@ -38,6 +42,10 @@ import e_commer.dominio.Artesanato;
 import e_commer.dominio.Credito;
 import e_commer.dominio.Pedido;
 import e_commer.dominio.TrocaDevolucao;
+import e_commer.filtroAnalise.FiltroClienteVendaPeriodo;
+import e_commer.filtroAnalise.FiltroEstoqueMinimo;
+import e_commer.filtroAnalise.FiltroProdutoQtdePeriodo;
+import e_commer.filtroAnalise.FiltroProdutoVendaPeriodo;
 
 public class Fachada implements IFachada {
 
@@ -70,6 +78,10 @@ public class Fachada implements IFachada {
         PedidoDAO pedDAO = new PedidoDAO();
         TrocaDevolucaoDAO tdDAO = new TrocaDevolucaoDAO();
         CreditoDAO creDAO = new CreditoDAO();
+        FiltroClienteVendaPeriodoDAO filDAO = new FiltroClienteVendaPeriodoDAO();
+        FiltroProdutoVendaPeriodoDAO fprDAO = new FiltroProdutoVendaPeriodoDAO();
+        FiltroEstoqueMinimoDAO esmDAO = new FiltroEstoqueMinimoDAO();
+        FiltroProdutoQtdePeriodoDAO fqtDAO = new FiltroProdutoQtdePeriodoDAO();
         
         /* Adicionando cada dao no MAP indexando pelo nome da classe */
         daos.put(Fornecedor.class.getName(), forDAO);
@@ -80,7 +92,10 @@ public class Fachada implements IFachada {
         daos.put(Pedido.class.getName(), pedDAO);
         daos.put(TrocaDevolucao.class.getName(), tdDAO);
         daos.put(Credito.class.getName(), creDAO);
-
+        daos.put(FiltroClienteVendaPeriodo.class.getName(), filDAO);
+        daos.put(FiltroProdutoVendaPeriodo.class.getName(), fprDAO);
+        daos.put(FiltroEstoqueMinimo.class.getName(), esmDAO);
+        daos.put(FiltroProdutoQtdePeriodo.class.getName(), fqtDAO);
         //-------------------------------------------------------------------------------------------
         /* Criando instancias de regras de negocio a serem utilizados*/
         ValidadorDadosObrigatoriosFornecedor vrDadosObrigatoriosFornecedor = new ValidadorDadosObrigatoriosFornecedor();

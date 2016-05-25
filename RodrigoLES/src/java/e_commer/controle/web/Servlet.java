@@ -23,6 +23,10 @@ import e_commer.controle.web.vh.impl.ProdutoViewHelper;
 import e_commer.controle.web.vh.impl.CategoriaViewHelper;
 import e_commer.controle.web.vh.impl.CarrinhoViewHelper;
 import e_commer.controle.web.vh.impl.CreditoViewHelper;
+import e_commer.controle.web.vh.impl.FiltroClienteVendaPeriodoViewHelper;
+import e_commer.controle.web.vh.impl.FiltroEstoqueMinimoViewHelper;
+import e_commer.controle.web.vh.impl.FiltroProdutoQtdePeriodoViewHelper;
+import e_commer.controle.web.vh.impl.FiltroProdutoVendaPeriodoViewHelper;
 import e_commer.controle.web.vh.impl.PedidoViewHelper;
 import e_commer.controle.web.vh.impl.TrocaDevolucaoViewHelper;
 import e_commer.core.aplicacao.Resultado;
@@ -61,6 +65,8 @@ public class Servlet extends HttpServlet {
         commands.put("CONSULTAR2", new ConsultarCommand());
         commands.put("ENVIAR", new SalvarCommand());
         commands.put("HISTORICO", new ConsultarCommand());
+        commands.put("grafico1", new ConsultarCommand());
+        commands.put("grafico2", new ConsultarCommand());
        // commands.put("ATUALIZAR", new AlterarCommand());
 
         /* Utilizando o ViewHelper para tratar especificações de qualquer tela e indexando 
@@ -79,6 +85,10 @@ public class Servlet extends HttpServlet {
         vhs.put("/RodrigoLES/SalvarPedidos", new PedidoViewHelper());
         vhs.put("/RodrigoLES/SalvarTrocaDevolucao", new TrocaDevolucaoViewHelper());
         vhs.put("/RodrigoLES/SalvarCredito", new CreditoViewHelper());
+        vhs.put("/RodrigoLES/ServletGrafico1", new FiltroClienteVendaPeriodoViewHelper());
+        vhs.put("/RodrigoLES/ServletGrafico2", new FiltroProdutoVendaPeriodoViewHelper());
+        vhs.put("/RodrigoLES/EstoqueMin", new FiltroEstoqueMinimoViewHelper());
+        vhs.put("/RodrigoLES/ServletGrafico3", new FiltroProdutoQtdePeriodoViewHelper());
     }
 
     /**

@@ -67,31 +67,29 @@
         <servlet-name>ServletCarrinho</servlet-name>
         <url-pattern>/ServletCarrinho</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/ServletGrafico1</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/ServletGrafico2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/EstoqueMin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/ServletGrafico3</url-pattern>
+    </servlet-mapping>
     <!--Fim Configuração Servlet's-->
     <!--Configurações de Cabeçalho e Rodapé padrões-->
     <jsp-config>
         <jsp-property-group>
             <description>Definições de cabeçalho e rodapé lado Admin</description>
             <url-pattern>/WEB/jspf/*</url-pattern>
-            <url-pattern>/LadoAdmin/adminprinc.jsp</url-pattern>
-            <url-pattern>/LadoAdmin/gestaoprodutos.jsp</url-pattern>
-            <url-pattern>/LadoAdmin/gestaocliente.jsp</url-pattern>
-            <url-pattern>/LadoAdmin/gestaovenda.jsp</url-pattern>
-            <url-pattern>/LadoAdmin/gestaorelat.jsp</url-pattern>
-            <url-pattern>/LadoAdmin/msggeral.jsp</url-pattern>
-            <url-pattern>/LadoAdmin/cadproduto.jsp</url-pattern>
-            <url-pattern>/LadoAdmin/cadartesanato.jsp</url-pattern>
-            <url-pattern>/LadoAdmin/cadcategoria.jsp</url-pattern>
-            <url-pattern>/LadoAdmin/pesqartesanato.jsp</url-pattern>
-            <url-pattern>/LadoAdmin/pesqcategoria.jsp</url-pattern>
-            <url-pattern>/LadoAdmin/pesqprodutos.jsp</url-pattern>
-            <url-pattern>/LadoAdmin/pesqcliente.jsp</url-pattern>
-            <url-pattern>/LadoAdmin/pesqpedido.jsp</url-pattern>
-            <url-pattern>/LadoAdmin/pedidodetalhe.jsp</url-pattern>
-            <url-pattern>/LadoAdmin/pesqtrocadevolucao.jsp</url-pattern>
-            <url-pattern>/LadoAdmin/detalhestrocadevolucao.jsp</url-pattern>
-            <url-pattern>/LadoAdmin/relatorioTrocaDevolucao.jsp</url-pattern>
-            <url-pattern>/LadoAdmin/historicoPedido.jsp</url-pattern>
+            <url-pattern>/LadoAdmin/*</url-pattern>
             <include-prelude>/WEB-INF/jspf/header.jspf</include-prelude>
             <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>
         </jsp-property-group>
@@ -138,6 +136,18 @@
         <filter-name>FiltroAutenticacao</filter-name>
         <filter-class>e_commer.core.filtros.FiltroAutenticacao</filter-class>
     </filter>
+    <filter>
+        <filter-name>FiltroProduto</filter-name>
+        <filter-class>e_commer.core.filtros.FiltroProduto</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>FiltroProduto</filter-name>
+        <url-pattern>/LadoAdmin/Relatorios/produtoperiodo.jsp</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
     <filter-mapping>
         <filter-name>FiltroCategoria</filter-name>
         <url-pattern>/LadoAdmin/cadproduto.jsp</url-pattern>
