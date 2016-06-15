@@ -275,7 +275,7 @@
                 }
 
             %>
-
+            <a href="novoEndereco.jsp"><font color="red"><b>Alterar Endereço</b></font></a>
 
 
         </TABLE>

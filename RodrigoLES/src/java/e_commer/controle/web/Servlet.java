@@ -42,7 +42,7 @@ public class Servlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private static Map<String, ICommand> commands;
-    private static Map<String, IViewHelper> vhs;    
+    private static Map<String, IViewHelper> vhs;
 
     /**
      * Default constructor.
@@ -50,7 +50,7 @@ public class Servlet extends HttpServlet {
     public Servlet() {
 
         /* Utilizando o command para chamar a fachada e indexando cada command 
-    	 * pela operação garantimos que esta servelt atenderá qualquer operação */
+         * pela operação garantimos que esta servelt atenderá qualquer operação */
         commands = new HashMap<String, ICommand>();
 
         commands.put("SALVAR", new SalvarCommand());
@@ -67,20 +67,20 @@ public class Servlet extends HttpServlet {
         commands.put("HISTORICO", new ConsultarCommand());
         commands.put("grafico1", new ConsultarCommand());
         commands.put("grafico2", new ConsultarCommand());
-       // commands.put("ATUALIZAR", new AlterarCommand());
+        // commands.put("ATUALIZAR", new AlterarCommand());
 
         /* Utilizando o ViewHelper para tratar especificações de qualquer tela e indexando 
-    	 * cada viewhelper pela url em que esta servlet é chamada no form
-    	 * garantimos que esta servelt atenderá qualquer entidade */
+         * cada viewhelper pela url em que esta servlet é chamada no form
+         * garantimos que esta servelt atenderá qualquer entidade */
         vhs = new HashMap<String, IViewHelper>();
         /*A chave do mapa é o mapeamento da servlet para cada form que 
-    	 * está configurado no web.xml e sendo utilizada no action do html
+         * está configurado no web.xml e sendo utilizada no action do html
          */
         vhs.put("/RodrigoLES/SalvarFornecedor", new FornecedorViewHelper());
         vhs.put("/RodrigoLES/SalvarCliente", new ClienteViewHelper());
         vhs.put("/RodrigoLES/SalvarProduto", new ProdutoViewHelper());
         vhs.put("/RodrigoLES/SalvarCategoria", new CategoriaViewHelper());
-        vhs.put("/RodrigoLES/SalvarArtesanato", new ArtesanatoViewHelper());        
+        vhs.put("/RodrigoLES/SalvarArtesanato", new ArtesanatoViewHelper());
         vhs.put("/RodrigoLES/SalvarCarrinho", new CarrinhoViewHelper());
         vhs.put("/RodrigoLES/SalvarPedidos", new PedidoViewHelper());
         vhs.put("/RodrigoLES/SalvarTrocaDevolucao", new TrocaDevolucaoViewHelper());
@@ -133,33 +133,33 @@ public class Servlet extends HttpServlet {
         //Aqui é onde seta os atributos que vem do front end, menos a data
         EntidadeDominio entidade = vh.getEntidade(request);
 
-        
         //Obt�m o command para executar a respectiva opera��o
         ICommand command = commands.get(operacao);
 
         /*Executa o command que chamar� a fachada para executar a opera��o requisitada
-		 * o retorno � uma inst�ncia da classe resultado que pode conter mensagens derro 
-		 * ou entidades de retorno
+         * o retorno � uma inst�ncia da classe resultado que pode conter mensagens derro 
+         * ou entidades de retorno
          */
         Resultado resultado = null;
-        
-        if(command != null){
+
+        if (command != null) {
             resultado = command.execute(entidade);
-        }
-        else
-        {
+        } else {
             //Usado para o carrinho de compras
             List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
-            entidades.add(entidade);
-            resultado = new Resultado();
-            resultado.setEntidades(entidades);
+            if (entidade != null) {
+                entidades.add(entidade);
+                resultado = new Resultado();
+                resultado.setEntidades(entidades);
+            } else {
+                resultado = new Resultado();
+            }
         }
         /*
-		 * Executa o m�todo setView do view helper espec�fico para definir como dever� ser apresentado 
-		 * o resultado para o usu�rio
+         * Executa o m�todo setView do view helper espec�fico para definir como dever� ser apresentado 
+         * o resultado para o usu�rio
          */
         vh.setView(resultado, request, response);
-        
 
     }
 }

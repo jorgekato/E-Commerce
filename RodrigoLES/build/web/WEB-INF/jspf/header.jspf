@@ -117,7 +117,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
                     <ul class="megamenu skyblue">
                         <li class="active grid"><a  href="/RodrigoLES/LadoAdmin/adminprinc.jsp">Home</a>
-                        <li class="active grid"><a  href="/RodrigoLES/LadoAdmin/gestaoprodutos.jsp">Produtos</a>
+                        <li class="active grid"><a  href="/RodrigoLES/LadoAdmin/gestaoprodutos.jsp" id="prod">Produtos</a>
                             <div class="megapanel">
                                 <div class="row">
                                     <div class="col1">
@@ -125,7 +125,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                             <ul>
                                                 <li><a href="/RodrigoLES/LadoAdmin/cadproduto.jsp">Cadastrar Produtos</a></li>  
                                                 <li><a href="/RodrigoLES/LadoAdmin/pesqprodutos.jsp">Pesquisar Produtos</a></li>
-                                                <li><a href="/RodrigoLES/LadoAdmin/cadcategoria.jsp">Cadastro de categorias</a></li>
+                                                <li><a href="/RodrigoLES/LadoAdmin/cadcategoria.jsp" id="cadCat">Cadastro de categorias</a></li>
                                                 <li><a href="/RodrigoLES/LadoAdmin/pesqcategoria.jsp">Pesquisar categorias</a></li>
                                                 <li><a href="/RodrigoLES/LadoAdmin/cadartesanato.jsp">Cadastro de artesanatos</a></li>
                                                 <li><a href="/RodrigoLES/LadoAdmin/pesqartesanato.jsp">Pesquisar artesanatos</a></li>

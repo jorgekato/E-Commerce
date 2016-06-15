@@ -118,6 +118,7 @@
             <url-pattern>/pedidoTrocaDevolucao.jsp</url-pattern>
             <url-pattern>/consultaTrocaDevolucao.jsp</url-pattern>
             <url-pattern>/meusvalecreditos.jsp</url-pattern>
+            <url-pattern>/novoEndereco.jsp</url-pattern>
             <include-prelude>/WEB-INF/jspf/headerSite.jspf</include-prelude>
             <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>
         </jsp-property-group>

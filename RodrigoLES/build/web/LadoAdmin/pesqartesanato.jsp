@@ -15,15 +15,15 @@
     <div class="account-in">
         <div>
             <header><h1>Pesquisa de artesanatos</h1></header></div>
-                <%
-                    resultado = (Resultado) request.getAttribute("resultado");
+                <%                    resultado = (Resultado) request.getAttribute("resultado");
                 %>
 
         <form action="${pageContext.request.contextPath}/SalvarArtesanato" method="post">
-            <label for="txtId">Id:</label> <input type="text" id="txtId"
-                                                  name="txtId" /> </br> <label for="txtDescricao">DESCRIÇÃO:</label> <input
-                                                  type="text" id="txtDescricao" name="txtDescricao" /> <input
-                                                  type="submit" id="operacao" name="operacao" value="CONSULTAR" />
+            <label for="txtId">Id:</label> 
+            <input type="text" id="txtId" name="txtId" />  
+            <label for="txtDescricao">DESCRIÇÃO:</label> 
+            <input type="text" id="txtDescricao" name="txtDescricao" /> 
+            <input type="submit" id="operacao" name="operacao" value="CONSULTAR" />
         </form>
         <%
             if (resultado != null && resultado.getMsg() != null) {
@@ -33,16 +33,18 @@
         %>
         <BR>
 
-        <TABLE BORDER="5"    WIDTH="50%"   CELLPADDING="4" CELLSPACING="3">
+        <TABLE BORDER="5"    WIDTH="100%"   CELLPADDING="4" CELLSPACING="3">
             <TR>
-                <TH COLSPAN="4"><BR>
-                    <H3>Artesanato</H3>
-                </TH>
+                <TH COLSPAN="6"><BR>
+            <H3>Artesanato</H3>
+            </TH>
             </TR>
 
             <TR>
                 <TH>ID</TH>
                 <TH>Nome</TH>
+                <TH>Valor Unit</TH>
+                <TH>Categoria</TH>
                 <TH>DtCadastro</TH>                
                 <TH>Status:</TH>
             </TR>
@@ -79,6 +81,18 @@
                             sbRegistro.append(art.getNome());
                             sbRegistro.append("</a>");
                             sbRegistro.append("</TD>");
+                            
+                            sbRegistro.append("<TD>");
+                            sbRegistro.append(sbLink.toString());
+                            sbRegistro.append(art.getPrecoUnit());
+                            sbRegistro.append("</a>");
+                            sbRegistro.append("</TD>");
+                            
+                            sbRegistro.append("<TD>");
+                            sbRegistro.append(sbLink.toString());
+                            sbRegistro.append(art.getCategoria().getNomeCategoria());
+                            sbRegistro.append("</a>");
+                            sbRegistro.append("</TD>");
 
                             sbRegistro.append("<TD>");
                             sbRegistro.append(sbLink.toString());
@@ -109,4 +123,5 @@
             %>
         </TABLE>
     </div>
+</div>
     <!---->

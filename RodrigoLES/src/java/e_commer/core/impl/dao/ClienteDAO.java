@@ -86,7 +86,7 @@ public class ClienteDAO extends AbstractJdbcDAO {
                 id = rs.getInt(1);
             }
             cliente.setId(id);
-
+            //Login
             sql = new StringBuilder();
             sql.append("INSERT INTO ");
             sql.append(tableLoguin);
@@ -110,7 +110,7 @@ public class ClienteDAO extends AbstractJdbcDAO {
             pst.setTimestamp(3, time);
            
             pst.executeUpdate();
-
+            //Endereco
             sql = new StringBuilder();
             sql.append("INSERT INTO ");
             sql.append(tableEndereco);

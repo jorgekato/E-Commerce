@@ -155,10 +155,12 @@ public class TrocaDevolucaoViewHelper implements IViewHelper {
         if (resultado.getMsg() == null && operacao.equals("ENVIAR")) {
             request.setAttribute("mensagem", "Seu pedido foi enviado!\nLogo estaremos entrando em contato!");
             d = request.getRequestDispatcher("minhaconta.jsp");
-        } else if (resultado.getMsg() == null && operacao.equals("CONSULTAR")) {
+        } 
+        else if (resultado.getMsg() == null && operacao.equals("CONSULTAR")) {
             request.setAttribute("trocadevolucao", resultado);
             d = request.getRequestDispatcher("LadoAdmin/pesqtrocadevolucao.jsp");
-        } else if (resultado.getMsg() == null && operacao.equals("CONSULTAR1")) {
+        } 
+        else if (resultado.getMsg() == null && operacao.equals("CONSULTAR1")) {
             if (resultado.getEntidades().size() == 0) {
                 request.setAttribute("mensagem", "Não há trocas ou devoluções!");
                 d = request.getRequestDispatcher("minhaconta.jsp");
@@ -166,13 +168,16 @@ public class TrocaDevolucaoViewHelper implements IViewHelper {
                 request.setAttribute("trocadevolucao", resultado);
                 d = request.getRequestDispatcher("consultaTrocaDevolucao.jsp");
             }
-        } else if (resultado.getMsg() == null && operacao.equals("VISUALIZAR")) {
+        } 
+        else if (resultado.getMsg() == null && operacao.equals("VISUALIZAR")) {
             request.setAttribute("trocadevolucao", resultado);
             d = request.getRequestDispatcher("LadoAdmin/detalhestrocadevolucao.jsp");
-        } else if (resultado.getMsg() == null && operacao.equals("HISTORICO")) {
+        } 
+        else if (resultado.getMsg() == null && operacao.equals("HISTORICO")) {
             request.setAttribute("trocadevolucao", resultado);
             d = request.getRequestDispatcher("LadoAdmin/relatorioTrocaDevolucao.jsp");
-        } else if (resultado.getMsg() == null && operacao.equals("ALTERAR")) {
+        } 
+        else if (resultado.getMsg() == null && operacao.equals("ALTERAR")) {
             request.setAttribute("trocadevolucao", resultado);
             d = request.getRequestDispatcher("LadoAdmin/pesqtrocadevolucao.jsp");
         }

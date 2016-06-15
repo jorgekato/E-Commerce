@@ -20,6 +20,9 @@ public class CarrinhoCompra extends EntidadeDominio{
     private double total = 0.0;
 
     public double getTotal() {
+        total = 0.0;
+        for(AbstractItem a : itens)
+            total += (a.getQuantidade()*a.getValorUnit());
         return total;
     }
 

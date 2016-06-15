@@ -30,7 +30,7 @@
 		%>
 		
 		</p>
-                <p>Categoria: <input type="text" name="txtNome" value="<%
+                <p>Categoria: <input id="nome" type="text" name="txtNome" value="<%
                     if (cat != null){  
                         out.print(cat.getNomeCategoria()); 
                     }
@@ -44,20 +44,21 @@
                         }
                     %>"></textarea></p>
                 
-                <p><input type="radio" name="txtFlgAtivo" value="TRUE"  <%
+                <p><label for="situacao">Situação: </label>
+                    <input type="radio" id="flgAtivo" name="txtFlgAtivo" value="TRUE"  <%
                     if (cat != null) {
                         if (cat.getFlg_ativo()) {
                             out.print("checked=\"checked\"");
                         }
                     }
-                          %>/>Ativo </p>
-                <p><input type="radio" name="txtFlgAtivo" value="FALSE" <%
+                          %>/>Ativo
+                <input type="radio" name="txtFlgAtivo" value="FALSE" <%
                     if (cat != null) {
                         if (!cat.getFlg_ativo()) {
                             out.print("checked=\"checked\"");
                         }
                     }
-                          %>/>Desativado</p>
+                          %>/>Inativo</p>
 
                 <%
                     if (cat != null) {

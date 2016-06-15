@@ -45,17 +45,37 @@ public class CarrinhoViewHelper implements IViewHelper {
                 for (EntidadeDominio e : resultado.getEntidades()) {
                     carrinho = (CarrinhoCompra) e;
                 }
-                //carrinho = resultado.getEntidades();
             } else {
                 carrinho = new CarrinhoCompra();
             }
 
             String tipoClasse = request.getParameter("tipo");
-            Fachada fachada = new Fachada();
+            String txtId = request.getParameter("txtId");
+            List<AbstractItem> itens = carrinho.getItens();
+            for (int i = 0; i < itens.size(); i++) {
+                if (ItemArtesanato.class.getName().equals(itens.get(i).getClass().getName())) {
+                    ItemArtesanato item = new ItemArtesanato();
+                    item = (ItemArtesanato) itens.get(i);
+                    if(item.getArtesanato().getId() == Integer.parseInt(txtId)){//ja existe um item igual?
+//                        int qtde = item.getQuantidade() + 1;
+//                        item.setQuantidade(qtde);
+                        return carrinho;
+                    }
+                }else if (ItemProduto.class.getName().equals(itens.get(i).getClass().getName())) {
+                    ItemProduto item = new ItemProduto();
+                    item = (ItemProduto) itens.get(i);
+                    if(item.getProduto().getId() == Integer.parseInt(txtId)){//ja existe um item igual?
+//                        int qtde = item.getQuantidade() + 1;
+//                        item.setQuantidade(qtde);
+                        return carrinho;
+                    }
+                }
+            }
+             Fachada fachada = new Fachada();
 
             //Adiciona um item de artesanato ao carrinho
             if (tipoClasse.equals("ARTESANATO")) {
-                String txtId = request.getParameter("txtId");
+                //String txtId = request.getParameter("txtId");
                 int id = 0;
 
                 if (txtId != null && !txtId.trim().equals("")) {
@@ -74,17 +94,19 @@ public class CarrinhoViewHelper implements IViewHelper {
                 }
                 item.setQuantidade(Integer.parseInt(request.getParameter("qtde")));
                 item.setTipo_item(tipoClasse);
-                carrinho.setTotal(carrinho.getTotal() + (item.getArtesanato().getPrecoUnit()*item.getQuantidade()));
+                item.setValorUnit(item.getArtesanato().getPrecoUnit());//seta o valor unitario
+                //carrinho.setTotal(carrinho.getTotal() + (item.getQuantidade() * item.getArtesanato().getPrecoUnit()));
                 carrinho.adiciona(item);
 
             } //Adiciona um item de produto ao carrinho
             else if (tipoClasse.equals("PRODUTO")) {
-                String txtId = request.getParameter("txtId");
+               // String txtId = request.getParameter("txtId");
                 int id = 0;
 
                 if (txtId != null && !txtId.trim().equals("")) {
                     id = Integer.parseInt(txtId);
                 }
+
                 Produto produto = new Produto();
                 produto.setId(id);
                 resultado = fachada.consultar((EntidadeDominio) produto);
@@ -98,7 +120,8 @@ public class CarrinhoViewHelper implements IViewHelper {
                 }
                 item.setQuantidade(Integer.parseInt(request.getParameter("qtde")));
                 item.setTipo_item(tipoClasse);
-                carrinho.setTotal(carrinho.getTotal() + (item.getProduto().getPrecoUnit()*item.getQuantidade()));
+                item.setValorUnit(item.getProduto().getPrecoUnit());//seta o valor unitario
+                //carrinho.setTotal(carrinho.getTotal() + (item.getProduto().getPrecoUnit() * item.getQuantidade()));
                 carrinho.adiciona(item);
             }
 
@@ -107,7 +130,7 @@ public class CarrinhoViewHelper implements IViewHelper {
             if (request.getSession().getAttribute("carrinho") != null) {
                 resultado = (Resultado) request.getSession().getAttribute("carrinho");
                 String txtId = request.getParameter("idItem");
-                
+
                 int id = 0;
 
                 if (txtId != null && !txtId.trim().equals("")) {
@@ -120,26 +143,22 @@ public class CarrinhoViewHelper implements IViewHelper {
                 List<AbstractItem> entidades = carrinho.getItens();
 
                 if (entidades != null) {
-                    
+
                     carrinho.remover(id);
-                    if(entidades.size() == 0)
+                    if (entidades.size() == 0) {
                         carrinho = null;
+                    }
                 }
-                
+
             }
         } else if (operacao.equals("ATUALIZAR")) {
 
             if (request.getSession().getAttribute("carrinho") != null) {
                 resultado = (Resultado) request.getSession().getAttribute("carrinho");
-                String txtId = request.getParameter("txtId");
-                double vlrUnit = Double.parseDouble(request.getParameter("vlrUnit"));
-                String subtotal = request.getParameter("subtotal");
-                int qtde = Integer.parseInt(request.getParameter("qtde"));
-                int id = 0;
 
-                if (txtId != null && !txtId.trim().equals("")) {
-                    id = Integer.parseInt(txtId);
-                }
+                String[] qtde = request.getParameterValues("qtde");
+                String[] txtId = request.getParameterValues("idItem");
+
                 for (EntidadeDominio e : resultado.getEntidades()) {
                     carrinho = (CarrinhoCompra) e;
                 }
@@ -148,9 +167,21 @@ public class CarrinhoViewHelper implements IViewHelper {
 
                 if (entidades != null) {
 
-                    entidades.get(id).setQuantidade(Integer.parseInt(request.getParameter("qtde")));
+                    for (int i = 0; i < qtde.length; i++) {
+                        int id = 0;
+
+                        if (txtId[i] != null && !txtId[i].trim().equals("")) {
+                            id = Integer.parseInt(txtId[i]);
+                        }
+                        entidades.get(id).setQuantidade(Integer.valueOf(qtde[i]));
+                    }
                 }
-                carrinho.setTotal((vlrUnit * qtde));
+
+//                double vlrUnit = Double.parseDouble(request.getParameter("vlrUnit"));
+//
+//                
+//                
+//                carrinho.setTotal((vlrUnit * qtde));
             }
         }
 
@@ -168,12 +199,19 @@ public class CarrinhoViewHelper implements IViewHelper {
             request.getSession().setAttribute("carrinho", resultado);
             d = request.getRequestDispatcher("cart.jsp");
         } else if (resultado.getMsg() == null && operacao.equals("EXCLUIRITEM")) {
-
-            request.getSession().setAttribute("carrinho", resultado);
-            d = request.getRequestDispatcher("cart.jsp");
+            if (resultado.getEntidades() != null) {
+                request.getSession().setAttribute("carrinho", resultado);
+                d = request.getRequestDispatcher("cart.jsp");
+            }else{
+                request.getSession().setAttribute("carrinho", null);
+                d = request.getRequestDispatcher("cart.jsp");
+            }
         } else if (resultado.getMsg() == null && operacao.equals("ATUALIZAR")) {
 
             request.getSession().setAttribute("carrinho", resultado);
+            d = request.getRequestDispatcher("cart.jsp");
+        }else{
+            request.setAttribute("resultado", resultado);
             d = request.getRequestDispatcher("cart.jsp");
         }
 
