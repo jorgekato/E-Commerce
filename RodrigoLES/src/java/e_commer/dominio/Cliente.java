@@ -7,6 +7,7 @@ public class Cliente extends Pessoa {
     private String cpf;
     private String email;
     private String sexo;
+    private String telefone;
     private boolean flg_ativo;
     public enum Nivel {CLIENTE, ADMINISTRADOR, COLABORADOR};
     private Nivel nivel;
@@ -36,6 +37,14 @@ public class Cliente extends Pessoa {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     public boolean getFlg_ativo() {

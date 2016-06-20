@@ -14,10 +14,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         Resultado resultado = (Resultado) request.getAttribute("resultado");
 
         Resultado categoria = (Resultado) request.getAttribute("resultado");
-        
+
         Cliente cliente = null;
-        cliente = (Cliente)request.getSession().getAttribute("usuario");
-        
+        cliente = (Cliente) request.getSession().getAttribute("usuario");
+
     %>
     <head>
         <!-- Ver como faz para colocar um title para cada página-->
@@ -62,8 +62,34 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 });
             });
         </script>
+
+        <!--Inicio da configuração do gráficos -->
+        <script src="${pageContext.request.contextPath}/js/Chart.min.js"></script>
+        <style type="text/css">
+
+            *{
+                font-family: calibri;        
+            }
+
+            .box {
+                margin: 0px auto;
+                width: 70%;
+            }
+
+            .box-chart {
+                width: 100%;
+                margin: 0 auto;
+                padding: 10px;
+            }
+
+        </style>  
+        <!--Fim da configuração do gráficos -->
+        
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/move-top.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/easing.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.zebra-datepicker.js"></script>        
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.maskedinput.min.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/legend.js"></script>
         <script type="text/javascript">
             jQuery(document).ready(function ($) {
                 $(".scroll").click(function (event) {
@@ -87,8 +113,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <p>The quick brown <span>fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog.</span></p>	
                 </div>	
                 <ul class="header-in">
-                    <%
-                        if (cliente != null) {
+                    <%                        if (cliente != null) {
                             StringBuilder sbCliente = new StringBuilder();
                             sbCliente.setLength(0);
 
@@ -117,7 +142,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
                     <ul class="megamenu skyblue">
                         <li class="active grid"><a  href="/RodrigoLES/LadoAdmin/adminprinc.jsp">Home</a>
-                        <li class="active grid"><a  href="/RodrigoLES/LadoAdmin/gestaoprodutos.jsp" id="prod">Produtos</a>
+                        <li class="active grid"><a  href="/RodrigoLES/LadoAdmin/gestaoprodutos.jsp">Produtos</a>
                             <div class="megapanel">
                                 <div class="row">
                                     <div class="col1">
@@ -125,7 +150,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                             <ul>
                                                 <li><a href="/RodrigoLES/LadoAdmin/cadproduto.jsp">Cadastrar Produtos</a></li>  
                                                 <li><a href="/RodrigoLES/LadoAdmin/pesqprodutos.jsp">Pesquisar Produtos</a></li>
-                                                <li><a href="/RodrigoLES/LadoAdmin/cadcategoria.jsp" id="cadCat">Cadastro de categorias</a></li>
+                                                <li><a href="/RodrigoLES/LadoAdmin/cadcategoria.jsp">Cadastro de categorias</a></li>
                                                 <li><a href="/RodrigoLES/LadoAdmin/pesqcategoria.jsp">Pesquisar categorias</a></li>
                                                 <li><a href="/RodrigoLES/LadoAdmin/cadartesanato.jsp">Cadastro de artesanatos</a></li>
                                                 <li><a href="/RodrigoLES/LadoAdmin/pesqartesanato.jsp">Pesquisar artesanatos</a></li>
@@ -176,7 +201,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                                 <li><a href="/RodrigoLES/LadoAdmin/Relatorios/clientecompraperiodo.jsp">Clientes Mais vendas</a></li>
                                                 <li><a href="${pageContext.request.contextPath}/EstoqueMin?operacao=CONSULTAR">Estoque mínimo</a></li>
                                                 <li><a href="/RodrigoLES/LadoAdmin/Relatorios/produtoperiodo.jsp">Produto por Periodo</a></li>
-                                                <li><a href="/RodrigoLES/LadoAdmin/Relatorios/analisecomparativoclienteperiodo.jsp">Clientes por Periodo</a></li>
+                                                <li><a href="/RodrigoLES/LadoAdmin/Relatorios/clienteperiodo.jsp">Clientes por Periodo</a></li>
                                             </ul>	
                                         </div>							
                                     </div>                                    

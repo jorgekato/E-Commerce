@@ -4,6 +4,7 @@
     Author     : Henrique
 --%>
 
+<%@page import="e_commer.core.util.ManipulaImagem"%>
 <%@page import="e_commer.dominio.Produto"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="content">
@@ -39,7 +40,10 @@
                         sbLink.append("&");
                         sbLink.append("operacao=");
                         sbLink.append("VISUALIZAR1>");
-                        sbLink.append("<img class=\"img-responsive\" src=\"images/sh.png\" alt=\"\" />");
+                        //sbLink.append("<img class=\"img-responsive\" src=\"images/sh.png\" alt=\"\" />");
+                        sbLink.append("<img class=\"img-responsive\" src=\"data:image/jpg;base64, ");
+                        sbLink.append(ManipulaImagem.setImagemDimensao(pro.getFoto().getImagem(), 175, 144));
+                        sbLink.append("\" alt=\"\" />");
                         sbLink.append("</a>");
 
                         sbRegistro.append(sbLink.toString());

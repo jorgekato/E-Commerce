@@ -30,7 +30,8 @@
             </div>
             <div class="tab2">
                 <ul class="place">
-                    <li class="sort">Meus Dados</li>
+                    <li class="sort">
+                        <a href="SalvarEndereco?txtId=<%= cliente.getId()%>&operacao=VISUALIZAR3">Meus Dados</a></li>
                     <li class="by"></li>
                     <div class="clearfix"> </div>
                 </ul>
@@ -51,7 +52,10 @@
                     <li class="by"></li>
                     <div class="clearfix"> </div>
                 </ul>
-            </div>        
+            </div>  
+
+            <div class="tab4">
+            </div>
             <div class="tab5">
 
             </div>
@@ -121,7 +125,7 @@
             <%
                 //Resultado resultado = (Resultado) session.getAttribute("resultado");
                 Resultado pedido = (Resultado) request.getAttribute("pedidos");
-           
+
                 if (pedido != null && pedido.getMsg() != null) {
                     out.print(pedido.getMsg());
                 }
@@ -159,7 +163,7 @@
                                 sbLink.append("VISUALIZAR1");
 
                                 sbLink.append(">");
-                                
+
                                 //nome
                                 sbRegistro.append("<TD>");
                                 sbRegistro.append(sbLink.toString());

@@ -6,6 +6,7 @@
 
 
 
+<%@page import="e_commer.core.util.ManipulaImagem"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="e_commer.dominio.Categorias"%>
 <%@page import="java.util.List"%>
@@ -22,7 +23,7 @@
         <div>
             <header><h1>Cadastro de produtos</h1></header></div>
         <div>
-            <form action="${pageContext.request.contextPath}/SalvarProduto" method="POST">
+            <form action="${pageContext.request.contextPath}/SalvarProduto" method="POST" enctype="multipart/form-data">
                 <!--<p>Código de Barra: <input type="text"/></p>-->
                 <label for="txtId">Id:</label>
                 <input type="text" id="txtId" name="txtId" value=
@@ -61,9 +62,9 @@
                 <p>Categoria: <select name="categorias" id="categorias">
                         <%
                             if (produto != null) {%>
-                            <option value="<%= produto.getCategoria().getId()%>"> <%= produto.getCategoria().getNomeCategoria()%></option>
-                            <%
-                                
+                        <option value="<%= produto.getCategoria().getId()%>"> <%= produto.getCategoria().getNomeCategoria()%></option>
+                        <%
+
                             } else {
                                 categoria = (Resultado) request.getAttribute("categorias");
                                 if (categoria != null) {
@@ -99,15 +100,15 @@
                                           }
                                       %>
                                       ></input></p>
-                
+
                 <p>Qtde Maxima Venda: <input type="text" name="qtdeMaxVenda" value= 
 
-                                      <%
-                                          if (produto != null) {
-                                              out.print("'" + produto.getQtdeMaxVenda()+ "'");
-                                          }
-                                      %>
-                                      ></input></p>
+                                             <%
+                                                 if (produto != null) {
+                                                     out.print("'" + produto.getQtdeMaxVenda() + "'");
+                                                 }
+                                             %>
+                                             ></input></p>
 
                 <p>Valor unitário: <input type="text" name="valorUnit" value= 
 
@@ -136,8 +137,20 @@
                                       out.print(produto.getDescricao());
                                   }
                         %></textarea></p>
-                <p>Imagem: Campo para inserir a imagem</p>  
-
+                <p> 
+                <label for="txtImagem">Imagem:</label>
+                <br>
+                <img src="data:image/jpg;base64, <% if (produto != null) {
+                        out.print(ManipulaImagem.setImagemDimensao(produto.getFoto().getImagem(), 160, 160));
+                    }%>" id="imgImagem" class="preview" alt="preview da imagem" />
+                <img src="data:image/jpg;base64, <% if (produto != null) {
+                        out.print(ManipulaImagem.setImagemDimensao(produto.getFoto().getImagem(), 160, 160));
+                    }%>" id="imgImagem" class="preview" alt="preview da imagem" />
+                <br>
+                <input type="file" id="imgUpload" name="imgUpload" onchange="imagemPreview();" 
+                       accept="image/jpeg"/></p>
+                <br />
+                <br />
                 <p><input type="radio" name="txtFlgAtivo" value="TRUE"  <%
                     if (produto != null) {
                         if (produto.getFlg_ativo()) {
@@ -147,9 +160,10 @@
                           %>/>Ativo </p>
                 <p><input type="radio" name="txtFlgAtivo" value="FALSE" <%
                     if (produto != null) {
-                        if (!produto.getFlg_ativo()) {
+                        if (produto.getFlg_ativo()) {
                             out.print("checked=\"checked\"");
                         }
+
                     }
                           %>/>Desativado</p>
 
@@ -165,7 +179,6 @@
 
                 <%                    if (produto != null) {
                         out.print("<input type='submit' id='operacao' name='operacao' value='ALTERAR'/>");
-                        out.print("<input type='submit' id='operacao' name='operacao' value='EXCLUIR'/>");
                     } else {
                         out.print("<input type='submit' id='operacao' name='operacao' value='SALVAR'/>");
                     }

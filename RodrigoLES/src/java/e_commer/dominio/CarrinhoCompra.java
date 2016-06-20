@@ -5,8 +5,8 @@
  */
 package e_commer.dominio;
 
-import e_commer.core.impl.controle.Fachada;
-import e_commer.dominio.EntidadeDominio;
+import e_commer.core.util.FormatDouble;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +18,14 @@ public class CarrinhoCompra extends EntidadeDominio{
     
     private List<AbstractItem> itens = new ArrayList<AbstractItem>();
     private double total = 0.0;
+    private Endereco endereco;
 
     public double getTotal() {
-        total = 0.0;
-        for(AbstractItem a : itens)
+        total = 0.00;
+        for(AbstractItem a : itens){
             total += (a.getQuantidade()*a.getValorUnit());
+        }
+        
         return total;
     }
 
@@ -47,6 +50,14 @@ public class CarrinhoCompra extends EntidadeDominio{
 
     public List<AbstractItem> getItens() {
         return itens;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
     
     

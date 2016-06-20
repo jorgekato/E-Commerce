@@ -28,12 +28,12 @@
                 <div class=" account-top register">
                     <form action="${pageContext.request.contextPath}/ServletGrafico3" method="POST">
 
-                            
+
                         <select name="txtId">
                             <%                                if (produtos != null) {
-                                List<EntidadeDominio> pro = produtos.getEntidades();
-                                for(int i = 0; i < pro.size(); i++){
-                                    Produto p = (Produto)pro.get(i);
+                                    List<EntidadeDominio> pro = produtos.getEntidades();
+                                    for (int i = 0; i < pro.size(); i++) {
+                                        Produto p = (Produto) pro.get(i);
                             %>
                             <option value="<%= p.getId()%>"><%= p.getNome()%></option>
                             <%
@@ -41,6 +41,23 @@
                                 }
                             %>
                         </select>
+
+                        <p><input type="radio" name="txtComparativo" value="Comparar"  />Comparativo</p>
+                        <p><input type="radio" name="txtComparativo" value="!Comparar" checked="checked" />Não Comparativo</p> 
+
+                        <select name="txtId2">
+                            <%                                if (produtos != null) {
+                                    List<EntidadeDominio> pro = produtos.getEntidades();
+                                    for (int i = 0; i < pro.size(); i++) {
+                                        Produto p = (Produto) pro.get(i);
+                            %>
+                            <option value="<%= p.getId()%>"><%= p.getNome()%></option>
+                            <%
+                                    }
+                                }
+                            %>
+                        </select>
+
                         <input type="submit" value="grafico2" name="operacao" /></p>
                     </form>
                 </div>
@@ -53,74 +70,128 @@
                 <script type="text/javascript">
 
                     var options = {
-                        responsive: true
+                    responsive: true
                     };
-
                     var data = {
-                        labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
-                        datasets: [
+                    labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+                            datasets: [
                             {
-                                label: "Produto: <%= ((FiltroProdutoQtdePeriodo) grafico.getEntidades().get(0)).getNome()%>.",
-                                fillColor: "rgba(220,220,220,0.2)",
-                                strokeColor: "rgba(220,220,220,1)",
-                                pointColor: "rgba(220,220,220,1)",
-                                pointStrokeColor: "#fff",
-                                pointHighlightFill: "#fff",
-                                pointHighlightStroke: "rgba(220,220,220,1)",
-                                data: [<%
-                                    if (grafico != null) {
-                                        List<EntidadeDominio> entidades = grafico.getEntidades();
-                                        StringBuilder sbRegistro = new StringBuilder();
+                            label: "Produto: <%= ((FiltroProdutoQtdePeriodo) grafico.getEntidades().get(0)).getNome()%>.",
+                                    fillColor: "rgba(220,220,220,0.2)",
+                                    strokeColor: "rgba(220,220,220,1)",
+                                    pointColor: "rgba(220,220,220,1)",
+                                    pointStrokeColor: "#fff",
+                                    pointHighlightFill: "#fff",
+                                    pointHighlightStroke: "rgba(220,220,220,1)",
+                                    data: [<%
+                                        if (grafico != null) {
+                                            List<EntidadeDominio> entidades = grafico.getEntidades();
+                                            StringBuilder sbRegistro = new StringBuilder();
 
-                                        if (entidades != null) {
-                                            for (int i = 0; i < entidades.size(); i++) {
-                                                FiltroProdutoQtdePeriodo f = (FiltroProdutoQtdePeriodo) entidades.get(i);
-                                                HashMap<String, Integer> hmQtde = f.getHmQtde();
+                                            if (entidades != null) {
+                                                
+                                                    FiltroProdutoQtdePeriodo f = (FiltroProdutoQtdePeriodo) entidades.get(0);
+                                                    HashMap<String, Integer> hmQtde = f.getHmQtde();
 
-                                                sbRegistro.append(hmQtde.get("Janeiro"));
-                                                sbRegistro.append(",");
-                                                sbRegistro.append(hmQtde.get("Fevereiro"));
-                                                sbRegistro.append(",");
-                                                sbRegistro.append(hmQtde.get("Março"));
-                                                sbRegistro.append(",");
-                                                sbRegistro.append(hmQtde.get("Abril"));
-                                                sbRegistro.append(",");
-                                                sbRegistro.append(hmQtde.get("Maio"));
-                                                sbRegistro.append(",");
-                                                sbRegistro.append(hmQtde.get("Junho"));
-                                                sbRegistro.append(",");
-                                                sbRegistro.append(hmQtde.get("Julho"));
-                                                sbRegistro.append(",");
-                                                sbRegistro.append(hmQtde.get("Agosto"));
-                                                sbRegistro.append(",");
-                                                sbRegistro.append(hmQtde.get("Setembro"));
-                                                sbRegistro.append(",");
-                                                sbRegistro.append(hmQtde.get("Outubro"));
-                                                sbRegistro.append(",");
-                                                sbRegistro.append(hmQtde.get("Novembro"));
-                                                sbRegistro.append(",");
-                                                sbRegistro.append(hmQtde.get("Dezembro"));
-                                                sbRegistro.append(" ");
+                                                    sbRegistro.append(hmQtde.get("Janeiro"));
+                                                    sbRegistro.append(",");
+                                                    sbRegistro.append(hmQtde.get("Fevereiro"));
+                                                    sbRegistro.append(",");
+                                                    sbRegistro.append(hmQtde.get("Março"));
+                                                    sbRegistro.append(",");
+                                                    sbRegistro.append(hmQtde.get("Abril"));
+                                                    sbRegistro.append(",");
+                                                    sbRegistro.append(hmQtde.get("Maio"));
+                                                    sbRegistro.append(",");
+                                                    sbRegistro.append(hmQtde.get("Junho"));
+                                                    sbRegistro.append(",");
+                                                    sbRegistro.append(hmQtde.get("Julho"));
+                                                    sbRegistro.append(",");
+                                                    sbRegistro.append(hmQtde.get("Agosto"));
+                                                    sbRegistro.append(",");
+                                                    sbRegistro.append(hmQtde.get("Setembro"));
+                                                    sbRegistro.append(",");
+                                                    sbRegistro.append(hmQtde.get("Outubro"));
+                                                    sbRegistro.append(",");
+                                                    sbRegistro.append(hmQtde.get("Novembro"));
+                                                    sbRegistro.append(",");
+                                                    sbRegistro.append(hmQtde.get("Dezembro"));
+                                                    sbRegistro.append(" ");
 
+                                                
+                                                out.print(sbRegistro.toString());
                                             }
-                                            out.print(sbRegistro.toString());
                                         }
-                                    }
                     %>]
-                            }
-                        ]
-                    };
 
+                            }
+                    <%
+                        if (grafico.getEntidades().size() == 2) {
+                    %>
+                            , {
+                            label: "Produto: <%= ((FiltroProdutoQtdePeriodo) grafico.getEntidades().get(1)).getNome()%>.",
+                                    fillColor: "rgba(151,187,205,0.2)",
+                                    strokeColor: "rgba(151,187,205,1)",
+                                    pointColor: "rgba(151,187,205,1)",
+                                    pointStrokeColor: "#fff",
+                                    pointHighlightFill: "#fff",
+                                    pointHighlightStroke: "rgba(151,187,205,1)",
+                                    data: [<%
+                                        if (grafico != null) {
+                                            List<EntidadeDominio> entidades = grafico.getEntidades();
+                                            StringBuilder sbRegistro = new StringBuilder();
+
+                                            if (entidades != null) {
+                                                
+                                                    FiltroProdutoQtdePeriodo f = (FiltroProdutoQtdePeriodo) entidades.get(1);
+                                                    HashMap<String, Integer> hmQtde = f.getHmQtde();
+
+                                                    sbRegistro.append(hmQtde.get("Janeiro"));
+                                                    sbRegistro.append(",");
+                                                    sbRegistro.append(hmQtde.get("Fevereiro"));
+                                                    sbRegistro.append(",");
+                                                    sbRegistro.append(hmQtde.get("Março"));
+                                                    sbRegistro.append(",");
+                                                    sbRegistro.append(hmQtde.get("Abril"));
+                                                    sbRegistro.append(",");
+                                                    sbRegistro.append(hmQtde.get("Maio"));
+                                                    sbRegistro.append(",");
+                                                    sbRegistro.append(hmQtde.get("Junho"));
+                                                    sbRegistro.append(",");
+                                                    sbRegistro.append(hmQtde.get("Julho"));
+                                                    sbRegistro.append(",");
+                                                    sbRegistro.append(hmQtde.get("Agosto"));
+                                                    sbRegistro.append(",");
+                                                    sbRegistro.append(hmQtde.get("Setembro"));
+                                                    sbRegistro.append(",");
+                                                    sbRegistro.append(hmQtde.get("Outubro"));
+                                                    sbRegistro.append(",");
+                                                    sbRegistro.append(hmQtde.get("Novembro"));
+                                                    sbRegistro.append(",");
+                                                    sbRegistro.append(hmQtde.get("Dezembro"));
+                                                    sbRegistro.append(" ");
+
+                                                
+                                                out.print(sbRegistro.toString());
+                                            }
+                                        }
+                    %>]
+
+                            }
+                    <%
+                        }
+                    %>
+                            ]
+                    };
                     window.onload = function () {
 
-                        var ctx = document.getElementById("GraficoLine").getContext("2d");
-                        var LineChart = new Chart(ctx).Line(data, options);
-                        document.getElementById('js-legend').innerHTML = LineChart.generateLegend();
+                    var ctx = document.getElementById("GraficoLine").getContext("2d");
+                    var LineChart = new Chart(ctx).Line(data, options);
+                    document.getElementById('js-legend').innerHTML = LineChart.generateLegend();
                     }
                 </script>
                 <div id="js-legend" class="chart-legend"> </div>
-                <%
-                    }
+                <%                    }
                 %>
             </div>
         </div>

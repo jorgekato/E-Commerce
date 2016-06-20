@@ -30,7 +30,8 @@
             </div>
             <div class="tab2">
                 <ul class="place">
-                    <li class="sort">Meus Dados</li>
+                    <li class="sort">
+                        <a href="SalvarEndereco?txtId=<%= cliente.getId()%>&operacao=VISUALIZAR3">Meus Dados</a></li>
                     <li class="by"></li>
                     <div class="clearfix"> </div>
                 </ul>
@@ -44,13 +45,7 @@
                 </ul>
             </div>
             <div class="tab4">
-                <ul class="place">
-                    <li class="sort">
-                        <a href="SalvarCredito?txtCliId=<%= cliente.getId()%>&operacao=CONSULTAR1">Meus Vale-Creditos</a></li>
-                    <li class="by"></li>
-                    <div class="clearfix"> </div>
-                </ul>
-            </div>   
+            </div>
             <div class="tab5">
 
             </div>
@@ -116,7 +111,6 @@
 
         </div>
         <div class="content-bottom">
-            <h2>Formulário de Troca ou Cancelamento</h2>
             <h3>Meu Pedido</h3>
             <%
                 //Resultado resultado = (Resultado) session.getAttribute("resultado");
@@ -192,7 +186,7 @@
                     </tr>
                     <tr>
                         <th>Quantidade</th>
-                        <td><input type="text" name="txtQtde" value="<%= item.getQuantidade()%>" readonly/>${qtde}</td>
+                        <td><input type="text" name="txtQtde" value="<%= item.getQuantidade()%>" readonly/></td>
                     </tr>
                     <tr>
                         <th>Valor Unit</th>
@@ -210,7 +204,7 @@
                     %> 
                     <tr>
                         <th>Qtde para Troca/Devolução</th>
-                        <td><input type="text" name="txtQtdeDev" value=""/></td>
+                        <td><input type="number" name="txtQtdeDev" min="1" max="<%= p.getItens().get(0).getQuantidade() %>" value="1"/></td>
                     </tr>
                     <tr>
                         <th>Motivo</th>

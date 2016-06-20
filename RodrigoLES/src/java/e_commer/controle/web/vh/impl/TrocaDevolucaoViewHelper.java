@@ -1,5 +1,7 @@
 package e_commer.controle.web.vh.impl;
 
+import e_commer.controle.web.command.ICommand;
+import e_commer.controle.web.command.impl.ConsultarCommand;
 import e_commer.controle.web.vh.IViewHelper;
 import e_commer.core.aplicacao.Resultado;
 import e_commer.core.impl.controle.Fachada;
@@ -46,13 +48,7 @@ public class TrocaDevolucaoViewHelper implements IViewHelper {
             String comentario = request.getParameter("txtComentario");
 
             if (operacao.equals("ENVIAR") || operacao.equals("ALTERAR")) {
-                //String[] ids = request.getParameterValues("txtIdPed");//recebe um ou varios pedidos de troc/dev
-
-//                for (int i = 0; i < ids.length; i++) {
-//                    td = new TrocaDevolucao();
-//                    td.setId(Integer.parseInt(ids[i]));
-//                    
-//                }
+                
                 td = new TrocaDevolucao();
                 ped = new Pedido();
                 Produto prod = new Produto();
@@ -70,17 +66,9 @@ public class TrocaDevolucaoViewHelper implements IViewHelper {
                 td.setPedido(ped);
                 td.setProId(Integer.parseInt(proId));
                 td.setMotivo(motivo);
-                td.setAnotacao(anotacoes);
-                try{
                 td.setQuantidade(Integer.parseInt(qtdeDev));
-                }catch(NumberFormatException e){
-                    if(qtdeDev.equals("")){
-                        request.setAttribute("qtde","Informe a quantidade para a troca ou cancelamento!");
-                    }
-                    e.printStackTrace();
-                    
-                }
-                
+                td.setAnotacao(anotacoes);
+
                 td.setStatus(status);
                 if (tdId != null && !tdId.trim().equals("")) {
                     td.setId(Integer.parseInt(tdId));
@@ -136,8 +124,8 @@ public class TrocaDevolucaoViewHelper implements IViewHelper {
 
             td = new TrocaDevolucao();
             td.setId(pedId);
-            Fachada fachada = new Fachada();
-            resultado = fachada.consultar((EntidadeDominio) td);
+            ICommand command = new ConsultarCommand();
+            resultado = command.execute((EntidadeDominio) td);
 
             for (EntidadeDominio e : resultado.getEntidades()) {
                 if (e.getId() == pedId) {
@@ -155,12 +143,10 @@ public class TrocaDevolucaoViewHelper implements IViewHelper {
         if (resultado.getMsg() == null && operacao.equals("ENVIAR")) {
             request.setAttribute("mensagem", "Seu pedido foi enviado!\nLogo estaremos entrando em contato!");
             d = request.getRequestDispatcher("minhaconta.jsp");
-        } 
-        else if (resultado.getMsg() == null && operacao.equals("CONSULTAR")) {
+        } else if (resultado.getMsg() == null && operacao.equals("CONSULTAR")) {
             request.setAttribute("trocadevolucao", resultado);
             d = request.getRequestDispatcher("LadoAdmin/pesqtrocadevolucao.jsp");
-        } 
-        else if (resultado.getMsg() == null && operacao.equals("CONSULTAR1")) {
+        } else if (resultado.getMsg() == null && operacao.equals("CONSULTAR1")) {
             if (resultado.getEntidades().size() == 0) {
                 request.setAttribute("mensagem", "Não há trocas ou devoluções!");
                 d = request.getRequestDispatcher("minhaconta.jsp");
@@ -168,18 +154,15 @@ public class TrocaDevolucaoViewHelper implements IViewHelper {
                 request.setAttribute("trocadevolucao", resultado);
                 d = request.getRequestDispatcher("consultaTrocaDevolucao.jsp");
             }
-        } 
-        else if (resultado.getMsg() == null && operacao.equals("VISUALIZAR")) {
+        } else if (resultado.getMsg() == null && operacao.equals("VISUALIZAR")) {
             request.setAttribute("trocadevolucao", resultado);
             d = request.getRequestDispatcher("LadoAdmin/detalhestrocadevolucao.jsp");
-        } 
-        else if (resultado.getMsg() == null && operacao.equals("HISTORICO")) {
+        } else if (resultado.getMsg() == null && operacao.equals("HISTORICO")) {
             request.setAttribute("trocadevolucao", resultado);
             d = request.getRequestDispatcher("LadoAdmin/relatorioTrocaDevolucao.jsp");
-        } 
-        else if (resultado.getMsg() == null && operacao.equals("ALTERAR")) {
+        } else if (resultado.getMsg() == null && operacao.equals("ALTERAR")) {
             request.setAttribute("trocadevolucao", resultado);
-            d = request.getRequestDispatcher("LadoAdmin/pesqtrocadevolucao.jsp");
+            d = request.getRequestDispatcher("LadoAdmin/msggeral.jsp");
         }
 
         d.forward(request, response);

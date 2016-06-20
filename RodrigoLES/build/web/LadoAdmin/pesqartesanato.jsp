@@ -22,7 +22,7 @@
             <label for="txtId">Id:</label> 
             <input type="text" id="txtId" name="txtId" />  
             <label for="txtDescricao">DESCRIÇÃO:</label> 
-            <input type="text" id="txtDescricao" name="txtDescricao" /> 
+            <input type="text" id="nome" name="nome" />  
             <input type="submit" id="operacao" name="operacao" value="CONSULTAR" />
         </form>
         <%

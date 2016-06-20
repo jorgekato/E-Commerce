@@ -20,28 +20,40 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Henrique
  */
-public class FiltroProdutoQtdePeriodoViewHelper implements IViewHelper{
-    
+public class FiltroProdutoQtdePeriodoViewHelper implements IViewHelper {
+
     @Override
     public EntidadeDominio getEntidade(HttpServletRequest request) {
-        
         FiltroProdutoQtdePeriodo f = new FiltroProdutoQtdePeriodo();
-        
-        f.setId(Integer.valueOf(request.getParameter("txtId")));
-        
+        if (request.getParameter("txtComparativo").equals("!Comparar")) {
+
+            f.setId(Integer.valueOf(request.getParameter("txtId")));
+        } else {
+            f.setId(Integer.valueOf(request.getParameter("txtId")));
+            FiltroProdutoQtdePeriodo f2 = new FiltroProdutoQtdePeriodo();
+            f2.setId(Integer.valueOf(request.getParameter("txtId2")));
+            f.setFlgComparar(true);
+            f.setfPQP(f2);
+        }
+
         return f;
-        
+
     }
 
     @Override
     public void setView(Resultado resultado, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        
+
         RequestDispatcher d = null;
-        request.setAttribute("grafico", resultado);
+
+        if (resultado.getEntidades().size() == 0) {
+            request.setAttribute("grafico", null);
+        } else {
+            request.setAttribute("grafico", resultado);
+        }
+
         //d = request.getRequestDispatcher("LadoAdmin/graficobarra.jsp");
         d = request.getRequestDispatcher("LadoAdmin/Relatorios/produtoperiodo.jsp");
         d.forward(request, response);
     }
-    
-}
 
+}

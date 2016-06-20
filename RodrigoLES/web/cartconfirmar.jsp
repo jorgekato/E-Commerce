@@ -4,6 +4,7 @@
     Author     : Henrique
 --%>
 
+<%@page import="e_commer.dominio.Endereco"%>
 <%@page import="e_commer.core.util.ConverteDate"%>
 <%@page import="e_commer.dominio.Artesanato"%>
 <div class="content">
@@ -15,8 +16,8 @@
         <TABLE BORDER="5"    WIDTH="50%"   CELLPADDING="4" CELLSPACING="3">
             <TR>
                 <TH COLSPAN="6"><BR>
-                    <H3>Itens</H3>
-                </TH>
+            <H3>Itens</H3>
+            </TH>
             </TR>
 
             <TR>
@@ -214,75 +215,70 @@
         <br/>
 
 
+        <a href="SalvarEndereco?txtId=<%= cliente.getId()%>&operacao=VISUALIZAR3"><font color="red"><b>Alterar Endereço</b></font></a>
 
-        <TABLE BORDER="5"    WIDTH="50%"   CELLPADDING="4" CELLSPACING="3">
-            <TR>
-                <TH ><BR>
-                    <!--<TH COLSPAN="2"><BR>-->
-                    <H3>Endereço de entrega</h3>
+        <form action="SalvarCarrinho" method="get">
+            <TABLE BORDER="5"    WIDTH="50%"   CELLPADDING="4" CELLSPACING="3">
+                <TR>
+                    <TH ><BR>
+                        <!--<TH COLSPAN="2"><BR>-->
+                <H3>Endereço de entrega</h3>
                 </TH>
-            </TR>
+                </TR>
+                <%
+                    if (cliente != null) {
+                        StringBuilder sbCliente = new StringBuilder();
+                        List<EntidadeDominio> enderecos = cliente.getEndereco();
 
+                        for (int i = 0; i < enderecos.size(); i++) {
+                            Endereco e = (Endereco) enderecos.get(i);
+                            sbCliente.setLength(0);
 
-            <%
-                if (cliente != null) {
-                    StringBuilder sbCliente = new StringBuilder();
-                    sbCliente.setLength(0);
+                %>
+                <tr>
+                    <td>
+                        <div style="float: bottom; margin: 0px 10px 30px 20px;border-width: medium">
+                            <p><label for="logradouro"><%= e.getLogradouro()%>, </label>
+                                <label for="numero"><%= e.getNumero()%></label></p>
+                                <%if (e.getComplemento() != null) {%>
+                            <p><label for="complemento"><%= e.getComplemento()%></label></p>
+                                <%}%>
+                            <p><label for="bairro"><%= e.getBairro()%></label></p>
+                            <p><label for="cidade"><%= e.getCidade().getNome()%>/ </label>
+                                <label for="estado"><%= e.getCidade().getEstado().getNome()%></label></p>
+                            <p><label for="cep"><%= e.getCep()%></label></p>
+                        </div>
+                    </td>
+                    <td >
+                        <div>
+                            <%if (i == 0) {%> <!-- Endereco padrao de entrega sera sempre o primeiro endereco. 
+                                               Valor é igual ao id do endereco. -->
+                            <input type="radio" id="radio" name="endEntrega" value="<%= e.getId()%>" checked/>
+                            <%} else {%>
+                            <input type="radio" id="radio" name="endEntrega" value="<%= e.getId()%>"/>
+                            <%}%>
+                        </div>
+                    </td>
+                </tr>       
 
-                    sbCliente.append("<TR ALIGN='CENTER'>");
-                    sbCliente.append("<TD>");
-                    sbCliente.append("Rua: ");
-                    sbCliente.append(cliente.getEndereco().getLogradouro());
-                    sbCliente.append("</TD>");
-                    sbCliente.append("</TR>");
-
-                    sbCliente.append("<TR ALIGN='CENTER'>");
-                    sbCliente.append("<TD>");
-                    sbCliente.append("Numero ");
-                    sbCliente.append(cliente.getEndereco().getNumero());
-                    sbCliente.append("</TD>");
-                    sbCliente.append("</TR>");
-
-                    sbCliente.append("<TR ALIGN='CENTER'>");
-                    sbCliente.append("<TD>");
-                    sbCliente.append("Bairro: ");
-                    sbCliente.append(cliente.getEndereco().getBairro());
-                    sbCliente.append("</TD>");
-                    sbCliente.append("</TR>");
-
-                    sbCliente.append("<TR ALIGN='CENTER'>");
-                    sbCliente.append("<TD>");
-                    sbCliente.append("Cidade: ");
-                    sbCliente.append(cliente.getEndereco().getCidade().getNome());
-                    sbCliente.append("</TD>");
-                    sbCliente.append("</TR>");
-
-                    sbCliente.append("<TR ALIGN='CENTER'>");
-                    sbCliente.append("<TD>");
-                    sbCliente.append("Rua: ");
-                    sbCliente.append(cliente.getEndereco().getCidade().getEstado().getNome());
-                    sbCliente.append("</TD>");
-                    sbCliente.append("</TR>");
-
-                    sbCliente.append("<TR ALIGN='CENTER'>");
-                    sbCliente.append("<TD>");
-                    sbCliente.append("CEP: ");
-                    sbCliente.append(cliente.getEndereco().getCep());
-                    sbCliente.append("</TD>");
-                    sbCliente.append("</TR>");
-
-                    out.print(sbCliente.toString());
-                }
-
-            %>
-            <a href="novoEndereco.jsp"><font color="red"><b>Alterar Endereço</b></font></a>
-
-
-        </TABLE>
-
-        <a href="cartpayment.jsp"><input type="button" name="operacao" value="CONFIRMAR"/></a>
-
+                <% }
+                    }
+                %>
+            </TABLE><br>
+            <h3>Tipo de Entrega</h3>
+            <table width="50%">
+                <tr>
+                    <th>Forma</th>
+                    <th>Dias para Entrega</th>
+                    <th>Valor</th>
+                </tr>
+                <tr>
+                    <td><input type="radio" name="frete"/> Rápida </td>
+                    <td>6 Dias</td>
+                    <td>Grátis</td>
+                </tr>      
+            </table><br>
+            <input type="submit" name="operacao" value="CONTINUAR"/>
+        </form>
     </div>
-
-
 </div>

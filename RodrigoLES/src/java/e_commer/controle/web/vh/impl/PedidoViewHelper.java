@@ -1,5 +1,7 @@
 package e_commer.controle.web.vh.impl;
 
+import e_commer.controle.web.command.ICommand;
+import e_commer.controle.web.command.impl.ConsultarCommand;
 import e_commer.controle.web.vh.IViewHelper;
 import e_commer.core.aplicacao.Resultado;
 import e_commer.core.impl.controle.Fachada;
@@ -7,6 +9,7 @@ import e_commer.core.util.ConverteDate;
 import e_commer.dominio.AbstractItem;
 import e_commer.dominio.CarrinhoCompra;
 import e_commer.dominio.Cliente;
+import e_commer.dominio.Endereco;
 import e_commer.dominio.EntidadeDominio;
 import e_commer.dominio.ItemArtesanato;
 import e_commer.dominio.ItemProduto;
@@ -29,6 +32,8 @@ public class PedidoViewHelper implements IViewHelper {
         Resultado resultado = null;
         Pedido pedido = null;
 
+        if(operacao == null)
+            operacao = "";
         if (operacao.equals("SALVAR")) {
 
             resultado = (Resultado) request.getSession().getAttribute("carrinho");
@@ -36,32 +41,23 @@ public class PedidoViewHelper implements IViewHelper {
                 carrinho = (CarrinhoCompra) e;
             }
 
-            //Fachada fachada = new Fachada();
             pedido = new Pedido();
             List<AbstractItem> entidades = carrinho.getItens();
 
             for (int i = 0; i < entidades.size(); i++) {
 
                 if (ItemArtesanato.class.getName().equals(entidades.get(i).getClass().getName())) {
-                    //ItemArtesanato item = (ItemArtesanato) entidades.get(i);
                     pedido.adiciona(entidades.get(i));
 
                 } else if (ItemProduto.class.getName().equals(entidades.get(i).getClass().getName())) {
-                    //ItemProduto item = (ItemProduto) entidades.get(i);
                     pedido.adiciona(entidades.get(i));
                 }
             }
-
-           // Resultado clientes = (Resultado) request.getSession().getAttribute("usuario");
+            
             Cliente cliente = (Cliente) request.getSession().getAttribute("usuario");
-            //Cliente cliente = null;
-
-//            for (EntidadeDominio e : clientes.getEntidades()) {
-//                cliente = (Cliente) e;
-//            }
-
+            
             pedido.setCliente(cliente);
-
+            pedido.setEndereco(carrinho.getEndereco());
             pedido.setPagamento("CARTAO");
             pedido.setServico("SEDEX");
             pedido.setStatus("APROVADO");
@@ -77,31 +73,20 @@ public class PedidoViewHelper implements IViewHelper {
             if (id != null && !id.trim().equals("")) {
                 pedido.setId(Integer.parseInt(id));
             }
-            
-            Cliente cli = new Cliente();            
+
+            Cliente cli = new Cliente();
             pedido.setCliente(cli);
-            
-            
-//            Fachada fachada = new Fachada();
-//            resultado = fachada.consultar((EntidadeDominio) pedido);
-//
-//            for (EntidadeDominio e : resultado.getEntidades()) {
-//                if (e.getId() == pedido.getId()) {
-//                    pedido = (Pedido) e;
-//                }
-//            }
-            
+
             if (status != null && !status.trim().equals("")) {
                 pedido.setStatus(status);
             }
-            
+
             Relatorio rel = new Relatorio();
             rel.setComentario(comentario);
             rel.setStatus(status);
             pedido.addHistorico(rel);
-            
 
-        }else if (!operacao.equals("VISUALIZAR") && !operacao.equals("VISUALIZAR1")) {
+        } else if (!operacao.equals("VISUALIZAR") && !operacao.equals("VISUALIZAR1")) {
 
             String id = request.getParameter("txtId");
             String cli_id = request.getParameter("txtCliId");
@@ -118,9 +103,9 @@ public class PedidoViewHelper implements IViewHelper {
             rel.setComentario(comentario);
             rel.setStatus(status);
             pedido = new Pedido();
-            
+
             pedido.addHistorico(rel);
-            
+
             if (id != null && !id.trim().equals("")) {
                 pedido.setId(Integer.parseInt(id));
             }
@@ -133,10 +118,6 @@ public class PedidoViewHelper implements IViewHelper {
 
             if (cli_id != null && !cli_id.trim().equals("")) {
                 cli.setId(Integer.parseInt(cli_id));
-            }
-            
-            if (cliente != null && !cliente.trim().equals("")){
-                cli.setNome(cliente);
             }
             pedido.setCliente(cli);
 
@@ -168,18 +149,17 @@ public class PedidoViewHelper implements IViewHelper {
             pedido = new Pedido();
             Cliente cli = new Cliente();
             pedido.setCliente(cli);
-            Fachada fachada = new Fachada();
+            
 
             if (txtId != null && !txtId.trim().equals("")) {
                 id = Integer.parseInt(txtId);
                 pedido.setId(Integer.parseInt(txtId));
             }
-            
-            
 
             pedido.setId(id);
 
-            resultado = fachada.consultar((EntidadeDominio) pedido);
+            ICommand command = new ConsultarCommand();
+            resultado = command.execute((EntidadeDominio) pedido);
 
             for (EntidadeDominio e : resultado.getEntidades()) {
                 if (e.getId() == id) {
@@ -221,7 +201,7 @@ public class PedidoViewHelper implements IViewHelper {
             //request.setAttribute("pedidos", resultado.getEntidades().get(0));
             request.setAttribute("pedidos", resultado);
             d = request.getRequestDispatcher("singlepedido.jsp");
-        
+
         } else if (resultado.getMsg() == null && operacao.equals("EXCLUIR")) {
             resultado.setMsg("Artesanato excluido com sucesso!");
             request.setAttribute("pedidos", resultado);
@@ -230,42 +210,42 @@ public class PedidoViewHelper implements IViewHelper {
 
             request.setAttribute("pedidos", resultado);
             d = request.getRequestDispatcher("LadoAdmin/pesqpedido.jsp");
-            
+
         } else if (resultado.getMsg() == null && operacao.equals("CONSULTAR2")) {//produto para troca/devolução
             int idpro = Integer.parseInt(request.getParameter("txtIdPro"));
-            Pedido pedido = (Pedido)resultado.getEntidades().get(0);
-            
+            Pedido pedido = (Pedido) resultado.getEntidades().get(0);
+
             for (int i = 0; i < pedido.getItens().size();) {
-                if(ItemProduto.class.getName().equals(pedido.getItens().get(i).getClass().getName())){
-                    ItemProduto itemp = (ItemProduto)pedido.getItens().get(i);
-                    if(itemp.getProduto().getId() != idpro){
+                if (ItemProduto.class.getName().equals(pedido.getItens().get(i).getClass().getName())) {
+                    ItemProduto itemp = (ItemProduto) pedido.getItens().get(i);
+                    if (itemp.getProduto().getId() != idpro) {
                         pedido.remove(itemp);
+                    } else {
+                        i++;
                     }
-                    else
-                        i++;
-                }
-                else{
+                } else {
                     ItemArtesanato itemp = (ItemArtesanato) pedido.getItens().get(i);
-                    if(itemp.getArtesanato().getId() != idpro){
+                    if (itemp.getArtesanato().getId() != idpro) {
                         pedido.remove(itemp);
-                    }else
+                    } else {
                         i++;
+                    }
                 }
             }//for
-            
+
             request.setAttribute("pedidos", pedido);
             d = request.getRequestDispatcher("pedidoTrocaDevolucao.jsp");
-        
+
         } else if (resultado.getMsg() == null && operacao.equals("CONSULTAR1")) {
             request.setAttribute("pedidos", resultado);
             d = request.getRequestDispatcher("meuspedidos.jsp");
         } else if (resultado.getMsg() == null && operacao.equals("HISTORICO")) {
             request.setAttribute("hitoricoPedido", resultado);
             d = request.getRequestDispatcher("LadoAdmin/historicoPedido.jsp");
-        
-        }else{
-            request.setAttribute("mensagem",resultado.getMsg());
-            d = request.getRequestDispatcher("cartmsg.jsp");
+
+        } else{
+            request.setAttribute("resultado", resultado);
+            d = request.getRequestDispatcher("cart.jsp");
         }
 
         d.forward(request, response);

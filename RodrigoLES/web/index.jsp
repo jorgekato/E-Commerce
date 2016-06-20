@@ -9,87 +9,28 @@
 <%@page import="e_commer.core.util.ConverteDate"%>
 <%@page import="e_commer.dominio.Artesanato"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%    
-    resultado = (Resultado) request.getAttribute("resultado");
+<%    resultado = (Resultado) request.getAttribute("resultado");
 %>
 <div class="content">
 
     <div class="col-md-9">
-        <div class="shoe">
-            <img class="img-responsive" src="${pageContext.request.contextPath}/images/banner.jpg" alt="" >
-            <div class="shop">
-                <h4>SHOP <span>WOMEN</span></h4>
-                <p>SHOES FALL 2014</p>
+        <div class="account-in">
+            <h2>Pesquisa</h2>
+            <div class="col-md-7 account-top">
+
+                <form method="POST" action="${pageContext.request.contextPath}/CONSULPRODART">
+
+                    <p><input type="text" name="nome" placeholder="Digite o nome do produto"></p> <br />
+                    <p><input type="radio" name="tipo" id="tipo" value="Produto" checked="checked">Produto
+                    <input type="radio" name="tipo" id="tipo" value="Artesanato" >Artesanato</p><br />
+                    <p><input type="submit" name="operacao" value="CONSULTAR1"></p>
+
+                </form>
             </div>
+
+            <div class="clearfix"> </div>
         </div>
-        <div class="content-bottom">
 
-            <h3>Featured products</h3>
-
-            <%       if (resultado != null) {
-                    List<EntidadeDominio> entidades = resultado.getEntidades();
-                    StringBuilder sbRegistro = new StringBuilder();
-                    StringBuilder sbLink = new StringBuilder();
-                    int contador = 0;
-
-                    if (entidades != null) {
-                        for (int i = 0; i < entidades.size(); i++) {
-
-                            Artesanato art = (Artesanato) entidades.get(i);
-
-                            sbRegistro.setLength(0);
-                            sbLink.setLength(0);
-
-                            sbRegistro.append("<div class=\"col-md-4 shirt\">");
-                            sbRegistro.append("<div class=\"bottom-grid-top\">");
-
-                            sbLink.append("<a href=SalvarArtesanato?");
-                            sbLink.append("txtId=");
-                            sbLink.append(art.getId());
-                            sbLink.append("&");
-                            sbLink.append("operacao=");
-                            sbLink.append("VISUALIZAR1>");
-                            sbLink.append("<img class=\"img-responsive\" src=\"images/sh.png\" alt=\"\" />");
-                            sbLink.append("</a>");
-
-                            sbRegistro.append(sbLink.toString());
-                            sbRegistro.append("<div class=\"five\">");
-                            sbRegistro.append("<h6 >-50%</h6>");
-                            sbRegistro.append("</div>");
-                            sbRegistro.append("<div class=\"pre\">");
-                            sbRegistro.append("<p>");
-                            sbRegistro.append(art.getNome());
-                            sbRegistro.append("</p>");
-                            sbRegistro.append("<span>R$");
-                            sbRegistro.append(art.getPrecoUnit());
-                            sbRegistro.append("</span>");
-                            sbRegistro.append("<div class=\"clearfix\"> </div>");
-                            sbRegistro.append("</div></a>");
-
-                            sbRegistro.append("</div>");
-                            sbRegistro.append(" </div>");
-                            contador++;
-
-                            out.print(sbRegistro.toString());
-
-                        }
-
-                    }
-
-                }
-
-            %>
-
-        </div>
-        <ul class="start">
-            <!-- onde vai fazer a paginação-->
-            <li><span>1</span></li>
-            <li class="arrow"><a href="#">2</a></li>
-            <li class="arrow"><a href="#">3</a></li>
-            <li class="arrow"><a href="#">4</a></li>
-            <li class="arrow"><a href="#">5</a></li>
-            <li class="arrow"><a href="#">6</a></li>
-        </ul>
     </div>
 
     <!-- coluna de busca e indicação -->

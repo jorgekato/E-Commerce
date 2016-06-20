@@ -11,7 +11,7 @@
         <div class=" account-top register">
             <form action="${pageContext.request.contextPath}/SalvarCliente" method="POST">
                 <div> 	
-                    <span>Name*</span>
+                    <span>Nome*</span>
                     <input type="text" name="txtNome"> 
                 </div>
                  <div> 	

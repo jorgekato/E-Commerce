@@ -17,11 +17,11 @@
                     %></p>
                 <div> 	
                     <span>Email*</span>
-                    <input type="text" id ="txtEmail" name="txtEmail"> 
+                    <input id="txtEmail" type="text" name="txtEmail"> 
                 </div>
                 <div> 
                     <span  class="pass">Password*</span>
-                    <input type="password" id="password" name="password">
+                    <input id="password" type="password" name="password">
                 </div>				
                 <input type="submit" id='operacao' name='operacao' value='LOGAR'> 
             </form>

@@ -8,8 +8,8 @@ public class Pessoa extends EntidadeDominio {
     private String nome;
 
     //mudar para array de endereços
-    private Endereco endereco;
-    //private List<Endereco> endereco = new ArrayList<Endereco>();
+    private List<EntidadeDominio> endereco;
+    //private Endereco endereco;
 
     private Login login;
 
@@ -21,13 +21,25 @@ public class Pessoa extends EntidadeDominio {
         this.nome = nome;
     }
 
-    public Endereco getEndereco() {
+    public List<EntidadeDominio> getEndereco() {
         return endereco;
     }
 
-    public void setEndereco(Endereco endereco) {
+    public void setEndereco(List<EntidadeDominio> endereco) {
         this.endereco = endereco;
     }
+
+    //verificar se realmente necessário
+    public void addEndereco(Endereco endereco) {
+        if (this.endereco != null) {
+            this.endereco.add(endereco);
+        } else {
+            this.endereco = new ArrayList<>();
+            this.endereco.add(endereco);
+        }
+
+    }
+    
 
     public Login getLogin() {
         return login;
@@ -37,16 +49,4 @@ public class Pessoa extends EntidadeDominio {
         this.login = login;
     }
 
-//    public List<Endereco> getEndereco() {
-//        return endereco;
-//    }
-//
-//    public void addEndereco(List<Endereco> endereco) {
-//        this.endereco = endereco;
-//    }
-//    public void removeEndereco(int posicao){
-//        endereco.remove(posicao);
-//    }
-
-    
 }

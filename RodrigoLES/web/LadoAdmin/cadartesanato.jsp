@@ -120,7 +120,6 @@
 
                 <%                    if (artesanato != null) {
                         out.print("<input type='submit' id='operacao' name='operacao' value='ALTERAR'/>");
-                        out.print("<input type='submit' id='operacao' name='operacao' value='EXCLUIR'/>");
                     } else {
                         out.print("<input type='submit' id='operacao' name='operacao' value='SALVAR'/>");
                     }

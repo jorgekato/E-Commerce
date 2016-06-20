@@ -46,7 +46,7 @@
                 <td><a href="SalvarProduto?txtId=<%= f.getId()%>&operacao=VISUALIZAR"><%= f.getNome()%></a></td>
                 <td><%= f.getQuantidade()%></td>
                 <td><%= f.getEstoqueMin()%></td>
-                <td><a href="ServletGrafico3?txtId=<%= f.getId()%>&operacao=grafico2"><%= f.getQtdeVendida()%></a></td>
+                <td><a href="ServletGrafico3?txtId=<%= f.getId()%>&operacao=grafico2&txtComparativo=!Comparar"><%= f.getQtdeVendida()%></a></td>
                 <td><%= (f.getEstoqueMin() - f.getQuantidade()) %></td>
                 <td>R$<%= (f.getEstoqueMin() - f.getQuantidade()) * f.getPrecoUnit()%></td>
 

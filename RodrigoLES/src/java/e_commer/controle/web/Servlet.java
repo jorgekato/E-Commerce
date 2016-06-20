@@ -22,21 +22,26 @@ import e_commer.controle.web.vh.impl.FornecedorViewHelper;
 import e_commer.controle.web.vh.impl.ProdutoViewHelper;
 import e_commer.controle.web.vh.impl.CategoriaViewHelper;
 import e_commer.controle.web.vh.impl.CarrinhoViewHelper;
+import e_commer.controle.web.vh.impl.ConsulProdArtViewHelper;
 import e_commer.controle.web.vh.impl.CreditoViewHelper;
+import e_commer.controle.web.vh.impl.EnderecoViewHelper;
 import e_commer.controle.web.vh.impl.FiltroClienteVendaPeriodoViewHelper;
+import e_commer.controle.web.vh.impl.FiltroProdutoVendaPeriodoViewHelper;
 import e_commer.controle.web.vh.impl.FiltroEstoqueMinimoViewHelper;
 import e_commer.controle.web.vh.impl.FiltroProdutoQtdePeriodoViewHelper;
-import e_commer.controle.web.vh.impl.FiltroProdutoVendaPeriodoViewHelper;
 import e_commer.controle.web.vh.impl.PedidoViewHelper;
 import e_commer.controle.web.vh.impl.TrocaDevolucaoViewHelper;
 import e_commer.core.aplicacao.Resultado;
 import e_commer.dominio.EntidadeDominio;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.annotation.MultipartConfig;
 
 /**
  * Servlet implementation class Servlet
  */
+//Para tratar as imagens dos produtos
+@MultipartConfig
 public class Servlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -50,7 +55,7 @@ public class Servlet extends HttpServlet {
     public Servlet() {
 
         /* Utilizando o command para chamar a fachada e indexando cada command 
-         * pela operação garantimos que esta servelt atenderá qualquer operação */
+    	 * pela operação garantimos que esta servelt atenderá qualquer operação */
         commands = new HashMap<String, ICommand>();
 
         commands.put("SALVAR", new SalvarCommand());
@@ -58,6 +63,8 @@ public class Servlet extends HttpServlet {
         commands.put("CONSULTAR", new ConsultarCommand());
         //add para teste
         commands.put("CONSULTAR1", new ConsultarCommand());
+        commands.put("VISUALIZAR4", new VisualizarCommand());
+        commands.put("VISUALIZAR3", new VisualizarCommand());
         commands.put("VISUALIZAR1", new VisualizarCommand());
         commands.put("VISUALIZAR", new VisualizarCommand());
         commands.put("ALTERAR", new AlterarCommand());
@@ -67,14 +74,18 @@ public class Servlet extends HttpServlet {
         commands.put("HISTORICO", new ConsultarCommand());
         commands.put("grafico1", new ConsultarCommand());
         commands.put("grafico2", new ConsultarCommand());
+        commands.put("grafico4", new ConsultarCommand());
+        
+        
+        
         // commands.put("ATUALIZAR", new AlterarCommand());
 
         /* Utilizando o ViewHelper para tratar especificações de qualquer tela e indexando 
-         * cada viewhelper pela url em que esta servlet é chamada no form
-         * garantimos que esta servelt atenderá qualquer entidade */
+    	 * cada viewhelper pela url em que esta servlet é chamada no form
+    	 * garantimos que esta servelt atenderá qualquer entidade */
         vhs = new HashMap<String, IViewHelper>();
         /*A chave do mapa é o mapeamento da servlet para cada form que 
-         * está configurado no web.xml e sendo utilizada no action do html
+    	 * está configurado no web.xml e sendo utilizada no action do html
          */
         vhs.put("/RodrigoLES/SalvarFornecedor", new FornecedorViewHelper());
         vhs.put("/RodrigoLES/SalvarCliente", new ClienteViewHelper());
@@ -89,6 +100,11 @@ public class Servlet extends HttpServlet {
         vhs.put("/RodrigoLES/ServletGrafico2", new FiltroProdutoVendaPeriodoViewHelper());
         vhs.put("/RodrigoLES/EstoqueMin", new FiltroEstoqueMinimoViewHelper());
         vhs.put("/RodrigoLES/ServletGrafico3", new FiltroProdutoQtdePeriodoViewHelper());
+        vhs.put("/RodrigoLES/ServletGrafico4", new FiltroClienteVendaPeriodoViewHelper());
+        vhs.put("/RodrigoLES/SalvarEndereco", new EnderecoViewHelper());
+        vhs.put("/RodrigoLES/CONSULPRODART", new ConsulProdArtViewHelper());
+        
+        
     }
 
     /**
@@ -137,8 +153,8 @@ public class Servlet extends HttpServlet {
         ICommand command = commands.get(operacao);
 
         /*Executa o command que chamar� a fachada para executar a opera��o requisitada
-         * o retorno � uma inst�ncia da classe resultado que pode conter mensagens derro 
-         * ou entidades de retorno
+		 * o retorno � uma inst�ncia da classe resultado que pode conter mensagens derro 
+		 * ou entidades de retorno
          */
         Resultado resultado = null;
 
@@ -146,18 +162,19 @@ public class Servlet extends HttpServlet {
             resultado = command.execute(entidade);
         } else {
             //Usado para o carrinho de compras
-            List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
+            resultado = new Resultado();
             if (entidade != null) {
+                List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
                 entidades.add(entidade);
-                resultado = new Resultado();
                 resultado.setEntidades(entidades);
             } else {
-                resultado = new Resultado();
+                resultado.setEntidades(null);
             }
+
         }
         /*
-         * Executa o m�todo setView do view helper espec�fico para definir como dever� ser apresentado 
-         * o resultado para o usu�rio
+		 * Executa o m�todo setView do view helper espec�fico para definir como dever� ser apresentado 
+		 * o resultado para o usu�rio
          */
         vh.setView(resultado, request, response);
 

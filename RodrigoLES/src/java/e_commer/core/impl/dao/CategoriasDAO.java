@@ -63,8 +63,8 @@ public class CategoriasDAO extends AbstractJdbcDAO {
             pst = connection.prepareStatement(sql.toString(),
                     Statement.RETURN_GENERATED_KEYS);
 
-            pst.setString(1, categoria.getNomeCategoria());
-            pst.setString(2, categoria.getDescricao());
+            pst.setString(1, categoria.getNomeCategoria().toUpperCase());
+            pst.setString(2, categoria.getDescricao().toUpperCase());
             pst.setBoolean(3, categoria.getFlg_ativo());
             Timestamp time = new Timestamp(categoria.getDtCadastro().getTime());
             pst.setTimestamp(4, time);
@@ -151,7 +151,7 @@ public class CategoriasDAO extends AbstractJdbcDAO {
         }
 
         if (categoria.getId() == null && categoria.getNomeCategoria().equals("")) {
-            sql = "SELECT * FROM "+ table;
+            sql = "SELECT * FROM "+ table + " order by cat_nome_categoria";
         } else if (categoria.getId() != null && categoria.getNomeCategoria().equals("")) {
             sql = "SELECT * FROM "+ table + " WHERE " + idTable +"=?";
         } else if (categoria.getId() == null && !categoria.getNomeCategoria().equals("")) {

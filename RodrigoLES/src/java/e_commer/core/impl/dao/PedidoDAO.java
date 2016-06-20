@@ -4,8 +4,11 @@ import e_commer.core.aplicacao.Resultado;
 import e_commer.core.impl.controle.Fachada;
 import e_commer.dominio.AbstractItem;
 import e_commer.dominio.Artesanato;
+import e_commer.dominio.Cidade;
 import e_commer.dominio.Cliente;
+import e_commer.dominio.Endereco;
 import e_commer.dominio.EntidadeDominio;
+import e_commer.dominio.Estado;
 import e_commer.dominio.ItemArtesanato;
 import e_commer.dominio.ItemProduto;
 import e_commer.dominio.Pedido;
@@ -39,12 +42,23 @@ public class PedidoDAO extends AbstractJdbcDAO {
     private final String vlrUnit = "ite_valor_unit";
     private final String item_status = "item_status";
     private final String item_tipo = "item_tipo";
+    private final String endEntrega = "ped_end_id";
 
     private final String tbHistorico = "tb_historico_pedido";
     private final String hisDtRegistro = "his_dt_registro";
     private final String hisComentario = "his_comentario";
     private final String hisStatus = "his_status";
 
+    private final String tbEnderecos = "tb_enderecos";
+    private final String bairro = "end_bairro";
+    private final String cidade = "end_cidade";
+    private final String estado = "end_estado";
+    private final String logradouro = "end_logradouro";
+    private final String numero = "end_numero";
+    private final String complemento = "end_complemento";
+    private final String cep = "end_cep";
+    
+    
     public PedidoDAO() {
         super("tb_pedidos", "ped_id");
     }
@@ -72,8 +86,10 @@ public class PedidoDAO extends AbstractJdbcDAO {
             sql.append(dt_compra);
             sql.append(", ");
             sql.append(status);
+            sql.append(", ");
+            sql.append(endEntrega);
             sql.append(" ) ");
-            sql.append(" VALUES (?,?,?,?,?)");
+            sql.append(" VALUES (?,?,?,?,?,?)");
 
             pst = connection.prepareStatement(sql.toString(),
                     Statement.RETURN_GENERATED_KEYS);
@@ -84,6 +100,7 @@ public class PedidoDAO extends AbstractJdbcDAO {
             Timestamp dtPed = new Timestamp(pedido.getDtCadastro().getTime());
             pst.setTimestamp(4, dtPed);
             pst.setString(5, pedido.getStatus());
+            pst.setInt(6, pedido.getEndereco().getId());
 
             pst.executeUpdate();
 
@@ -256,7 +273,7 @@ public class PedidoDAO extends AbstractJdbcDAO {
     @Override
     public List<EntidadeDominio> consultar(EntidadeDominio entidade) throws NullPointerException {
         PreparedStatement pst = null;
-        Cliente cli;
+
         Pedido pedido = (Pedido) entidade;
         String sql = null;
         boolean flg;
@@ -269,16 +286,9 @@ public class PedidoDAO extends AbstractJdbcDAO {
             }
 
             if (pedido.getCliente() == null) {
-                cli = new Cliente();
+                Cliente cli = new Cliente();
                 pedido.setCliente(cli);
             }
-            
-            if(pedido.getCliente().getNome() == null){
-                cli = new Cliente();
-                cli.setNome((""));
-                pedido.setCliente(cli);
-            }
-            
 
             if (pedido.getId() != null) {
                 flg = true;
@@ -286,45 +296,24 @@ public class PedidoDAO extends AbstractJdbcDAO {
                 flg = false;
             }
 
-//            if (pedido.getId() == null && pedido.getPagamento().equals("") && pedido.getCliente().getId() == null) {
-//                sql = "SELECT * FROM " + table + " join  tb_clientes using (cli_id)";
-//            } else if (pedido.getId() != null && pedido.getPagamento().equals("") && pedido.getCliente().getId() == null) {
-//                sql = "SELECT * FROM " + table + " join tb_clientes using (cli_id) WHERE " + idTable + "=?";
-//            } else if (pedido.getId() == null && pedido.getPagamento().equals("") && pedido.getCliente().getId() != null) {
-//                sql = "SELECT * FROM " + table + " join tb_clientes using (cli_id) WHERE cli_id=?";
-//            } else if (pedido.getId() == null && !pedido.getPagamento().equals("") && pedido.getCliente().getId() == null) {
-//                sql = "SELECT * FROM " + table + " join tb_Clientes using (cli_id) WHERE art_nome like ?";
-//
-//            }
-//
-//            pst = connection.prepareStatement(sql);
-//
-//            if (pedido.getId() != null && pedido.getPagamento().equals("") && pedido.getCliente().getId() == null) {
-//                pst.setInt(1, pedido.getId());
-//            } else if (pedido.getId() == null && !pedido.getPagamento().equals("") && pedido.getCliente().getId() == null) {
-//                pst.setString(1, pedido.getPagamento() + "%");
-//            } else if (pedido.getId() == null && pedido.getPagamento().equals("") && pedido.getCliente().getId() != null) {
-//                pst.setInt(1, pedido.getCliente().getId());
-//            }
-            
-            if (pedido.getId() == null && pedido.getCliente().getNome().equals("") && pedido.getCliente().getId() == null) {
-                sql = "SELECT * FROM " + table + " join  tb_clientes using (cli_id) order by " + dt_compra + " desc";
-            } else if (pedido.getId() != null && pedido.getCliente().getNome().equals("") && pedido.getCliente().getId() == null) {
-                sql = "SELECT * FROM " + table + " join tb_clientes using (cli_id) WHERE " + idTable + "=? order by " + dt_compra + " desc";
-            } else if (pedido.getId() == null && pedido.getCliente().getNome().equals("") && pedido.getCliente().getId() != null) {
-                sql = "SELECT * FROM " + table + " join tb_clientes using (cli_id) WHERE cli_id=? order by " + dt_compra + " desc";
-            } else if (pedido.getId() == null && !pedido.getCliente().getNome().equals("") && pedido.getCliente().getId() == null) {
-                sql = "SELECT * FROM " + table + " join tb_Clientes using (cli_id) WHERE cli_nome like ? order by " + dt_compra + " desc";
+            if (pedido.getId() == null && pedido.getPagamento().equals("") && pedido.getCliente().getId() == null) {
+                sql = "SELECT * FROM " + table + " join  tb_clientes using (cli_id) order by ped_dt_compra desc";
+            } else if (pedido.getId() != null && pedido.getPagamento().equals("") && pedido.getCliente().getId() == null) {
+                sql = "SELECT * FROM " + table + " join tb_clientes using (cli_id) WHERE " + idTable + "=? order by ped_dt_compra desc ";
+            } else if (pedido.getId() == null && pedido.getPagamento().equals("") && pedido.getCliente().getId() != null) {
+                sql = "SELECT * FROM " + table + " join tb_clientes using (cli_id) WHERE cli_id=? order by ped_dt_compra desc";
+            } else if (pedido.getId() == null && !pedido.getPagamento().equals("") && pedido.getCliente().getId() == null) {
+                sql = "SELECT * FROM " + table + " join tb_Clientes using (cli_id) WHERE art_nome like ? order by ped_dt_compra desc";
 
             }
 
             pst = connection.prepareStatement(sql);
 
-            if (pedido.getId() != null && pedido.getCliente().getNome().equals("") && pedido.getCliente().getId() == null) {
+            if (pedido.getId() != null && pedido.getPagamento().equals("") && pedido.getCliente().getId() == null) {
                 pst.setInt(1, pedido.getId());
-            } else if (pedido.getId() == null && !pedido.getCliente().getNome().equals("") && pedido.getCliente().getId() == null) {
-                pst.setString(1, (pedido.getCliente().getNome()+ "%").toUpperCase());
-            } else if (pedido.getId() == null && pedido.getCliente().getNome().equals("") && pedido.getCliente().getId() != null) {
+            } else if (pedido.getId() == null && !pedido.getPagamento().equals("") && pedido.getCliente().getId() == null) {
+                pst.setString(1, "%" + pedido.getPagamento() + "%");
+            } else if (pedido.getId() == null && pedido.getPagamento().equals("") && pedido.getCliente().getId() != null) {
                 pst.setInt(1, pedido.getCliente().getId());
             }
 
@@ -337,6 +326,7 @@ public class PedidoDAO extends AbstractJdbcDAO {
 
                 p = new Pedido();
                 c = new Cliente();
+                Endereco e = new Endereco();
                 p.setId(rs.getInt(idTable));
                 c.setId(rs.getInt(cliId));
                 c.setNome(rs.getString("cli_nome"));
@@ -344,13 +334,34 @@ public class PedidoDAO extends AbstractJdbcDAO {
                 c.setSexo(rs.getString("cli_sexo"));
                 c.setEmail(rs.getString("cli_email"));
                 p.setCliente(c);
-                p.setStatus(rs.getString("ped_status"));
-                p.setPagamento(rs.getString("ped_forma_pgto"));
-                p.setServico(rs.getString("ped_tipo_envio"));
-                java.sql.Date dtCadastroEmLong = rs.getDate("ped_dt_compra");
+                p.setStatus(rs.getString(status));
+                p.setPagamento(rs.getString(forma_pgto));
+                p.setServico(rs.getString(tipo_envio));
+                java.sql.Date dtCadastroEmLong = rs.getDate(dt_compra);
                 Date dtCadastro = new Date(dtCadastroEmLong.getTime());
                 p.setDtCadastro(dtCadastro);
+                e.setId(rs.getInt(endEntrega));
                 
+                sql= null;
+                pst = null;
+                sql = "select * from " + tbEnderecos + " where end_id=?"; 
+                pst = connection.prepareStatement(sql);
+                pst.setInt(1, e.getId());
+                ResultSet rsEnd = pst.executeQuery();
+                while(rsEnd.next()){ 
+                    Cidade cid = new Cidade();
+                    Estado est = new Estado();
+                    est.setNome(rsEnd.getString(estado));
+                    cid.setEstado(est);
+                    cid.setNome(rsEnd.getString(cidade));
+                    e.setCidade(cid);
+                    e.setLogradouro(rsEnd.getString(logradouro));
+                    e.setNumero(rsEnd.getString(numero));
+                    e.setBairro(rsEnd.getString(bairro));
+                    e.setComplemento(rsEnd.getString(complemento));
+                    e.setCep(rsEnd.getString(cep));
+                }
+                p.setEndereco(e); 
                 
                 sql = null;
                 pst = null;

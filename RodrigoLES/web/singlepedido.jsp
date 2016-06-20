@@ -51,8 +51,10 @@
                     <li class="by"></li>
                     <div class="clearfix"> </div>
                 </ul>
-            </div>        
+            </div>  
             <div class="tab5">
+            </div>
+            <div class="tab6">
 
             </div>
 
@@ -202,12 +204,12 @@
                 if (!p.getStatus().equals("CONCLUIDO")) {
             %>
             <a href="SalvarPedidos?txtId=<%= pedido.getEntidades().get(0).getId()%>&txtStatus=CANCELAR&operacao=ALTERAR">
-                <input type="button" name="operacao" value="Cancelar Pedido" /></a>
+                <!--<input type="button" name="operacao" value="Cancelar Pedido" /></a>-->
                 <%
                             }
                         }//if(entidade)
                     }//if(resultado)
-%>
+                %>
         </div>
 
     </div>

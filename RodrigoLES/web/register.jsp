@@ -43,8 +43,12 @@
                     </select>
                 </div> 
                 <div> 	
+                    <span>Telefone*</span>
+                    <input type="text" name="txtTelefone"> 
+                </div>
+                <div> 	
                     <span>Data Nascimento*</span>
-                    <input type="text" name="txtDataNascimento"> 
+                    <input type="text" name="txtDataNascimento" id="data"> 
                 </div>                
                 <div> 	
                     <span>Endereço*</span>

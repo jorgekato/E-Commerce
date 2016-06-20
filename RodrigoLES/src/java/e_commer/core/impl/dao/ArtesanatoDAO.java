@@ -173,7 +173,7 @@ public class ArtesanatoDAO extends AbstractJdbcDAO {
         }
 
         if (artesanato.getId() == null && artesanato.getNome().equals("")) {
-            sql = "SELECT * FROM " + table + " JOIN " + tbCategorias + " USING(cat_id)";
+            sql = "SELECT * FROM " + table + " JOIN " + tbCategorias + " USING(cat_id) order by art_nome";
         } else if (artesanato.getId() != null && artesanato.getNome().equals("")) {
             sql = "SELECT * FROM " + table +  " JOIN " + tbCategorias + " USING(cat_id) WHERE " + idTable + "=?";
         } else if (artesanato.getId() == null && !artesanato.getNome().equals("")) {
@@ -205,7 +205,7 @@ public class ArtesanatoDAO extends AbstractJdbcDAO {
                 a.setDtCadastro(dtCadastro);
                 Categorias cat = new Categorias();
                 cat.setId(rs.getInt(catId));
-                cat.setNomeCategoria(rs.getString(cat_nome));
+                cat.setNomeCategoria(cat_nome);
                 a.setCategoria(cat);
                 artesanatos.add(a);
             }

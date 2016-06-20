@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Pedido extends EntidadeDominio{
+public class Pedido extends EntidadeDominio {
+
     private String pagamento;
     private String servico;
     private String numBoleto;
@@ -15,8 +16,9 @@ public class Pedido extends EntidadeDominio{
 //    public enum Tipo_Item {ARTESANATO, PRODUTO};
     private Date dt_compra;
     private List<AbstractItem> itens = new ArrayList<AbstractItem>();
-     private List<Relatorio> historico = new ArrayList<Relatorio>();
-     
+    private List<Relatorio> historico = new ArrayList<Relatorio>();
+    private Endereco endereco;
+    
     public Pedido() {
     }
 
@@ -59,12 +61,12 @@ public class Pedido extends EntidadeDominio{
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-    
-    public  void setStatus(String status){
+
+    public void setStatus(String status) {
         this.status = status;
     }
-           
-    public String getStatus(){
+
+    public String getStatus() {
         return status;
     }
 
@@ -83,16 +85,14 @@ public class Pedido extends EntidadeDominio{
 //    public void setTipo_item(String tipo_item) {
 //        this.tipo_item = tipo_item;
 //    }
-    
-    public void adiciona(AbstractItem item)
-    {
+    public void adiciona(AbstractItem item) {
         itens.add(item);
     }
-    
-    public void remove(AbstractItem item){
+
+    public void remove(AbstractItem item) {
         itens.remove(item);
     }
-    
+
     public List<AbstractItem> getItens() {
         return itens;
     }
@@ -104,6 +104,15 @@ public class Pedido extends EntidadeDominio{
     public void addHistorico(Relatorio historico) {
         this.historico.add(historico);
     }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
     
     
+
 }

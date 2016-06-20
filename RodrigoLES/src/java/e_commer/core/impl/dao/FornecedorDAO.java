@@ -19,14 +19,14 @@ public class FornecedorDAO extends AbstractJdbcDAO {
 		openConnection();
 		PreparedStatement pst=null;
 		Fornecedor fornecedor = (Fornecedor)entidade;
-		Endereco end = fornecedor.getEndereco();
+		//Endereco end = fornecedor.getEndereco();
 		
 		try {
 			connection.setAutoCommit(false);			
 			EnderecoDAO endDAO = new EnderecoDAO();
 			endDAO.connection = connection;
 			endDAO.ctrlTransaction = false;
-			endDAO.salvar(end);			
+			//endDAO.salvar(end);			
 			
 			StringBuilder sql = new StringBuilder();
 			sql.append("INSERT INTO tb_fornecedor(rzsocial, cnpj, end_id, ");
@@ -35,7 +35,7 @@ public class FornecedorDAO extends AbstractJdbcDAO {
 			pst = connection.prepareStatement(sql.toString());
 			pst.setString(1, fornecedor.getNome());
 			pst.setString(2, fornecedor.getCnpj());
-			pst.setInt(3, end.getId());
+			//pst.setInt(3, end.getId());
 			Timestamp time = new Timestamp(fornecedor.getDtCadastro().getTime());
 			pst.setTimestamp(4, time);
 			pst.executeUpdate();			

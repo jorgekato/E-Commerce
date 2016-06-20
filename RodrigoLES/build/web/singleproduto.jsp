@@ -4,6 +4,7 @@
     Author     : Henrique
 --%>
 
+<%@page import="e_commer.core.util.ManipulaImagem"%>
 <%@page import="java.util.List"%>
 <%@page import="e_commer.core.aplicacao.Resultado"%>
 <%@page import=" e_commer.dominio.EntidadeDominio"%>
@@ -12,18 +13,20 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="content">
-    <%
-        Produto produto = (Produto) request.getAttribute("produto");
+    <%        Produto produto = (Produto) request.getAttribute("produto");
     %>
 
     <div class="col-md-9">
         <div class="col-md-5 single-top">	
             <ul id="etalage">
+                <!--Implementar For para exibir mais de uma imagem, caso necessário -->
                 <li>
-                    <a href="optionallink.html">
-                        <img class="etalage_thumb_image img-responsive" src="images/s1.jpg" alt="" >
-                        <img class="etalage_source_image img-responsive" src="images/s11.jpg" alt="" >
-                    </a>
+                    <img class="etalage_thumb_image img-responsive" src="<% if (produto != null) {
+                                out.print("data:image/jpg;base64," + ManipulaImagem.setImagemDimensao(produto.getFoto().getImagem(), 360, 480));
+                            }%>" alt="" >
+                    <img class="etalage_source_image img-responsive" src="<% if (produto != null) {
+                                out.print("data:image/jpg;base64," + ManipulaImagem.setImagemDimensao(produto.getFoto().getImagem(), 1080, 1440));
+                            }%>" alt="" >
                 </li>
                 <li>
                     <img class="etalage_thumb_image img-responsive" src="images/s2.jpg" alt="" >

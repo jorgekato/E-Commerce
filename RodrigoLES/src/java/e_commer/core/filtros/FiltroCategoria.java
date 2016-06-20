@@ -1,7 +1,9 @@
 package e_commer.core.filtros;
 
+import e_commer.controle.web.command.impl.ConsultarCommand;
 import e_commer.core.aplicacao.Resultado;
 import e_commer.core.impl.dao.CategoriasDAO;
+import e_commer.core.impl.dao.ConsultaDAO;
 import e_commer.dominio.Categorias;
 import e_commer.dominio.EntidadeDominio;
 import java.io.IOException;
@@ -39,10 +41,14 @@ public class FiltroCategoria implements Filter {
             throws IOException, ServletException {
         
         Categorias categoria = new Categorias();
-        CategoriasDAO catDAO = new CategoriasDAO();
-        List<EntidadeDominio> categorias = new ArrayList<EntidadeDominio>();
+        ConsultarCommand command = new ConsultarCommand();
         
-        categorias = catDAO.consultar(categoria);
+        Resultado resultado = command.execute(categoria);
+        
+        //CategoriasDAO catDAO = new CategoriasDAO();
+        List<EntidadeDominio> categorias = resultado.getEntidades();
+        
+        //categorias = catDAO.consultar(categoria);
         
         for(int i = 0;i< categorias.size();i++)
         {
@@ -53,7 +59,7 @@ public class FiltroCategoria implements Filter {
             }
         }
         
-        Resultado resultado = new Resultado();
+        resultado = new Resultado();
         resultado.setEntidades(categorias);
         request.setAttribute("categorias", resultado);
         chain.doFilter(request, response);
