@@ -33,6 +33,7 @@ import e_commer.core.impl.negocio.ValidadorDadosObrigatoriosFornecedor;
 import e_commer.core.impl.negocio.ValidadorQtdProduto;
 import e_commer.core.impl.negocio.ValidadorQtdeEstoque;
 import e_commer.core.impl.negocio.ValidadorQtdeVendas;
+import e_commer.core.impl.negocio.VerificaSeCadastrado;
 //import entidades domínio
 import e_commer.dominio.Cliente;
 import e_commer.dominio.EntidadeDominio;
@@ -111,6 +112,7 @@ public class Fachada implements IFachada {
         ComplementarDtValidadeCredito cDtValidade = new ComplementarDtValidadeCredito();
         ValidadorQtdeEstoque vQtdeEst = new ValidadorQtdeEstoque();
         ValidadorQtdeVendas vQtdeVen = new ValidadorQtdeVendas();
+        VerificaSeCadastrado vCadRealizado = new VerificaSeCadastrado();
 
         //FORNECEDOR------------------------------------------------------------------------------------------
         /* Criando uma lista para conter as regras de neg�cio de fornencedor
@@ -144,7 +146,7 @@ public class Fachada implements IFachada {
         /* Adicionando as regras a serem utilizadas na opera��o salvar do cliente */
         rnsSalvarCliente.add(cDtCadastro);
         rnsSalvarCliente.add(vCpf);
-
+        rnsSalvarCliente.add(vCadRealizado);
         /* Cria o mapa que poder� conter todas as listas de regras de neg�cio espec�fica 
 		 * por opera��o do cliente
          */
@@ -166,6 +168,7 @@ public class Fachada implements IFachada {
         /* Adicionando as regras a serem utilizadas na opera��o salvar do produto */
         rnsSalvarProduto.add(cDtCadastro);
         rnsSalvarProduto.add(vQtd);
+        rnsSalvarProduto.add(vCadRealizado);
 
         /* Criando uma lista para conter as regras de neg�cio de produto
 		 * quando a operacao for alterar
@@ -230,6 +233,7 @@ public class Fachada implements IFachada {
         List<IStrategy> rnsSalvarArtesanato = new ArrayList<IStrategy>();
         /* Adicionando as regras a serem utilizadas na operação salvar da CATEGORIA */
         rnsSalvarArtesanato.add(cDtCadastro);
+        rnsSalvarArtesanato.add(vCadRealizado);
         /* Cria o mapa que poderá conter todas as listas de regras de negócio específica 
          * por operação do PRODUTO
          */

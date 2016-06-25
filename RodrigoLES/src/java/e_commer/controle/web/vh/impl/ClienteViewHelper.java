@@ -36,7 +36,7 @@ public class ClienteViewHelper implements IViewHelper {
         Cliente cliente = null;
 
         if (!operacao.equals("VISUALIZAR") && !operacao.equals("VISUALIZAR1")) {
-            
+
             String id = request.getParameter("txtId");
             String nome = request.getParameter("txtNome");
             String email = request.getParameter("txtEmail");
@@ -58,7 +58,11 @@ public class ClienteViewHelper implements IViewHelper {
             String estado = request.getParameter("txtEnderecoEstado");
 
             cliente = new Cliente();
-           
+
+            if (id != null && !id.trim().equals("")) {
+                cliente.setId(Integer.parseInt(id));
+            }
+
             if (nome != null && !nome.trim().equals("")) {
                 cliente.setNome(nome);
             }
@@ -66,26 +70,27 @@ public class ClienteViewHelper implements IViewHelper {
             if (email != null && !email.trim().equals("")) {
                 cliente.setEmail(email);
             }
-            if(sexo != null && !sexo.trim().equals("")){
+            if (sexo != null && !sexo.trim().equals("")) {
                 cliente.setSexo(sexo);
             }
-            
+
             if (nivel != null && !nivel.trim().equals("")) {
-                
-                if(nivel.equals(Cliente.Nivel.ADMINISTRADOR.toString()))                    
+
+                if (nivel.equals(Cliente.Nivel.ADMINISTRADOR.toString())) {
                     cliente.setNivel(Cliente.Nivel.ADMINISTRADOR);
-                else if(nivel.equals(Cliente.Nivel.COLABORADOR.toString()))  
+                } else if (nivel.equals(Cliente.Nivel.COLABORADOR.toString())) {
                     cliente.setNivel(Cliente.Nivel.COLABORADOR);
-                else if(nivel.equals(Cliente.Nivel.CLIENTE.toString()))  
+                } else if (nivel.equals(Cliente.Nivel.CLIENTE.toString())) {
                     cliente.setNivel(Cliente.Nivel.CLIENTE);
-                
+                }
+
             }
-            
-            if(telefone != null && !telefone.trim().equals("")){
+
+            if (telefone != null && !telefone.trim().equals("")) {
                 cliente.setTelefone(telefone);
             }
-            
-            if(dtNasc != null && !dtNasc.trim().equals("")){
+
+            if (dtNasc != null && !dtNasc.trim().equals("")) {
                 cliente.setDtNascimento(ConverteDate.converteStringDate(dtNasc));
             }
 
@@ -94,18 +99,17 @@ public class ClienteViewHelper implements IViewHelper {
                 loguin.setPassword(password);
             }
 
-            if (id != null && !id.trim().equals("")) {
-                loguin.setId(Integer.parseInt(id));
-            }
-
+//            if (id != null && !id.trim().equals("")) {
+//                loguin.setId(Integer.parseInt(id));
+//            }
             if (dtCadastro != null && !dtCadastro.trim().equals("")) {
                 loguin.setDtCadastro(ConverteDate.converteStringDate(dtCadastro));
             }
-            
+
             cliente.setLogin(loguin);
-            
+
             Endereco end = new Endereco();
-            
+
             if (endereco != null && !endereco.trim().equals("")) {
                 end.setLogradouro(endereco);
             }
@@ -117,9 +121,7 @@ public class ClienteViewHelper implements IViewHelper {
             }
             if (complemento != null && !complemento.trim().equals("")) {
                 end.setComplemento(complemento);
-            }
-            else
-            {
+            } else {
                 end.setComplemento("");
             }
             if (bairro != null && !bairro.trim().equals("")) {
@@ -128,7 +130,7 @@ public class ClienteViewHelper implements IViewHelper {
             if (dtCadastro != null && !dtCadastro.trim().equals("")) {
                 end.setDtCadastro(ConverteDate.converteStringDate(dtCadastro));
             }
-            
+
             Cidade cid = new Cidade();
             if (cidade != null && !cidade.trim().equals("")) {
                 cid.setNome(cidade);
@@ -140,7 +142,6 @@ public class ClienteViewHelper implements IViewHelper {
             cid.setEstado(est);
             end.setCidade(cid);
             cliente.addEndereco(end);
-            
 
             if (cpf != null && !cpf.trim().equals("")) {
                 cliente.setCpf(cpf);
@@ -164,7 +165,7 @@ public class ClienteViewHelper implements IViewHelper {
                 cliente.setDtCadastro(ConverteDate.converteStringDate(dtCadastro));
             }
         } else {
-            
+
             Resultado resultado = null;
             String txtId = request.getParameter("txtId");
             int id = 0;
@@ -208,32 +209,37 @@ public class ClienteViewHelper implements IViewHelper {
         if (resultado.getMsg() != null) {
             request.setAttribute("resultado", resultado);
             d = request.getRequestDispatcher("erro.jsp");
-        }else if (resultado.getMsg() == null && operacao.equals("SALVAR")) {
+        } else if (resultado.getMsg() == null && operacao.equals("SALVAR")) {
             resultado.setMsg("Bem vindo ");
             request.setAttribute("bemvindo", resultado);
             d = request.getRequestDispatcher("index.jsp");
-        }else if (resultado.getMsg() == null && operacao.equals("ALTERAR")) {
+        } else if (resultado.getMsg() == null && operacao.equals("ALTERAR")) {
             resultado.setMsg("Usuário alterado com sucesso!");
             request.setAttribute("resultado", resultado);
             d = request.getRequestDispatcher("msggeral.jsp");
-        }else if (resultado.getMsg() == null && operacao.equals("VISUALIZAR")) {
+        } else if (resultado.getMsg() == null && operacao.equals("ALTERAR1")) {
+            request.getSession().setAttribute("usuario", resultado.getEntidades().get(0));
+            resultado.setMsg("Usuário alterado com sucesso!");
+            request.setAttribute("resultado", resultado);
+            d = request.getRequestDispatcher("minhaconta.jsp");
+        } else if (resultado.getMsg() == null && operacao.equals("VISUALIZAR")) {
 
             request.setAttribute("clientes", resultado);
             d = request.getRequestDispatcher("LadoAdmin/cadcliente.jsp");
-        }else if (resultado.getMsg() == null && operacao.equals("VISUALIZAR1")) {
+        } else if (resultado.getMsg() == null && operacao.equals("VISUALIZAR1")) {
 
             request.setAttribute("artesanato", resultado.getEntidades().get(0));
             d = request.getRequestDispatcher("single.jsp");
-        }else if (resultado.getMsg() == null && operacao.equals("EXCLUIR")) {
+        } else if (resultado.getMsg() == null && operacao.equals("EXCLUIR")) {
             resultado.setMsg("Usuário excluido com sucesso!");
             request.setAttribute("resultado", resultado);
             d = request.getRequestDispatcher("msggeral.jsp");
-        }else if (resultado.getMsg() == null && operacao.equals("CONSULTAR")) {
+        } else if (resultado.getMsg() == null && operacao.equals("CONSULTAR")) {
 
             request.setAttribute("clientes", resultado);
             d = request.getRequestDispatcher("LadoAdmin/pesqcliente.jsp");
-        }else if (resultado.getMsg() == null && operacao.equals("CONSULTAR1")) {
-
+        } else if (resultado.getMsg() == null && operacao.equals("CONSULTAR1")) {
+            
             request.setAttribute("resultado", resultado);
             //d = request.getRequestDispatcher("pesqartesanato.jsp");
             d = request.getRequestDispatcher("index.jsp");
@@ -241,12 +247,16 @@ public class ClienteViewHelper implements IViewHelper {
         if (resultado.getMsg() == null && operacao.equals("CONSULTAR2")) {
 
             request.setAttribute("cliente", resultado);
-            d = request.getRequestDispatcher("meusdados.jsp");    
+            d = request.getRequestDispatcher("minhaconta.jsp");
         }
         if (resultado.getMsg() == null && operacao.equals("CONSULTAR3")) {
 
             request.setAttribute("cliente", resultado);
-            d = request.getRequestDispatcher("cartconfirmar.jsp");    
+            d = request.getRequestDispatcher("cartconfirmar.jsp");
+        }
+        if(resultado.getMsg() != null){
+            request.setAttribute("mensagem", resultado.getMsg());
+            d= request.getRequestDispatcher("register.jsp");
         }
         d.forward(request, response);
 

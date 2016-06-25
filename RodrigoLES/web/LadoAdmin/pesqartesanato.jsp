@@ -15,7 +15,8 @@
     <div class="account-in">
         <div>
             <header><h1>Pesquisa de artesanatos</h1></header></div>
-                <%                    resultado = (Resultado) request.getAttribute("resultado");
+                <%                    
+                    resultado = (Resultado) request.getAttribute("resultado");
                 %>
 
         <form action="${pageContext.request.contextPath}/SalvarArtesanato" method="post">
@@ -81,13 +82,13 @@
                             sbRegistro.append(art.getNome());
                             sbRegistro.append("</a>");
                             sbRegistro.append("</TD>");
-                            
+
                             sbRegistro.append("<TD>");
                             sbRegistro.append(sbLink.toString());
                             sbRegistro.append(art.getPrecoUnit());
                             sbRegistro.append("</a>");
                             sbRegistro.append("</TD>");
-                            
+
                             sbRegistro.append("<TD>");
                             sbRegistro.append(sbLink.toString());
                             sbRegistro.append(art.getCategoria().getNomeCategoria());
@@ -124,4 +125,4 @@
         </TABLE>
     </div>
 </div>
-    <!---->
+<!---->

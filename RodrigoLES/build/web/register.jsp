@@ -9,6 +9,7 @@
     <div class="account-in register-top">
         <h2>Register</h2>
         <div class=" account-top register">
+            ${mensagem}
             <form action="${pageContext.request.contextPath}/SalvarCliente" method="POST">
                 <div> 	
                     <span>Name*</span>

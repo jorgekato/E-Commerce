@@ -146,15 +146,6 @@ public class ClienteDAO extends AbstractJdbcDAO {
                 pst.setString(7, ((Endereco)endereco.get(0)).getNumero());
                 pst.setString(8, ((Endereco)endereco.get(0)).getCep());
                 pst.setBoolean(9, true);
-//                pst.setString(2, cliente.getEndereco().getCidade().getNome().toUpperCase());
-//                pst.setString(3, cliente.getEndereco().getCidade().getEstado().getNome().toUpperCase());
-//                pst.setString(4, cliente.getEndereco().getBairro().toUpperCase());
-//                pst.setString(5, cliente.getEndereco().getLogradouro().toUpperCase());
-//                pst.setString(6, cliente.getEndereco().getComplento().toUpperCase());
-//                pst.setString(7, cliente.getEndereco().getNumero());
-//                pst.setString(8, cliente.getEndereco().getCep());
-//            time = new Timestamp(cliente.getDtCadastro().getTime());
-//            pst.setTimestamp(9, time);
                 pst.executeUpdate();
             
             } else { //adicionando outro endereco
@@ -243,6 +234,8 @@ public class ClienteDAO extends AbstractJdbcDAO {
             sql.append("=?, ");
             sql.append(flg_ativo);
             sql.append("=?, ");
+            sql.append(email);
+            sql.append("=? ");
             sql.append("WHERE ");
             sql.append(idTable);
             sql.append("=?");
@@ -251,7 +244,8 @@ public class ClienteDAO extends AbstractJdbcDAO {
             pst.setString(1, cliente.getNome());
             pst.setString(2, cliente.getTelefone());
             pst.setBoolean(3, cliente.getFlg_ativo());
-            pst.setInt(4, cliente.getId());
+            pst.setString(4, cliente.getEmail());
+            pst.setInt(5, cliente.getId());
             pst.executeUpdate();    //executa a alteração dos dados no banco de dados
             
             connection.commit();    //salva a alteração no banco de dados

@@ -114,21 +114,23 @@
                 Resultado clientes = (Resultado) request.getAttribute("clientes");
 
             %>    
+            ${mensagem}
             <form action="SalvarCliente" method="post">
             <!-- dados obtidos atraves da sessao   -->
-            <p><label for="nome">Nome</label>
-                <input type="text" id="nome" name="txtNome" value="<%= cliente.getNome()%>"/></p>
-            <p><label for="nome">Email</label>
-                <input type="text" id="email" name="txtEmail" value="<%= cliente.getEmail()%>"/></p>
-            <p><label for="telefone">Telefone</label>
-                <input type="text" id="telefone" name="txtTelefone" value="<%= cliente.getTelefone()%>"/></p>
-            <p><label for="nome">CPF</label>
-                <input type="text" id="cpf" name="txtCpf" value="<%= cliente.getCpf()%>"/></p>
-            <p><label for="nome">Data de Nascimento</label>
-                <input type="text" id="dtNasc" name="dtNasc" value="<%= ConverteDate.converteDateString(cliente.getDtNascimento())%>"/></p>
-            <p><label for="sexo">Sexo</label>
-                <input type="text" id="sexo" name="txtSexo" value="<%= cliente.getSexo()%>"/></p>
-
+            <p><label for="nome">Nome.:</label>
+                <input type="text" id="nome" name="txtNome" value="<%= cliente.getNome()%>" size="50" readonly/></p>
+            <p><label for="nome">* Email.:</label>
+                <input type="text" id="email" name="txtEmail" value="<%= cliente.getEmail()%>" size="30"/></p>
+            <p><label for="telefone">* Telefone.:</label>
+                <input type="text" id="telefon" name="txtTelefone" value="<%= cliente.getTelefone()%>"/></p>
+            <p><label for="nome">CPF.:</label>
+                <input type="text" id="cpf" name="txtCpf" value="<%= cliente.getCpf()%>" readonly/></p>
+            <p><label for="nome">Data de Nascimento.:</label>
+                <input type="text" id="dtNasc" name="txtDataNascimento" value="<%= ConverteDate.converteDateString(cliente.getDtNascimento())%>" readonly/></p>
+            <p><label for="sexo">Sexo.:</label>
+                <input type="text" id="sexo" name="txtSexo" value="<%= cliente.getSexo()%>" readonly/></p>
+            <p>* Campos editáveis</p>
+            <input type="submit" name="operacao" value="ALTERAR1"/>
             <h3>Meus Endereços</h3>
             <table  border="3"  width="80%">
                 
@@ -164,9 +166,10 @@
                     }
                 %>
             </table>
-            
+            <input type="hidden" id="idCli" name="txtId" value="<%= cliente.getId()%>" />
+            <input type="hidden" id="flgAtivo" name="txtFlgAtivo" value="TRUE"/>
             <a href="cadendereco.jsp"><font color="red">Novo Endereço</font></a><br><br><br>
-            <input type="submit" name="operacao" value="ALTERAR"/>
+            
         </form>
         </div>
 

@@ -238,15 +238,15 @@ public class ProdutoDAO extends AbstractJdbcDAO {
                 cat.setNomeCategoria(rs.getString(cat_nome));
                 p.setCategoria(cat);
 
-                if (rs.getBytes("img") != null) {
-
-                    Imagem img = new Imagem();
-                    img.setImagem(rs.getBytes("img"));
-                    //ver como alterar
-                    img.setUrl(ManipulaImagem.convertImagemBase64(img.getImagem()));
-
-                    p.setFoto(img);
-                }
+//                if (rs.getBytes("img") != null) {
+//
+//                    Imagem img = new Imagem();
+//                    img.setImagem(rs.getBytes("img"));
+//                    //ver como alterar
+//                    img.setUrl(ManipulaImagem.convertImagemBase64(img.getImagem()));
+//
+//                    p.setFoto(img);
+//                }
 
                 produtos.add(p);
             }

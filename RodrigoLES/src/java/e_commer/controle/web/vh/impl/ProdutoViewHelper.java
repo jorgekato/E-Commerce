@@ -3,24 +3,20 @@ package e_commer.controle.web.vh.impl;
 import e_commer.controle.web.command.ICommand;
 import e_commer.controle.web.command.impl.ConsultarCommand;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import e_commer.controle.web.vh.IViewHelper;
 import e_commer.core.aplicacao.Resultado;
-import e_commer.core.impl.controle.Fachada;
 import e_commer.core.util.ConverteDate;
 import e_commer.core.util.ManipulaImagem;
 import e_commer.dominio.Categorias;
 import e_commer.dominio.EntidadeDominio;
 import e_commer.dominio.Imagem;
 import e_commer.dominio.Produto;
-import java.io.File;
 import javax.servlet.http.Part;
 
 public class ProdutoViewHelper implements IViewHelper {
@@ -45,7 +41,7 @@ public class ProdutoViewHelper implements IViewHelper {
             String catId = request.getParameter("categorias");
             produto = new Produto();
 
-            //para pegar uma (1) imagem que vem da página JSP
+          //  para pegar uma (1) imagem que vem da página JSP
             try {
                 
                 Part part = request.getPart("imgUpload");
@@ -87,7 +83,7 @@ public class ProdutoViewHelper implements IViewHelper {
             }
 
             if (valor_unit != null && !valor_unit.trim().equals("")) {
-                produto.setPrecoUnit(Double.parseDouble(valor_unit));
+                produto.setPrecoUnit(Double.parseDouble(valor_unit.replace(",", ".")));
             }
 
             if (estoque_min != null && !estoque_min.trim().equals("")) {
