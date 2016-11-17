@@ -1,4 +1,4 @@
-/*
+﻿/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -55,14 +55,14 @@ public class Teste {
 //        System.out.println(armazenaChaves);
         
         
-        SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
+//        SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
 
 //        Calendar c = new GregorianCalendar(2004, 9, 2);
         Calendar c = new GregorianCalendar();
 //        System.out.println(c.getTime());
 //        System.out.println("Data: " + sd.format(c.getTime()));
 
-        c.add(Calendar.DAY_OF_MONTH, 60);
+/*        c.add(Calendar.DAY_OF_MONTH, 60);
         System.out.println("Sessenta dias depois: " + sd.format(c.getTime()));
 
         c.add(Calendar.DAY_OF_MONTH, -1);
@@ -82,5 +82,6 @@ public class Teste {
         
         c.add(Calendar.YEAR, 1);
         System.out.println("Um ano depois: " + sd.format(c.getTime()));
+*/
     }
 }
