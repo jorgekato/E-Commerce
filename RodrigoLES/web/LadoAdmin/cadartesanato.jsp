@@ -19,7 +19,7 @@
         <div>
             <header><h1>Cadastro de artesanatos</h1></header></div>
         <div>
-            <form action="${pageContext.request.contextPath}/SalvarArtesanato" method="POST">
+            <form action="${pageContext.request.contextPath}/SalvarArtesanato" method="POST" id="validate">
                 <label for="txtId">Id:</label>
                 <input type="text" id="txtId" name="txtId" value=
                        <%
@@ -31,17 +31,16 @@
                        %>
 
 
-                       <p>Nome: <input type="text" name="nome" value=
-                                <%
+                       <p>Nome: <input type="text" name="nome"<%
                                     if (artesanato != null) {
-                                        out.print("'" + artesanato.getNome() + "' readonly>");
+                                        out.print("value='" + artesanato.getNome() + "' readonly>");
                                     } else {
                                         out.print(">");
                                     }
                                 %>
                 </p>
 
-                <p>Categoria: <select name="catId" id="categorias">
+                <p>Categoria: <select name="catId">
                         <%
                             if (artesanato != null) {%>
                         <option value="<%= artesanato.getCategoria().getId()%>"> <%= artesanato.getCategoria().getNomeCategoria()%></option>
@@ -104,6 +103,8 @@
                         if (!artesanato.getFlg_ativo()) {
                             out.print("checked=\"checked\"");
                         }
+                    }else{
+                        out.print("checked=\"checked\"");
                     }
                           %>/>Desativado</p>
 
@@ -111,7 +112,7 @@
                     if (artesanato != null) {
                         String dtCadastro = ConverteDate.converteDateString(artesanato.getDtCadastro());
                         out.print("<label for='txtDtCadastro'>Data de Cadastro:</label>");
-                        out.print("<input type='text' id='txtDtCadastro' name='txtDtCadastro' value='" + dtCadastro + "' readonly />");
+                        out.print("<input type='text' name='txtDtCadastro' value='" + dtCadastro + "' readonly />");
                     }
 
 
@@ -119,9 +120,9 @@
 
 
                 <%                    if (artesanato != null) {
-                        out.print("<input type='submit' id='operacao' name='operacao' value='ALTERAR'/>");
+                        out.print("<input type='submit' name='operacao' value='ALTERAR'/>");
                     } else {
-                        out.print("<input type='submit' id='operacao' name='operacao' value='SALVAR'/>");
+                        out.print("<input type='submit' name='operacao' value='SALVAR'/>");
                     }
 
                 %>

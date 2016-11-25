@@ -16,20 +16,18 @@
                     <form action="${pageContext.request.contextPath}/ServletGrafico2" method="POST">
                         <p>Data Inicial: <input type="text" name="txtDataInicial" id="data" /></p>
                         <p>Data Final: <input type="text" name="txtDataFinal" id="data1" />
-                        <input type="submit" value="grafico2" name="operacao" /></p>
+                            <input type="submit" value="grafico2" name="operacao" /></p>
                     </form>
                 </div>
-                        <br><br><br>
-                            
-                <canvas id="GraficoLine" style="width:100%;"></canvas>
+                <br><br><br>
 
                 <%                    Resultado grafico = (Resultado) request.getAttribute("grafico");
-
                     if (resultado != null && resultado.getMsg() != null) {
                         out.print(resultado.getMsg());
                     }
-
+                    if (grafico != null) {
                 %>
+                <canvas id="GraficoLine" style="width:100%;"></canvas>
 
                 <script type="text/javascript">
 
@@ -92,7 +90,7 @@
                             }
                         ]
                     };
-                    
+
                     window.onload = function () {
 
                         var ctx = document.getElementById("GraficoLine").getContext("2d");
@@ -101,6 +99,10 @@
                     }
                 </script>
                 <div id="js-legend" class="chart-legend"> </div>
+                <%                    } else {
+                %>
+                <h2>Produto não possui vendas no período selecionado.</h2>
+                <%}%>
             </div>
         </div>
 

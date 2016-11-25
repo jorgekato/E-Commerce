@@ -39,7 +39,7 @@ public class FiltroProdutoVendaPeriodoViewHelper implements IViewHelper{
         
         RequestDispatcher d = null;
         request.setAttribute("grafico", resultado);
-        //d = request.getRequestDispatcher("LadoAdmin/graficobarra.jsp");
+        request.setAttribute("retorno","1");
         d = request.getRequestDispatcher("LadoAdmin/Relatorios/produtosmaisvendidos.jsp");
         d.forward(request, response);
     }

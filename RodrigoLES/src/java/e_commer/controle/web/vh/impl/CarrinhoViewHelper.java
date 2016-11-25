@@ -7,6 +7,8 @@ import e_commer.core.aplicacao.Resultado;
 import e_commer.dominio.CarrinhoCompra;
 import e_commer.dominio.AbstractItem;
 import e_commer.dominio.Artesanato;
+import e_commer.dominio.Cliente;
+import e_commer.dominio.Credito;
 import e_commer.dominio.Endereco;
 import e_commer.dominio.EntidadeDominio;
 import e_commer.dominio.ItemArtesanato;
@@ -180,6 +182,39 @@ public class CarrinhoViewHelper implements IViewHelper {
                     }
                 }
             }
+        } else if (operacao.equals("VALIDAR")) {
+            if (request.getParameter("txtValeCredito") != null) {
+                if (request.getSession().getAttribute("carrinho") != null) {
+                    //pega o carrinho da sessão
+                    resultado = (Resultado) request.getSession().getAttribute("carrinho");
+                    for (EntidadeDominio e : resultado.getEntidades()) {
+                        carrinho = (CarrinhoCompra) e;
+                    }
+                    
+                    Credito credito = new Credito();
+                    Cliente cli = (Cliente) request.getSession().getAttribute("usuario");
+
+                    String vale = request.getParameter("txtValeCredito");
+                    if (vale != null && !vale.trim().equals("")) {
+                        credito.setCodigo(vale);
+                    }
+                    credito.setCliente(cli);
+
+                    ICommand command = new ConsultarCommand();
+
+                    resultado = command.execute(credito);
+
+                    if (resultado.getEntidades().size() != 0) {
+                        for (EntidadeDominio e : resultado.getEntidades()) {
+                            Credito c = (Credito) e;
+                            if (c.getFlgAtivo()) {
+                                carrinho.setCredito(c);
+                            }
+                        }
+                    }
+                }
+            }
+
         }
 
         return carrinho;
@@ -210,6 +245,12 @@ public class CarrinhoViewHelper implements IViewHelper {
 
         } else if (resultado.getMsg() == null && operacao.equals("ATUALIZAR")) {
 
+            request.getSession().setAttribute("carrinho", resultado);
+            d = request.getRequestDispatcher("cart.jsp");
+        }else if (resultado.getMsg() == null && operacao.equals("VALIDAR")) {
+            CarrinhoCompra c = (CarrinhoCompra)resultado.getEntidades().get(0);
+            if(c.getCredito()==null)
+                resultado.setMsg("Vale Crédito Inválido");
             request.getSession().setAttribute("carrinho", resultado);
             d = request.getRequestDispatcher("cart.jsp");
         } else {

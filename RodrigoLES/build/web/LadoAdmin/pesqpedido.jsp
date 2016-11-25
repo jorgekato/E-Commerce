@@ -30,7 +30,7 @@
         }
     %>
     <div class="clearfix"> </div>
-    <table border="3" width="100%" CELLPADDING="4" CELLSPACING="3">
+    <table class="table table-striped table-bordered bootstrap-datatable datatable table-responsive" border="3" width="100%" CELLPADDING="4" CELLSPACING="3">
         <tr>
             <th colspan="4"><strong>Pedidos</strong></th>
         </tr>

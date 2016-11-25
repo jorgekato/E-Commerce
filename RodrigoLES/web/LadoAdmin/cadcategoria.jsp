@@ -18,7 +18,7 @@
         <div>
             <header><h1>Cadastro de categoria</h1></header></div>
         <div>
-            <form action="${pageContext.request.contextPath}/SalvarCategoria" method="POST">
+            <form action="${pageContext.request.contextPath}/SalvarCategoria" method="POST" id="validate">
                 
                 <p>ID: <input type="text" id="txtId" name="txtId" value=
 		
@@ -50,6 +50,8 @@
                         if (cat.getFlg_ativo()) {
                             out.print("checked=\"checked\"");
                         }
+                    }else{
+                        out.print("checked=\"checked\"");
                     }
                           %>/>Ativo
                 <input type="radio" name="txtFlgAtivo" value="FALSE" <%

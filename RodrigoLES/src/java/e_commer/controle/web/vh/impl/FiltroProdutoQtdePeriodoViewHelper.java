@@ -25,13 +25,18 @@ public class FiltroProdutoQtdePeriodoViewHelper implements IViewHelper {
     @Override
     public EntidadeDominio getEntidade(HttpServletRequest request) {
         FiltroProdutoQtdePeriodo f = new FiltroProdutoQtdePeriodo();
-        if (request.getParameter("txtComparativo").equals("!Comparar")) {
 
-            f.setId(Integer.valueOf(request.getParameter("txtId")));
+        String[] ids = request.getParameterValues("txtId");
+        
+        
+        
+        if (ids.length == 1) {
+
+            f.setId(Integer.valueOf(ids[0]));
         } else {
-            f.setId(Integer.valueOf(request.getParameter("txtId")));
+            f.setId(Integer.valueOf(ids[0]));
             FiltroProdutoQtdePeriodo f2 = new FiltroProdutoQtdePeriodo();
-            f2.setId(Integer.valueOf(request.getParameter("txtId2")));
+            f2.setId(Integer.valueOf(ids[1]));
             f.setFlgComparar(true);
             f.setfPQP(f2);
         }

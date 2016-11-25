@@ -28,6 +28,8 @@ import e_commer.controle.web.vh.impl.EnderecoViewHelper;
 import e_commer.controle.web.vh.impl.FiltroClienteVendaPeriodoViewHelper;
 import e_commer.controle.web.vh.impl.FiltroProdutoVendaPeriodoViewHelper;
 import e_commer.controle.web.vh.impl.FiltroEstoqueMinimoViewHelper;
+import e_commer.controle.web.vh.impl.FiltroEstoqueGeralViewHelper;
+import e_commer.controle.web.vh.impl.FiltroPerfilIdadeSexoViewHelper;
 import e_commer.controle.web.vh.impl.FiltroProdutoQtdePeriodoViewHelper;
 import e_commer.controle.web.vh.impl.PedidoViewHelper;
 import e_commer.controle.web.vh.impl.TrocaDevolucaoViewHelper;
@@ -63,8 +65,6 @@ public class Servlet extends HttpServlet {
         commands.put("CONSULTAR", new ConsultarCommand());
         //add para teste
         commands.put("CONSULTAR1", new ConsultarCommand());
-        commands.put("VISUALIZAR4", new VisualizarCommand());
-        commands.put("VISUALIZAR3", new VisualizarCommand());
         commands.put("VISUALIZAR1", new VisualizarCommand());
         commands.put("VISUALIZAR", new VisualizarCommand());
         commands.put("ALTERAR", new AlterarCommand());
@@ -75,6 +75,8 @@ public class Servlet extends HttpServlet {
         commands.put("grafico1", new ConsultarCommand());
         commands.put("grafico2", new ConsultarCommand());
         commands.put("grafico4", new ConsultarCommand());
+        commands.put("graficoPerfil", new ConsultarCommand());
+        
         
         
         
@@ -87,22 +89,24 @@ public class Servlet extends HttpServlet {
         /*A chave do mapa é o mapeamento da servlet para cada form que 
     	 * está configurado no web.xml e sendo utilizada no action do html
          */
-        vhs.put("/RodrigoLES/SalvarFornecedor", new FornecedorViewHelper());
-        vhs.put("/RodrigoLES/SalvarCliente", new ClienteViewHelper());
-        vhs.put("/RodrigoLES/SalvarProduto", new ProdutoViewHelper());
-        vhs.put("/RodrigoLES/SalvarCategoria", new CategoriaViewHelper());
-        vhs.put("/RodrigoLES/SalvarArtesanato", new ArtesanatoViewHelper());
-        vhs.put("/RodrigoLES/SalvarCarrinho", new CarrinhoViewHelper());
-        vhs.put("/RodrigoLES/SalvarPedidos", new PedidoViewHelper());
-        vhs.put("/RodrigoLES/SalvarTrocaDevolucao", new TrocaDevolucaoViewHelper());
-        vhs.put("/RodrigoLES/SalvarCredito", new CreditoViewHelper());
-        vhs.put("/RodrigoLES/ServletGrafico1", new FiltroClienteVendaPeriodoViewHelper());
-        vhs.put("/RodrigoLES/ServletGrafico2", new FiltroProdutoVendaPeriodoViewHelper());
-        vhs.put("/RodrigoLES/EstoqueMin", new FiltroEstoqueMinimoViewHelper());
-        vhs.put("/RodrigoLES/ServletGrafico3", new FiltroProdutoQtdePeriodoViewHelper());
-        vhs.put("/RodrigoLES/ServletGrafico4", new FiltroClienteVendaPeriodoViewHelper());
-        vhs.put("/RodrigoLES/SalvarEndereco", new EnderecoViewHelper());
-        vhs.put("/RodrigoLES/CONSULPRODART", new ConsulProdArtViewHelper());
+        vhs.put("/Artesanatos/SalvarFornecedor", new FornecedorViewHelper());
+        vhs.put("/Artesanatos/SalvarCliente", new ClienteViewHelper());
+        vhs.put("/Artesanatos/SalvarProduto", new ProdutoViewHelper());
+        vhs.put("/Artesanatos/SalvarCategoria", new CategoriaViewHelper());
+        vhs.put("/Artesanatos/SalvarArtesanato", new ArtesanatoViewHelper());
+        vhs.put("/Artesanatos/SalvarCarrinho", new CarrinhoViewHelper());
+        vhs.put("/Artesanatos/SalvarPedidos", new PedidoViewHelper());
+        vhs.put("/Artesanatos/SalvarTrocaDevolucao", new TrocaDevolucaoViewHelper());
+        vhs.put("/Artesanatos/SalvarCredito", new CreditoViewHelper());
+        vhs.put("/Artesanatos/ServletGrafico1", new FiltroClienteVendaPeriodoViewHelper());
+        vhs.put("/Artesanatos/ServletGrafico2", new FiltroProdutoVendaPeriodoViewHelper());
+        vhs.put("/Artesanatos/EstoqueMin", new FiltroEstoqueMinimoViewHelper());
+        vhs.put("/Artesanatos/EstoqueGeral", new FiltroEstoqueGeralViewHelper());
+        vhs.put("/Artesanatos/ServletGrafico3", new FiltroProdutoQtdePeriodoViewHelper());
+        vhs.put("/Artesanatos/ServletGrafico4", new FiltroClienteVendaPeriodoViewHelper());
+        vhs.put("/Artesanatos/SalvarEndereco", new EnderecoViewHelper());
+        vhs.put("/Artesanatos/CONSULPRODART", new ConsulProdArtViewHelper());
+        vhs.put("/Artesanatos/ServletGraficoPerfil", new FiltroPerfilIdadeSexoViewHelper());
         
         
     }

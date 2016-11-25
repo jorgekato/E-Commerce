@@ -51,7 +51,7 @@ public class ArtesanatoViewHelper implements IViewHelper {
 //            }
             
             if (valor_unit != null && !valor_unit.trim().equals("")) {
-                artesanato.setPrecoUnit(Double.parseDouble(valor_unit.replace(",", ".")));
+                artesanato.setPrecoUnit(Double.parseDouble(valor_unit));
             }
 
             if (descricao != null && !descricao.trim().equals("")) {
@@ -145,10 +145,7 @@ public class ArtesanatoViewHelper implements IViewHelper {
             request.setAttribute("resultado", resultado);
             d = request.getRequestDispatcher("artesanatostore.jsp");
         }
-        else if(resultado.getMsg() != null){
-            request.setAttribute("mensagem", resultado.getMsg());
-            d = request.getRequestDispatcher("LadoAdmin/adminprinc.jsp");
-        }
+        
         d.forward(request, response);
 
     }

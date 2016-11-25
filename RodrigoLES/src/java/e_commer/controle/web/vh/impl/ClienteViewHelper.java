@@ -206,7 +206,10 @@ public class ClienteViewHelper implements IViewHelper {
 
         String operacao = request.getParameter("operacao");
 
-        if (resultado.getMsg() != null) {
+        if (request.getParameter("graficoperfil") != null) {
+            request.setAttribute("clientes", resultado);
+            d = request.getRequestDispatcher("LadoAdmin/Relatorios/selecionacliente.jsp");
+        }else if (resultado.getMsg() != null) {
             request.setAttribute("resultado", resultado);
             d = request.getRequestDispatcher("erro.jsp");
         } else if (resultado.getMsg() == null && operacao.equals("SALVAR")) {
@@ -220,7 +223,7 @@ public class ClienteViewHelper implements IViewHelper {
         } else if (resultado.getMsg() == null && operacao.equals("ALTERAR1")) {
             request.getSession().setAttribute("usuario", resultado.getEntidades().get(0));
             resultado.setMsg("Usuário alterado com sucesso!");
-            request.setAttribute("resultado", resultado);
+            request.setAttribute("mensagem", resultado.getMsg());
             d = request.getRequestDispatcher("minhaconta.jsp");
         } else if (resultado.getMsg() == null && operacao.equals("VISUALIZAR")) {
 
@@ -239,25 +242,19 @@ public class ClienteViewHelper implements IViewHelper {
             request.setAttribute("clientes", resultado);
             d = request.getRequestDispatcher("LadoAdmin/pesqcliente.jsp");
         } else if (resultado.getMsg() == null && operacao.equals("CONSULTAR1")) {
-            
+
             request.setAttribute("resultado", resultado);
-            //d = request.getRequestDispatcher("pesqartesanato.jsp");
             d = request.getRequestDispatcher("index.jsp");
-        }
-        if (resultado.getMsg() == null && operacao.equals("CONSULTAR2")) {
+        } else if (resultado.getMsg() == null && operacao.equals("CONSULTAR2")) {
 
             request.setAttribute("cliente", resultado);
             d = request.getRequestDispatcher("minhaconta.jsp");
-        }
-        if (resultado.getMsg() == null && operacao.equals("CONSULTAR3")) {
+        } else if (resultado.getMsg() == null && operacao.equals("CONSULTAR3")) {
 
             request.setAttribute("cliente", resultado);
             d = request.getRequestDispatcher("cartconfirmar.jsp");
         }
-        if(resultado.getMsg() != null){
-            request.setAttribute("mensagem", resultado.getMsg());
-            d= request.getRequestDispatcher("register.jsp");
-        }
+
         d.forward(request, response);
 
     }

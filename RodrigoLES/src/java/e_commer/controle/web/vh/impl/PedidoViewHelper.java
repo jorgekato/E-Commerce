@@ -32,8 +32,9 @@ public class PedidoViewHelper implements IViewHelper {
         Resultado resultado = null;
         Pedido pedido = null;
 
-        if(operacao == null)
+        if (operacao == null) {
             operacao = "";
+        }
         if (operacao.equals("SALVAR")) {
 
             resultado = (Resultado) request.getSession().getAttribute("carrinho");
@@ -53,12 +54,16 @@ public class PedidoViewHelper implements IViewHelper {
                     pedido.adiciona(entidades.get(i));
                 }
             }
-            
+
             Cliente cliente = (Cliente) request.getSession().getAttribute("usuario");
-            
+
+            if (carrinho.getCredito() != null) {
+                pedido.setCredito(carrinho.getCredito());
+            }
+
             pedido.setCliente(cliente);
             pedido.setEndereco(carrinho.getEndereco());
-            pedido.setPagamento("CARTAO");
+            pedido.setPagamento(request.getParameter("txtformapag"));
             pedido.setServico("SEDEX");
             pedido.setStatus("APROVADO");
             pedido.setTotal(carrinho.getTotal());
@@ -74,8 +79,13 @@ public class PedidoViewHelper implements IViewHelper {
                 pedido.setId(Integer.parseInt(id));
             }
 
-            Cliente cli = new Cliente();
-            pedido.setCliente(cli);
+            ICommand command = new ConsultarCommand();
+            resultado = command.execute((EntidadeDominio) pedido);
+            for (EntidadeDominio e : resultado.getEntidades()) {
+                if (e.getId() == pedido.getId()) {
+                    pedido = (Pedido) e;
+                }
+            }
 
             if (status != null && !status.trim().equals("")) {
                 pedido.setStatus(status);
@@ -149,7 +159,6 @@ public class PedidoViewHelper implements IViewHelper {
             pedido = new Pedido();
             Cliente cli = new Cliente();
             pedido.setCliente(cli);
-            
 
             if (txtId != null && !txtId.trim().equals("")) {
                 id = Integer.parseInt(txtId);
@@ -178,7 +187,10 @@ public class PedidoViewHelper implements IViewHelper {
 
         String operacao = request.getParameter("operacao");
 
-        if (resultado.getMsg() == null && operacao.equals("SALVAR")) {
+        if (resultado.getMsg() != null) {
+            request.setAttribute("resultado", resultado);
+            d = request.getRequestDispatcher("cart.jsp");
+        } else if (resultado.getMsg() == null && operacao.equals("SALVAR")) {
             resultado.setMsg("Compra Finalizada com Sucesso!");
             request.getSession().setAttribute("carrinho", null);
             request.setAttribute("pedidos", resultado);
@@ -191,7 +203,7 @@ public class PedidoViewHelper implements IViewHelper {
         } else if (resultado.getMsg() == null && operacao.equals("ALTERAR1")) {
             resultado.setMsg("Pedido alterado COM SUCESSO!");
             request.setAttribute("resultado", resultado);
-            d = request.getRequestDispatcher("LadoAdmin/pedidodetalhe.jsp"); // mudar para outrar tela e msn geral
+            d = request.getRequestDispatcher("LadoAdmin/msggeral.jsp"); // mudar para outrar tela e msn geral
 
         } else if (resultado.getMsg() == null && operacao.equals("VISUALIZAR")) {
             request.setAttribute("pedidos", resultado);
@@ -243,7 +255,7 @@ public class PedidoViewHelper implements IViewHelper {
             request.setAttribute("hitoricoPedido", resultado);
             d = request.getRequestDispatcher("LadoAdmin/historicoPedido.jsp");
 
-        } else{
+        } else {
             request.setAttribute("resultado", resultado);
             d = request.getRequestDispatcher("cart.jsp");
         }

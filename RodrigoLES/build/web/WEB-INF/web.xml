@@ -1,29 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <display-name>RodrigoLES</display-name>
+    <display-name>Artesanatos</display-name>
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
-    
-    <!-- Configuração das servlet´s -->    
+    <!-- Configuração das servlet´s -->
     <servlet>
         <description/>
         <display-name>Servlet</display-name>
         <servlet-name>Servlet</servlet-name>
         <servlet-class>e_commer.controle.web.Servlet</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>ServletAutenticacao</servlet-name>
-        <servlet-class>e_commer.controle.web.ServletAutenticacao</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ServletCarrinho</servlet-name>
-        <servlet-class>e_commer.controle.web.ServletCarrinho</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ServletAutenticacao</servlet-name>
-        <url-pattern>/do.logar</url-pattern>
-    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Servlet</servlet-name>
         <url-pattern>/SalvarFornecedor</url-pattern>
@@ -61,14 +48,6 @@
         <url-pattern>/SalvarCredito</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ServletAutenticacao</servlet-name>
-        <url-pattern>/ServletAutenticacao</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ServletCarrinho</servlet-name>
-        <url-pattern>/ServletCarrinho</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>Servlet</servlet-name>
         <url-pattern>/ServletGrafico1</url-pattern>
     </servlet-mapping>
@@ -86,6 +65,10 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Servlet</servlet-name>
+        <url-pattern>/EstoqueGeral</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Servlet</servlet-name>
         <url-pattern>/ServletGrafico3</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
@@ -95,6 +78,14 @@
     <servlet-mapping>
         <servlet-name>Servlet</servlet-name>
         <url-pattern>/CONSULPRODART</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/ServletGraficoPerfil</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/do.logar</url-pattern>
     </servlet-mapping>
     <!--Fim Configuração Servlet's-->
     <!--Configurações de Cabeçalho e Rodapé padrões-->
@@ -120,6 +111,8 @@
             <url-pattern>/cart.jsp</url-pattern>
             <url-pattern>/cartendereco.jsp</url-pattern>
             <url-pattern>/cartpayment.jsp</url-pattern>
+            <url-pattern>/cartcartao.jsp</url-pattern>
+            <url-pattern>/cartboleto.jsp</url-pattern>
             <url-pattern>/cartmsg.jsp</url-pattern>
             <url-pattern>/cartconfirmar.jsp</url-pattern>
             <url-pattern>/erro.jsp</url-pattern>
@@ -132,6 +125,7 @@
             <url-pattern>/consultaTrocaDevolucao.jsp</url-pattern>
             <url-pattern>/meusvalecreditos.jsp</url-pattern>
             <url-pattern>/cadendereco.jsp</url-pattern>
+            <url-pattern>/cadendereco.jsp</url-pattern>
             <include-prelude>/WEB-INF/jspf/headerSite.jspf</include-prelude>
             <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>
         </jsp-property-group>
@@ -143,6 +137,10 @@
         <filter-class>e_commer.core.filtros.FiltroAutorizacao</filter-class>
     </filter>
     <filter>
+        <filter-name>FiltroAutorizacaoCliente</filter-name>
+        <filter-class>e_commer.core.filtros.FiltroAutorizacaoCliente</filter-class>
+    </filter>
+    <filter>
         <filter-name>FiltroCategoria</filter-name>
         <filter-class>e_commer.core.filtros.FiltroCategoria</filter-class>
     </filter>
@@ -151,37 +149,13 @@
         <filter-class>e_commer.core.filtros.FiltroAutenticacao</filter-class>
     </filter>
     <filter>
-        <filter-name>FiltroProduto</filter-name>
-        <filter-class>e_commer.core.filtros.FiltroProduto</filter-class>
-    </filter>
-    <filter>
-        <filter-name>FiltroCliente</filter-name>
-        <filter-class>e_commer.core.filtros.FiltroCliente</filter-class>
-    </filter>
-    <filter>
         <filter-name>FiltroQtdeEstoqueCompra</filter-name>
         <filter-class>e_commer.core.filtros.FiltroQtdeEstoqueCompra</filter-class>
-    </filter>    
-    <filter-mapping>
-        <filter-name>FiltroCliente</filter-name>
-        <url-pattern>/LadoAdmin/Relatorios/clienteperiodo.jsp</url-pattern>
-        <dispatcher>REQUEST</dispatcher>
-        <dispatcher>FORWARD</dispatcher>
-        <dispatcher>INCLUDE</dispatcher>
-        <dispatcher>ERROR</dispatcher>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>FiltroProduto</filter-name>
-        <url-pattern>/LadoAdmin/Relatorios/produtoperiodo.jsp</url-pattern>
-        <dispatcher>REQUEST</dispatcher>
-        <dispatcher>FORWARD</dispatcher>
-        <dispatcher>INCLUDE</dispatcher>
-        <dispatcher>ERROR</dispatcher>
-    </filter-mapping>
+    </filter>
     <filter-mapping>
         <filter-name>FiltroCategoria</filter-name>
         <url-pattern>/LadoAdmin/cadproduto.jsp</url-pattern>
-        <url-pattern>/LadoAdmin/cadartesanato.jsp</url-pattern>        
+        <url-pattern>/LadoAdmin/cadartesanato.jsp</url-pattern>
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
         <dispatcher>INCLUDE</dispatcher>
@@ -196,7 +170,7 @@
         <dispatcher>ERROR</dispatcher>
     </filter-mapping>
     <filter-mapping>
-        <filter-name>FiltroAutenticacao</filter-name>
+        <filter-name>FiltroAutorizacaoCliente</filter-name>
         <url-pattern>/minhaconta.jsp</url-pattern>
         <url-pattern>/meuspedidos.jsp</url-pattern>
         <url-pattern>/cartendereco.jsp</url-pattern>
@@ -213,6 +187,10 @@
     <filter-mapping>
         <filter-name>FiltroQtdeEstoqueCompra</filter-name>
         <url-pattern>/cartconfirmar.jsp</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>FiltroAutenticacao</filter-name>
+        <url-pattern>/do.logar</url-pattern>
     </filter-mapping>
     <!--Configuração dos Filtros-->
 </web-app>

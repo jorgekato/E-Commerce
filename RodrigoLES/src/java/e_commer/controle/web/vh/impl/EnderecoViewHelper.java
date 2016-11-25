@@ -42,9 +42,9 @@ public class EnderecoViewHelper implements IViewHelper {
         Cliente cliente = null;
         Cliente clienteSessao = null;
 
-        if (!operacao.equals("VISUALIZAR") && !operacao.equals("VISUALIZAR1") 
+        if (!operacao.equals("VISUALIZAR") && !operacao.equals("VISUALIZAR1")
                 && !operacao.equals("VISUALIZAR3") && !operacao.equals("VISUALIZAR4")) {
-            
+
             String id = request.getParameter("txtId");
             String endId = request.getParameter("endId");
             String situacao = request.getParameter("situacao");
@@ -56,41 +56,36 @@ public class EnderecoViewHelper implements IViewHelper {
             String cidade = request.getParameter("txtEnderecoCidade");
             String estado = request.getParameter("txtEnderecoEstado");
 
-            //clienteSessao = (Cliente)request.getSession().getAttribute("usuario");
-            cliente = (Cliente)request.getSession().getAttribute("usuario");
-//            cliente.setId(clienteSessao.getId());
-//            cliente.setCpf(clienteSessao.getCpf());
+            cliente = (Cliente) request.getSession().getAttribute("usuario");
             Endereco end = new Endereco();
-            
+
             if (endereco != null && !endereco.trim().equals("")) {
                 end.setLogradouro(endereco);
             }
             if (numero != null && !numero.trim().equals("")) {
                 end.setNumero(numero);
             }
-            
-            if(endId != null && !endId.trim().equals("")){
+
+            if (endId != null && !endId.trim().equals("")) {
                 end.setId(Integer.parseInt(endId));
             }
-            
+
             if (cep != null && !cep.trim().equals("")) {
                 end.setCep(cep);
             }
             if (complemento != null && !complemento.trim().equals("")) {
                 end.setComplemento(complemento);
-            }
-            else
-            {
+            } else {
                 end.setComplemento("");
             }
             if (bairro != null && !bairro.trim().equals("")) {
                 end.setBairro(bairro);
             }
-            
-            if(situacao == null &&!situacao.trim().equals("")){
+
+            if (situacao == null && !situacao.trim().equals("")) {
                 end.setFlgAtivo(Boolean.parseBoolean(situacao));
             }
-            
+
             Cidade cid = new Cidade();
             if (cidade != null && !cidade.trim().equals("")) {
                 cid.setNome(cidade);
@@ -101,15 +96,14 @@ public class EnderecoViewHelper implements IViewHelper {
             }
             cid.setEstado(est);
             end.setCidade(cid);
-            
-            
+
             cliente.addEndereco(end);
-            if(operacao.equals("ALTERAR")){
+            if (operacao.equals("ALTERAR")) {
                 return end;
             }
-            
+
         } else {
-            
+
             Resultado resultado = null;
             String txtId = request.getParameter("txtId");
             int id = 0;
@@ -153,45 +147,52 @@ public class EnderecoViewHelper implements IViewHelper {
         if (resultado.getMsg() != null) {
             request.setAttribute("resultado", resultado);
             d = request.getRequestDispatcher("erro.jsp");
-        }else if (resultado.getMsg() == null && operacao.equals("SALVAR")) {
-//            resultado.setMsg("Bem vindo ");
-//            request.setAttribute("bemvindo", resultado);
-            d = request.getRequestDispatcher("cartconfirmar.jsp");
-        }else if (resultado.getMsg() == null && operacao.equals("ALTERAR")) {
+        } else if (resultado.getMsg() == null && operacao.equals("SALVAR")) {
+            if (request.getParameter("meusdados") != null) {
+                resultado.setMsg("Endereço cadastrado com sucesso!");
+                request.setAttribute("mensagem", resultado.getMsg());                
+                d = request.getRequestDispatcher("minhaconta.jsp");
+            } else {
+                d = request.getRequestDispatcher("cartconfirmar.jsp");
+            }
+        } else if (resultado.getMsg() == null && operacao.equals("ALTERAR")) {
             resultado.setMsg("Usuário alterado com sucesso!");
             request.setAttribute("resultado", resultado);
             d = request.getRequestDispatcher("msggeral.jsp");
-        }else if (resultado.getMsg() == null && operacao.equals("VISUALIZAR")) {
+        } else if (resultado.getMsg() == null && operacao.equals("ALTERAR1")) {
+            
+            resultado.setMsg("Endereço removido com sucesso!");
+            request.setAttribute("mensagem", resultado.getMsg());
+            d = request.getRequestDispatcher("minhaconta.jsp");
+            
+        } else if (resultado.getMsg() == null && operacao.equals("VISUALIZAR")) {
 
             request.setAttribute("clientes", resultado);
             d = request.getRequestDispatcher("LadoAdmin/cadcliente.jsp");
-        }else if (resultado.getMsg() == null && operacao.equals("VISUALIZAR1")) {
+        } else if (resultado.getMsg() == null && operacao.equals("VISUALIZAR1")) {
 
             request.setAttribute("artesanato", resultado.getEntidades().get(0));
             d = request.getRequestDispatcher("single.jsp");
-        }else if (resultado.getMsg() == null && operacao.equals("EXCLUIR")) {
-            resultado.setMsg("Usuário excluido com sucesso!");
+        } else if (resultado.getMsg() == null && operacao.equals("EXCLUIR")) {
+            resultado.setMsg("Endereço excluido com sucesso!");
             request.setAttribute("resultado", resultado);
             d = request.getRequestDispatcher("msggeral.jsp");
-        }else if (resultado.getMsg() == null && operacao.equals("CONSULTAR")) {
+        } else if (resultado.getMsg() == null && operacao.equals("CONSULTAR")) {
 
             request.setAttribute("clientes", resultado);
             d = request.getRequestDispatcher("LadoAdmin/pesqcliente.jsp");
-        }else if (resultado.getMsg() == null && operacao.equals("CONSULTAR1")) {
+        } else if (resultado.getMsg() == null && operacao.equals("CONSULTAR1")) {
 
             request.setAttribute("resultado", resultado);
-            //d = request.getRequestDispatcher("pesqartesanato.jsp");
             d = request.getRequestDispatcher("index.jsp");
-        }
-        if (resultado.getMsg() == null && operacao.equals("VISUALIZAR3")) {
+        }else if (resultado.getMsg() == null && operacao.equals("VISUALIZAR3")) {
 
             request.setAttribute("clientes", resultado);
-            d = request.getRequestDispatcher("meusdados.jsp");    
-        }
-        if (resultado.getMsg() == null && operacao.equals("VISUALIZAR4")) {
+            d = request.getRequestDispatcher("meusdados.jsp");
+        }else if (resultado.getMsg() == null && operacao.equals("VISUALIZAR4")) {
 
             request.setAttribute("clientes", resultado);
-            d = request.getRequestDispatcher("cartconfirmar.jsp");    
+            d = request.getRequestDispatcher("cartconfirmar.jsp");
         }
         d.forward(request, response);
 

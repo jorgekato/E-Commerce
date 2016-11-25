@@ -11,7 +11,6 @@ import e_commer.core.util.ConverteDate;
 import e_commer.dominio.EntidadeDominio;
 import e_commer.filtroAnalise.FiltroClienteVendaPeriodo;
 import java.io.IOException;
-import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +47,7 @@ public class FiltroClienteVendaPeriodoViewHelper implements IViewHelper {
         if (!operacao.equals("grafico4")) {
 
             request.setAttribute("grafico", resultado);
-            //d = request.getRequestDispatcher("LadoAdmin/graficobarra.jsp");
+            request.setAttribute("retorno", "1");
             d = request.getRequestDispatcher("LadoAdmin/Relatorios/clientecompraperiodo.jsp");
             d.forward(request, response);
         }else
@@ -58,8 +57,7 @@ public class FiltroClienteVendaPeriodoViewHelper implements IViewHelper {
             }else{
                 request.setAttribute("grafico", resultado);
             }
-            
-            //d = request.getRequestDispatcher("LadoAdmin/graficobarra.jsp");
+            request.setAttribute("retorno", "1");
             d = request.getRequestDispatcher("LadoAdmin/Relatorios/clienteperiodo.jsp");
             d.forward(request, response);
         }

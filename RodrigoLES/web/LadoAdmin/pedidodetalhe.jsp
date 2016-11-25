@@ -1,4 +1,5 @@
 
+<%@page import="e_commer.core.util.FormatDouble"%>
 <%@page import="e_commer.core.util.ConverteDate"%>
 <%@page import="e_commer.dominio.ItemProduto"%>
 <%@page import="e_commer.dominio.ItemArtesanato"%>
@@ -34,7 +35,7 @@
         <div class="clearfix"> </div>
         <form action="${pageContext.request.contextPath}/SalvarPedidos" method="post">
 
-            <table border="3" width="100%" CELLPADDING="4" CELLSPACING="3">
+            <table class="table table-striped table-bordered bootstrap-datatable datatable table-responsive" border="3" width="100%" CELLPADDING="4" CELLSPACING="3">
 
                 <tr>
                     <th colspan="7"><strong>Pedidos</strong></th>
@@ -71,7 +72,7 @@
             <input type="submit" name="operacao" value="ALTERAR1"/>
             <input type="submit" name="operacao" value="HISTORICO"/>
             <h3>Detalhes do Produto</h3>
-            <table border="3" width="100%" CELLPADDING="4" CELLSPACING="3">
+            <table class="table table-striped table-bordered bootstrap-datatable datatable table-responsive" border="3" width="100%" CELLPADDING="4" CELLSPACING="3">
                 <tr>
                     <th>Cod. Produto</th>
                     <th>Descrição</th>
@@ -89,8 +90,8 @@
                     <td><%= item.getProduto().getId()%></td>
                     <td><%= item.getProduto().getNome()%></td>
                     <td><%= item.getQuantidade()%></td>
-                    <td><%= item.getValorUnit()%></td>
-                    <td><%= item.getQuantidade() * item.getValorUnit()%></td>
+                    <td><%= FormatDouble.formataDouble(item.getValorUnit())%></td>
+                    <td><%= FormatDouble.formataDouble(item.getQuantidade() * item.getValorUnit())%></td>
                 </tr>
 
                 <%
@@ -101,8 +102,8 @@
                     <td><%= itemA.getArtesanato().getId()%></td>
                     <td><%= itemA.getArtesanato().getNome()%></td>
                     <td><%= itemA.getQuantidade()%></td>
-                    <td><%= itemA.getValorUnit()%></td>
-                    <td><%= itemA.getQuantidade() * itemA.getValorUnit()%></td>
+                    <td><%= FormatDouble.formataDouble(itemA.getValorUnit())%></td>
+                    <td><%= FormatDouble.formataDouble(itemA.getQuantidade() * itemA.getValorUnit())%></td>
                 </tr>
 
 

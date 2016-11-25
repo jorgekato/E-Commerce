@@ -20,47 +20,53 @@
         <div class="col-md-5 single-top">	
             <ul id="etalage">
                 <!--Implementar For para exibir mais de uma imagem, caso necessário -->
+                <%for (int i = 0; i < produto.getFoto().length; i++) {
+                %>
                 <li>
                     <img class="etalage_thumb_image img-responsive" src="<% if (produto != null) {
-                                out.print("data:image/jpg;base64," + ManipulaImagem.setImagemDimensao(produto.getFoto().getImagem(), 360, 480));
-                            }%>" alt="" >
+                                if (produto.getFoto()[i] != null) {
+                                    out.print("data:image/jpg;base64," + ManipulaImagem.setImagemDimensao(produto.getFoto()[i].getImagem(), 360, 480));
+                                }                            
+                        }%>" alt="" >
                     <img class="etalage_source_image img-responsive" src="<% if (produto != null) {
-                                out.print("data:image/jpg;base64," + ManipulaImagem.setImagemDimensao(produto.getFoto().getImagem(), 1080, 1440));
-                            }%>" alt="" >
+                            if (produto.getFoto()[i] != null) {
+                                out.print("data:image/jpg;base64," + ManipulaImagem.setImagemDimensao(produto.getFoto()[i].getImagem(), 1080, 1440));
+                            }
+                        }%>" alt="" >
                 </li>
-                <li>
-                    <img class="etalage_thumb_image img-responsive" src="images/s2.jpg" alt="" >
-                    <img class="etalage_source_image img-responsive" src="images/s12.jpg" alt="" >
-                </li>
-                <li>
-                    <img class="etalage_thumb_image img-responsive" src="images/s3.jpg" alt=""  >
-                    <img class="etalage_source_image img-responsive" src="images/s13.jpg" alt="" >
-                </li>
-                <li>
-                    <img class="etalage_thumb_image img-responsive" src="images/s4.jpg"  alt="" >
-                    <img class="etalage_source_image img-responsive" src="images/s14.jpg" alt="" >
-                </li>
+                <%}%>
             </ul>
 
         </div>	
         <div class="col-md-7 single-top-in">
             <div class="single-para">
                 <h4><%
-                    if (produto != null) {
+                    if (produto
+
+                    
+                        != null) {
                         out.print(produto.getNome());
                     }
                     %></h4><br/>
                     <%
-                        if (produto != null) {
+                        if (produto
+
+                        
+                            != null) {
                             out.print(produto.getDescricao());
                         }
                     %>
                 <div class="para-grid">
                     <span  class="add-to">R$<%
-                        if (produto != null) {
+                        if (produto
+
+                        
+                            != null) {
                             out.print(produto.getPrecoUnit());
                         }
                         %></span>
+                        <%if(produto.getQuantidade () 
+                                > 0){%>
                     <a href="${pageContext.request.contextPath}/SalvarCarrinho?<%
                         StringBuilder sbLink = new StringBuilder();
                         sbLink.setLength(0);
@@ -79,10 +85,17 @@
 
                         out.print(sbLink.toString());
 
-                       %>" class=" cart-to">Add to Cart</a>					
+                       %>" class=" cart-to">Add to Cart</a>
+                    <%}
+
+                        
+                        
+                        else{%>
+                    <a href="#" class=" cart-to">Out of Stock</a>
+                    <%}%>
                     <div class="clearfix"></div>
                 </div>
-                <h5>100 items in stock</h5>
+                <h5><%= produto.getQuantidade()%> items in stock</h5>
                 <div class="available">
                     <h6>Available Options :</h6>
                     <ul>

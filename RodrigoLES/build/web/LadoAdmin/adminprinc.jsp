@@ -9,7 +9,7 @@
                 <div class="account-in">
                     <div>
                         <header><h1>Deve conter gráficos e avisos</h1></header></div>
-                    ${mensagem}
+
                 </div>	
 
 

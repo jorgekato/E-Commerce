@@ -6,6 +6,7 @@ public class Imagem extends EntidadeDominio {
 
     //Salvar no banco como bytea se postgreSql
     private byte[] imagem;
+    private int posicao;
     private String url;
    
     
@@ -25,4 +26,11 @@ public class Imagem extends EntidadeDominio {
         this.url = url;
     }
 
+    public int getPosicao() {
+        return posicao;
+    }
+
+    public void setPosicao(int posicao) {
+        this.posicao = posicao;
+    }
 }

@@ -37,7 +37,7 @@
     %>
     <BR>
 
-    <TABLE BORDER="5"    WIDTH="50%"   CELLPADDING="4" CELLSPACING="3">
+    <TABLE class="table table-striped table-bordered bootstrap-datatable datatable table-responsive" BORDER="5"    WIDTH="50%"   CELLPADDING="4" CELLSPACING="3">
         <TR>
             <TH COLSPAN="4"><BR>
                 <H3>Categorias</H3>

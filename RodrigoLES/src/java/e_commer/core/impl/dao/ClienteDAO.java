@@ -187,8 +187,6 @@ public class ClienteDAO extends AbstractJdbcDAO {
                 pst.setString(7, ((Endereco)endereco.get(ultimoEndereco)).getNumero());
                 pst.setString(8, ((Endereco)endereco.get(ultimoEndereco)).getCep());
                 pst.setBoolean(9, ((Endereco)endereco.get(0)).getFlgAtivo());
-//            time = new Timestamp(cliente.getDtCadastro().getTime());
-//            pst.setTimestamp(9, time);
                 pst.executeUpdate();
             }
             connection.commit();
@@ -241,7 +239,7 @@ public class ClienteDAO extends AbstractJdbcDAO {
             sql.append("=?");
 
             pst = connection.prepareStatement(sql.toString());
-            pst.setString(1, cliente.getNome());
+            pst.setString(1, cliente.getNome().toUpperCase());
             pst.setString(2, cliente.getTelefone());
             pst.setBoolean(3, cliente.getFlg_ativo());
             pst.setString(4, cliente.getEmail());

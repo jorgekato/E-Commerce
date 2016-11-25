@@ -2,24 +2,16 @@ package e_commer.core.filtros;
 
 import e_commer.controle.web.command.impl.ConsultarCommand;
 import e_commer.core.aplicacao.Resultado;
-import e_commer.core.impl.dao.CategoriasDAO;
-import e_commer.core.impl.dao.ConsultaDAO;
 import e_commer.dominio.Categorias;
 import e_commer.dominio.EntidadeDominio;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 
 /**
  *

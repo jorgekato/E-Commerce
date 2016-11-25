@@ -120,8 +120,8 @@ public class CategoriasDAO extends AbstractJdbcDAO {
             sql.append(idTable);
             sql.append("=?");            
             pst = connection.prepareStatement(sql.toString());
-            pst.setString(1, categoria.getNomeCategoria());
-            pst.setString(2, categoria.getDescricao());
+            pst.setString(1, categoria.getNomeCategoria().toUpperCase());
+            pst.setString(2, categoria.getDescricao().toUpperCase());
             pst.setBoolean(3, categoria.getFlg_ativo());
             pst.setInt(4, categoria.getId());
 

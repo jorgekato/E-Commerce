@@ -7,12 +7,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="content">
     <div class="account-in register-top">
-        <h2>Register</h2>
+        <h2>Cadastro</h2>
         <div class=" account-top register">
             ${mensagem}
-            <form action="${pageContext.request.contextPath}/SalvarCliente" method="POST">
+            <form action="${pageContext.request.contextPath}/SalvarCliente" method="POST" id="validate">
                 <div> 	
-                    <span>Name*</span>
+                    <span>Name</span>
                     <input type="text" name="txtNome"> 
                 </div>
                 <div> 	
@@ -21,7 +21,7 @@
                 </div>
                 <div> 	
                     <span>Confirmar Email*</span>
-                    <input type="text"> 
+                    <input type="text" name="txtEmail"> 
                 </div>
                 <div> 
                     <span  class="pass">Password*</span>

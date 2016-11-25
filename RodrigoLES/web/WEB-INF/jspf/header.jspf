@@ -103,7 +103,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/megamenu.js"></script>
         <script>$(document).ready(function () {
                 $(".megamenu").megamenu();
-            });</script>		
+            });</script>
+        
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.validate.min.js"></script>
     </head>
     <body> 
         <!--header-->
@@ -118,20 +120,20 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             sbCliente.setLength(0);
 
                             sbCliente.append(cliente.getNome());
-                            sbCliente.append("<li><a href=\"/RodrigoLES/ServletAutenticacao?operacao=SAIR\">Sair</a> </li>");
+                            sbCliente.append("<li><a href=\"/Artesanatos/do.logar?operacao=SAIR\">Sair</a> </li>");
                             out.print(sbCliente.toString());
                         }
                     %>                    
 
 
-                    <li ><a href="contact.html" > CONTACT US</a></li>
+                    <li ><a href="#" > CONTACT US</a></li>
                 </ul>
                 <div class="clearfix"> </div>
             </div>
             <!---->
             <div class="header-top">
                 <div class="logo">
-                    <a href="${pageContext.request.contextPath}/adminprinc.jsp"><img src="${pageContext.request.contextPath}/images/logo.png" alt="" ></a>
+                    <a href="${pageContext.request.contextPath}/LadoAdmin/adminprinc.jsp"><img src="${pageContext.request.contextPath}/images/logo.png" alt="" ></a>
                 </div>
 
                 <div class="clearfix"> </div>
@@ -141,34 +143,32 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <div class="top-nav">
 
                     <ul class="megamenu skyblue">
-                        <li class="active grid"><a  href="/RodrigoLES/LadoAdmin/adminprinc.jsp">Home</a>
-                        <li class="active grid"><a  href="/RodrigoLES/LadoAdmin/gestaoprodutos.jsp">Produtos</a>
+                        <li class="active grid"><a  href="/Artesanatos/LadoAdmin/adminprinc.jsp">Home</a>
+                        <li class="active grid"><a  href="/Artesanatos/LadoAdmin/gestaoprodutos.jsp">Produtos</a>
                             <div class="megapanel">
                                 <div class="row">
                                     <div class="col1">
                                         <div class="h_nav">
                                             <ul>
-                                                <li><a href="/RodrigoLES/LadoAdmin/cadproduto.jsp">Cadastrar Produtos</a></li>  
-                                                <li><a href="/RodrigoLES/LadoAdmin/pesqprodutos.jsp">Pesquisar Produtos</a></li>
-                                                <li><a href="/RodrigoLES/LadoAdmin/cadcategoria.jsp">Cadastro de categorias</a></li>
-                                                <li><a href="/RodrigoLES/LadoAdmin/pesqcategoria.jsp">Pesquisar categorias</a></li>
-                                                <li><a href="/RodrigoLES/LadoAdmin/cadartesanato.jsp">Cadastro de artesanatos</a></li>
-                                                <li><a href="/RodrigoLES/LadoAdmin/pesqartesanato.jsp">Pesquisar artesanatos</a></li>
+                                                <li><a href="/Artesanatos/LadoAdmin/cadproduto.jsp">Cadastrar Produtos</a></li>  
+                                                <li><a href="/Artesanatos/LadoAdmin/pesqprodutos.jsp">Pesquisar Produtos</a></li>
+                                                <li><a href="/Artesanatos/LadoAdmin/cadcategoria.jsp">Cadastro de categorias</a></li>
+                                                <li><a href="/Artesanatos/LadoAdmin/pesqcategoria.jsp">Pesquisar categorias</a></li>
+                                                <li><a href="/Artesanatos/LadoAdmin/cadartesanato.jsp">Cadastro de artesanatos</a></li>
+                                                <li><a href="/Artesanatos/LadoAdmin/pesqartesanato.jsp">Pesquisar artesanatos</a></li>
                                             </ul>	
                                         </div>							
                                     </div>                                    
                                 </div>
                             </div>
                         </li>
-                        <li class="grid"><a  href="/RodrigoLES/LadoAdmin/gestaocliente.jsp">Clientes</a>
+                        <li class="grid"><a  href="/Artesanatos/LadoAdmin/gestaocliente.jsp">Clientes</a>
                             <div class="megapanel">
                                 <div class="row">
                                     <div class="col1">
                                         <div class="h_nav">
                                             <ul>
-                                                <li><a href="/RodrigoLES/LadoAdmin/pesqcliente.jsp">Consultar Cliente</a></li>
-                                                <li><a href="#">Ativar/Desativar</a></li>
-                                                <li><a href="#">Email Marketing</a></li>
+                                                <li><a href="/Artesanatos/LadoAdmin/pesqcliente.jsp">Consultar Cliente</a></li>
                                             </ul>	
                                         </div>							
                                     </div>
@@ -176,32 +176,34 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             </div>
                         </li>
 
-                        <li><a class="pink" href="/RodrigoLES/LadoAdmin/gestaovenda.jsp">Pedidos</a>
+                        <li><a class="pink" href="/Artesanatos/LadoAdmin/gestaovenda.jsp">Pedidos</a>
                             <div class="megapanel">
                                 <div class="row">
                                     <div class="col1">
                                         <div class="h_nav">
                                             <ul>
-                                                <li><a href="/RodrigoLES/LadoAdmin/pesqpedido.jsp">Pedidos de Compra</a></li> 
+                                                <li><a href="${pageContext.request.contextPath}/LadoAdmin/pesqpedido.jsp">Pedidos de Compra</a></li> 
                                                 <li><a href="${pageContext.request.contextPath}/SalvarTrocaDevolucao?operacao=CONSULTAR">Pedidos Troca/Cancelamento</a></li> 
-                                                <li><a href="/RodrigoLES/LadoAdmin/admin_pedidos.html">Troca de </a></li> 
                                             </ul>	
                                         </div>							
                                     </div>                                    
                                 </div>
                             </div>
                         </li>
-                        <li class="grid"><a  href="/RodrigoLES/LadoAdmin/gestaorelat.jsp">Relatórios</a>
+                        <li class="grid"><a  href="${pageContext.request.contextPath}/LadoAdmin/gestaorelat.jsp">Relatórios</a>
                             <div class="megapanel">
                                 <div class="row">
                                     <div class="col1">
                                         <div class="h_nav">
                                             <ul>
-                                                <li><a href="/RodrigoLES/LadoAdmin/Relatorios/produtosmaisvendidos.jsp">Produtos Mais vendido</a></li>                                                
-                                                <li><a href="/RodrigoLES/LadoAdmin/Relatorios/clientecompraperiodo.jsp">Clientes Mais vendas</a></li>
+                                                <li><a href="${pageContext.request.contextPath}/LadoAdmin/Relatorios/produtosmaisvendidos.jsp">Produtos Mais vendido</a></li>                                                
+                                                <li><a href="${pageContext.request.contextPath}/LadoAdmin/Relatorios/clientecompraperiodo.jsp">Clientes Mais vendas</a></li>
                                                 <li><a href="${pageContext.request.contextPath}/EstoqueMin?operacao=CONSULTAR">Estoque mínimo</a></li>
-                                                <li><a href="/RodrigoLES/LadoAdmin/Relatorios/produtoperiodo.jsp">Produto por Periodo</a></li>
-                                                <li><a href="/RodrigoLES/LadoAdmin/Relatorios/clienteperiodo.jsp">Clientes por Periodo</a></li>
+                                                <li><a href="${pageContext.request.contextPath}/LadoAdmin/Relatorios/selecionaproduto.jsp">Produto por Periodo</a></li>
+                                                <li><a href="${pageContext.request.contextPath}/LadoAdmin/Relatorios/selecionacliente.jsp">Clientes por Periodo</a></li>
+                                                <li><a href="${pageContext.request.contextPath}/LadoAdmin/Relatorios/relatperfil.jsp">Por Perfil</a></li>
+                                                <li><a href="${pageContext.request.contextPath}/EstoqueGeral?operacao=CONSULTAR">Estoque geral</a></li>
+                                                <li><a href="${pageContext.request.contextPath}/LadoAdmin/Relatorios/vedasperiodo.jsp">Vendas periodo</a></li>
                                             </ul>	
                                         </div>							
                                     </div>                                    

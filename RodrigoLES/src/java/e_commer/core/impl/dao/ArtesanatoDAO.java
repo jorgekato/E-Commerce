@@ -37,10 +37,7 @@ public class ArtesanatoDAO extends AbstractJdbcDAO {
         openConnection();
         PreparedStatement pst = null;
         Artesanato artesanato = (Artesanato) entidade;
-        
-        if(artesanato.getDescricao() == null){
-            artesanato.setDescricao("");
-        }
+
         try {
             connection.setAutoCommit(false);
             //Falta incluir categoria	
@@ -132,9 +129,9 @@ public class ArtesanatoDAO extends AbstractJdbcDAO {
             sql.append("=?");
 
             pst = connection.prepareStatement(sql.toString());
-            pst.setString(1, artesanato.getNome());
+            pst.setString(1, artesanato.getNome().toUpperCase());
             pst.setDouble(2, artesanato.getPrecoUnit());
-            pst.setString(3, artesanato.getDescricao());
+            pst.setString(3, artesanato.getDescricao().toUpperCase());
             pst.setBoolean(4, artesanato.getFlg_ativo());
             pst.setInt(5, artesanato.getId());
             pst.executeUpdate();
@@ -191,7 +188,7 @@ public class ArtesanatoDAO extends AbstractJdbcDAO {
             if (artesanato.getId() != null && artesanato.getNome().equals("")) {
                 pst.setInt(1, artesanato.getId());
             } else if (artesanato.getId() == null && !artesanato.getNome().equals("")) {
-                pst.setString(1, (artesanato.getNome()+ "%").toUpperCase());
+                pst.setString(1, "%" + artesanato.getNome().toUpperCase()+ "%");
             }
 
             ResultSet rs = pst.executeQuery();
@@ -208,14 +205,11 @@ public class ArtesanatoDAO extends AbstractJdbcDAO {
                 a.setDtCadastro(dtCadastro);
                 Categorias cat = new Categorias();
                 cat.setId(rs.getInt(catId));
-                cat.setNomeCategoria(rs.getString(cat_nome));
+                cat.setNomeCategoria(cat_nome);
                 a.setCategoria(cat);
                 artesanatos.add(a);
             }
-            if(artesanatos.size()>0)
-                return artesanatos;
-            else
-                return null;
+            return artesanatos;
         } catch (SQLException e) {
             e.printStackTrace();
         }

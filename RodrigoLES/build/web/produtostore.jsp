@@ -24,6 +24,9 @@
 
                         Produto pro = (Produto) entidades.get(i);
 
+                        if(!pro.getFlg_ativo()){
+                            continue;
+                        }
                         sbRegistro.setLength(0);
                         sbLink.setLength(0);
 
@@ -40,10 +43,12 @@
                         sbLink.append("&");
                         sbLink.append("operacao=");
                         sbLink.append("VISUALIZAR1>");
-                        //sbLink.append("<img class=\"img-responsive\" src=\"images/sh.png\" alt=\"\" />");
-                        sbLink.append("<img class=\"img-responsive\" src=\"data:image/jpg;base64, ");
-                        sbLink.append(ManipulaImagem.setImagemDimensao(pro.getFoto().getImagem(), 175, 144));
-                        sbLink.append("\" alt=\"\" />");
+                        if (pro.getFoto() != null) {
+                            //sbLink.append("<img class=\"img-responsive\" src=\"images/sh.png\" alt=\"\" />");
+                            sbLink.append("<img class=\"img-responsive\" src=\"data:image/jpg;base64, ");
+                            sbLink.append(ManipulaImagem.setImagemDimensao(pro.getFoto()[0].getImagem(), 175, 144));
+                            sbLink.append("\" alt=\"\" />");
+                        }
                         sbLink.append("</a>");
 
                         sbRegistro.append(sbLink.toString());

@@ -4,6 +4,7 @@
     Author     : Jorge
 --%>
 
+<%@page import="e_commer.core.util.FormatDouble"%>
 <%@page import="e_commer.core.util.ConverteDate"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="e_commer.dominio.Cliente"%>
@@ -45,7 +46,13 @@
                 </ul>
             </div>
             <div class="tab4">
-            </div>
+                <ul class="place">
+                    <li class="sort">
+                        <a href="SalvarCredito?txtCliId=<%= cliente.getId()%>&operacao=CONSULTAR1">Meus Vale-Creditos</a></li>
+                    <li class="by"></li>
+                    <div class="clearfix"> </div>
+                </ul>
+            </div>  
             <div class="tab5">
 
             </div>
@@ -123,7 +130,7 @@
             <form action="SalvarTrocaDevolucao" method="post">
                 <input type="hidden" name="txtIdPed" value="<%= p.getId()%>"/>
                 
-                <table border="3" width="1000%" CELLPADDING="4" CELLSPACING="3">
+                <table class="table table-striped table-bordered bootstrap-datatable datatable table-responsive" border="3" width="1000%" CELLPADDING="4" CELLSPACING="3">
                     <tr>
                         <th colspan="6"><strong>Pedido</strong></th>
                     </tr>
@@ -143,7 +150,7 @@
                     </tr>
                 </table>
                 <h3>Produto e Motivo</h3>
-                <table>
+                <table class="table table-striped table-bordered bootstrap-datatable datatable table-responsive">
                     <%
                         for (int i = 0; i < p.getItens().size(); i++) {//qtde de itens
                             if (ItemArtesanato.class.getName().equals(p.getItens().get(i).getClass().getName())) {
@@ -164,11 +171,11 @@
                     </tr>
                     <tr>
                         <th>Valor Unit</th>
-                        <td><input type="text" name="txtVlrUnit" value="<%= item.getArtesanato().getPrecoUnit()%>" readonly/></td>
+                        <td><input type="text" name="txtVlrUnit" value="<%= FormatDouble.formataDouble(item.getArtesanato().getPrecoUnit())%>" readonly/></td>
                     </tr>
                     <tr>
                         <th>Sub Total</th>
-                        <td><input type="text" name="txtSubTotal" value="<%= item.getQuantidade() * item.getArtesanato().getPrecoUnit()%>" readonly/></td>
+                        <td><input type="text" name="txtSubTotal" value="<%= FormatDouble.formataDouble(item.getQuantidade() * item.getArtesanato().getPrecoUnit())%>" readonly/></td>
                     </tr>
 
                     <%
@@ -190,11 +197,11 @@
                     </tr>
                     <tr>
                         <th>Valor Unit</th>
-                        <td><input type="text" name="txtVlrUnit" value="<%= item.getProduto().getPrecoUnit()%>" readonly/></td>
+                        <td><input type="text" name="txtVlrUnit" value="<%= FormatDouble.formataDouble(item.getProduto().getPrecoUnit())%>" readonly/></td>
                     </tr>
                     <tr>
                         <th>Sub Total</th>
-                        <td><input type="text" name="txtSubTotal" value="<%= item.getQuantidade() * item.getProduto().getPrecoUnit()%>" readonly/></td>
+                        <td><input type="text" name="txtSubTotal" value="<%= FormatDouble.formataDouble(item.getQuantidade() * item.getProduto().getPrecoUnit())%>" readonly/></td>
                     </tr>
                     <%
                                 }//else

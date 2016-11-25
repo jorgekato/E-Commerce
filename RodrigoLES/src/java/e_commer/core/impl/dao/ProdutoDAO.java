@@ -1,5 +1,6 @@
 package e_commer.core.impl.dao;
 
+import e_commer.core.aplicacao.Resultado;
 import e_commer.core.util.ManipulaImagem;
 import e_commer.dominio.Categorias;
 import java.sql.PreparedStatement;
@@ -82,7 +83,7 @@ public class ProdutoDAO extends AbstractJdbcDAO {
             produto.setId(id);
 
             ImagemDAO imgDAO = new ImagemDAO();
-            imgDAO.salvar(produto);
+            imgDAO.salvar(produto, connection);
 
             connection.commit();
         } catch (SQLException e) {
@@ -120,6 +121,7 @@ public class ProdutoDAO extends AbstractJdbcDAO {
         try {
             connection.setAutoCommit(false);
 
+            //Se alteração por decorrencia de pedido.
             if (ItemProduto.class.getName().equals(entidade.getClass().getName())) {
                 ItemProduto item = (ItemProduto) entidade;
                 produto = (Produto) item.getProduto();
@@ -137,7 +139,7 @@ public class ProdutoDAO extends AbstractJdbcDAO {
                 pst.setInt(2, produto.getId());
                 pst.executeUpdate();
 
-            } else {
+            } else {//Se alteração das caracteristicas do produto
                 produto = (Produto) entidade;
                 sql = new StringBuilder();
                 sql.append("UPDATE " + table + " SET " + nome + "=?, " + marca + "=?, " + modelo + "=?, ");
@@ -146,18 +148,22 @@ public class ProdutoDAO extends AbstractJdbcDAO {
                 sql.append("WHERE " + idTable + "=?");
 
                 pst = connection.prepareStatement(sql.toString());
-                pst.setString(1, produto.getNome());
-                pst.setString(2, produto.getMarca());
-                pst.setString(3, produto.getModelo());
+                pst.setString(1, produto.getNome().toUpperCase());
+                pst.setString(2, produto.getMarca().toUpperCase());
+                pst.setString(3, produto.getModelo().toUpperCase());
                 pst.setInt(4, produto.getQuantidade());
                 pst.setDouble(5, produto.getPrecoUnit());
                 pst.setInt(6, produto.getEstoqueMin());
                 pst.setInt(7, produto.getQtdeMaxVenda());
-                pst.setString(8, produto.getDescricao());
+                pst.setString(8, produto.getDescricao().toUpperCase());
                 pst.setBoolean(9, produto.getFlg_ativo());
                 pst.setInt(10, produto.getCategoria().getId());
                 pst.setInt(11, produto.getId());
+
                 pst.executeUpdate();
+
+                ImagemDAO imgDAO = new ImagemDAO();
+                imgDAO.alterar(produto, connection);
 
             }
             connection.commit();
@@ -198,9 +204,9 @@ public class ProdutoDAO extends AbstractJdbcDAO {
         }
 
         if (produto.getId() == null && produto.getNome().equals("")) {
-            sql = "SELECT * FROM " + table + " JOIN " + tbCategoria + " USING(cat_id) join images on (pro_id= id_produtos) WHERE " + flg_ativo + "= true order by pro_nome";
+            sql = "SELECT * FROM " + table + " JOIN " + tbCategoria + " USING(cat_id) order by pro_nome";
         } else if (produto.getId() != null && produto.getNome().equals("")) {
-            sql = "SELECT * FROM " + table + " JOIN " + tbCategoria + " USING(cat_id) join images on (pro_id= id_produtos) WHERE " + idTable + "=?";
+            sql = "SELECT * FROM " + table + " JOIN " + tbCategoria + " USING(cat_id) WHERE " + idTable + "=?";
         } else if (produto.getId() == null && !produto.getNome().equals("")) {
             sql = "SELECT * FROM " + table + " JOIN " + tbCategoria + " USING(cat_id) WHERE " + nome + " like ?";
         }
@@ -212,7 +218,7 @@ public class ProdutoDAO extends AbstractJdbcDAO {
             if (produto.getId() != null && produto.getNome().equals("")) {
                 pst.setInt(1, produto.getId());
             } else if (produto.getId() == null && !produto.getNome().equals("")) {
-                pst.setString(1, produto.getNome() + "%");
+                pst.setString(1, "%" + produto.getNome().toUpperCase() + "%");
             }
 
             ResultSet rs = pst.executeQuery();
@@ -237,17 +243,17 @@ public class ProdutoDAO extends AbstractJdbcDAO {
                 cat.setId(rs.getInt(cat_id));
                 cat.setNomeCategoria(rs.getString(cat_nome));
                 p.setCategoria(cat);
-
-//                if (rs.getBytes("img") != null) {
-//
-//                    Imagem img = new Imagem();
-//                    img.setImagem(rs.getBytes("img"));
-//                    //ver como alterar
-//                    img.setUrl(ManipulaImagem.convertImagemBase64(img.getImagem()));
-//
-//                    p.setFoto(img);
-//                }
-
+                
+                ImagemDAO imgDao = new ImagemDAO();
+                List<EntidadeDominio> entidades = imgDao.consultar(p, connection);
+                Imagem[] img = new Imagem[entidades.size()];
+                for(int i = 0; i<entidades.size(); i++){
+                    img[i] =  (Imagem) entidades.get(i);
+                }
+                
+                
+                p.setFoto(img);
+                
                 produtos.add(p);
             }
 
@@ -305,62 +311,4 @@ public class ProdutoDAO extends AbstractJdbcDAO {
         }
         return null;
     }
-
-//    public List<EntidadeDominio> consultar(EntidadeDominio entidade, String operacao) {
-//        PreparedStatement pst = null;
-//
-//        Produto produto = (Produto) entidade;
-//        String sql = null;
-//
-//        if (produto.getDescricao() == null) {
-//            produto.setDescricao("");
-//        }
-//
-//        if (produto.getId() == null && produto.getDescricao().equals("")) {
-//            sql = "SELECT * FROM Produtos";
-//        } else if (produto.getId() != null && produto.getDescricao().equals("")) {
-//            sql = "SELECT * FROM Produtos WHERE id_pro=?";
-//        } else if (produto.getId() == null && !produto.getDescricao().equals("")) {
-//            sql = "SELECT * FROM Produtos WHERE descricao like ?";
-//        } else if (operacao.equals("estoque_min"))
-//        {
-//            sql = "select * from Produtos where estoque_min >= quantidade";
-//        }
-//
-//        try {
-//            openConnection();
-//            pst = connection.prepareStatement(sql);
-//
-//            if (produto.getId() != null && produto.getDescricao().equals("")) {
-//                pst.setInt(1, produto.getId());
-//            } else if (produto.getId() == null && !produto.getDescricao().equals("")) {
-//                pst.setString(1, "%" + produto.getDescricao() + "%");
-//            } 
-//
-//            ResultSet rs = pst.executeQuery();
-//            List<EntidadeDominio> produtos = new ArrayList<EntidadeDominio>();
-//            while (rs.next()) {
-//                Produto p = new Produto();
-//                p.setId(rs.getInt("prod_id"));
-//                p.setNome(rs.getString("nome"));
-//                p.setMarca(rs.getString("marca"));
-//                p.setModelo(rs.getString("modelo"));
-//                p.setQuantidade(rs.getInt("quantidade"));
-//                p.setFabricante(rs.getString("fabricante"));
-//                p.setPrecoUnit(rs.getDouble("valor_unit"));
-//                p.setEstoqueMin(rs.getInt("estoque_min"));
-//                p.setDescricao(rs.getString("descricao"));
-//                p.setFlg_ativo(rs.getBoolean("flg_ativo"));
-//
-//                java.sql.Date dtCadastroEmLong = rs.getDate("dt_cadastro");
-//                Date dtCadastro = new Date(dtCadastroEmLong.getTime());
-//                p.setDtCadastro(dtCadastro);
-//                produtos.add(p);
-//            }
-//            return produtos;
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
 }

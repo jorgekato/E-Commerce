@@ -17,6 +17,9 @@ import e_commer.dominio.Categorias;
 import e_commer.dominio.EntidadeDominio;
 import e_commer.dominio.Imagem;
 import e_commer.dominio.Produto;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import javax.servlet.http.Part;
 
 public class ProdutoViewHelper implements IViewHelper {
@@ -41,23 +44,42 @@ public class ProdutoViewHelper implements IViewHelper {
             String catId = request.getParameter("categorias");
             produto = new Produto();
 
-          //  para pegar uma (1) imagem que vem da página JSP
+            //para pegar uma (1) imagem que vem da página JSP
             try {
-                
-                Part part = request.getPart("imgUpload");
-                
-                if (part.getInputStream() != null) {
-                    
-                    Imagem imagem = new Imagem();
-                    imagem.setImagem(ManipulaImagem.convertImagemBytes(part.getInputStream()));
-                   
-                    if (imagem != null && imagem.getImagem() != null) {
-                        produto.setFoto(imagem);
-                    } else {
-                        produto.setFoto(null);
+
+                Imagem[] imagem = new Imagem[3];
+                Part part = null;
+                for (int i = 0; i < imagem.length; i++) {
+                    part = request.getPart("imgUpload" + (i + 1));
+                    if (part.getInputStream() != null) {
+                        if (!part.getSubmittedFileName().equals("")) {
+                            imagem[i] = new Imagem();
+                            imagem[i].setImagem(ManipulaImagem.convertImagemBytes(part.getInputStream()));
+
+                            //testar ao cadastrar sem imagem
+                            if (imagem[i].getImagem() != null) {
+                                //produto.setFoto(imagem);
+                            } else {
+                                //Pega imagem padrão e salva no BD
+                                String caminho = request.getServletContext().getRealPath("/images/sem_imagem.png");
+                                File file = new File(caminho);
+                                InputStream fis = new FileInputStream(file);
+                                imagem[i].setImagem(ManipulaImagem.convertImagemBytes(fis));
+                                //produto.setFoto(imagem);
+                            }
+                            imagem[i].setPosicao(i);
+                        } else if (operacao.equals("SALVAR")) {
+                            imagem[i] = new Imagem();
+                            String caminho = request.getServletContext().getRealPath("/images/sem_imagem.png");
+                            File file = new File(caminho);
+                            InputStream fis = new FileInputStream(file);
+                            imagem[i].setImagem(ManipulaImagem.convertImagemBytes(fis));
+                            imagem[i].setPosicao(i);
+                        }
                     }
                 }
-                
+                produto.setFoto(imagem);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -83,7 +105,7 @@ public class ProdutoViewHelper implements IViewHelper {
             }
 
             if (valor_unit != null && !valor_unit.trim().equals("")) {
-                produto.setPrecoUnit(Double.parseDouble(valor_unit.replace(",", ".")));
+                produto.setPrecoUnit(Double.parseDouble(valor_unit));
             }
 
             if (estoque_min != null && !estoque_min.trim().equals("")) {
@@ -149,26 +171,22 @@ public class ProdutoViewHelper implements IViewHelper {
         String operacao = request.getParameter("operacao");
 
         //transformar em else if
-        if (resultado.getMsg() == null && operacao.equals("SALVAR")) {
+        if (request.getParameter("graficoproduto") != null) {
+            request.setAttribute("resultado", resultado);
+            d = request.getRequestDispatcher("LadoAdmin/Relatorios/selecionaproduto.jsp");
+        } else if (resultado.getMsg() == null && operacao.equals("SALVAR")) {
             resultado.setMsg("Produto cadastrado com sucesso!");
-
-//            request.setAttribute("produto", resultado.getEntidades().get(0));
-//            d = request.getRequestDispatcher("LadoAdmin/cadproduto.jsp");
             request.setAttribute("resultado", resultado);
             d = request.getRequestDispatcher("LadoAdmin/msggeral.jsp");
         } else if (resultado.getMsg() == null && operacao.equals("CONSULTAR")) {
-
             request.setAttribute("resultado", resultado);
             d = request.getRequestDispatcher("LadoAdmin/pesqprodutos.jsp");
         } else if (resultado.getMsg() == null && operacao.equals("CONSULTAR1")) {
-
             request.setAttribute("resultado", resultado);
-            //d = request.getRequestDispatcher("pesqartesanato.jsp");
             d = request.getRequestDispatcher("produtostore.jsp");
         } else if (resultado.getMsg() == null && operacao.equals("ALTERAR")) {
 
             resultado.setMsg("Produto alterado com sucesso!");
-
             request.setAttribute("resultado", resultado);
             d = request.getRequestDispatcher("LadoAdmin/msggeral.jsp");
         } else if (resultado.getMsg() == null && operacao.equals("VISUALIZAR")) {

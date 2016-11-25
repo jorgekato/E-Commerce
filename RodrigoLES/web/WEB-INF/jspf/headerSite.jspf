@@ -24,14 +24,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
         Cliente cliente = null;
         cliente = (Cliente)request.getSession().getAttribute("usuario");
-        //if (clientes != null) {
-        //    for (EntidadeDominio e : clientes.getEntidades()) {
-       //         cliente = (Cliente) e;
-        //    }
-       // }
     %>
     <head>
-        <title>RH Informática</title>
+        <title>Produtos para Artesanato</title>
         <link href="${pageContext.request.contextPath}/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
@@ -109,7 +104,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <script>$(document).ready(function () {
                 $(".megamenu").megamenu();
             });</script>				
-
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.validate.min.js"></script>
     </head>
     <body> 
         <!--header-->
@@ -125,7 +120,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             sbCliente.setLength(0);
 
                             sbCliente.append(cliente.getNome());
-                            sbCliente.append("<li><a href=\"ServletAutenticacao?operacao=SAIR\">Sair</a> </li>");
+                            sbCliente.append("<li><a href=\"do.logar?operacao=SAIR\">Sair</a> </li>");
                             sbCliente.append("<li><a href=\"minhaconta.jsp\">Minha Conta</a> </li>");
                             out.print(sbCliente.toString());
                         } else {%>

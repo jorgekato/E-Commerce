@@ -28,8 +28,8 @@
             </div>
             <div class="tab2">
                 <ul class="place">
-                    <li class="sort">Meus Dados</li>
-
+                    <li class="sort">
+                        <a href="SalvarEndereco?txtId=<%= cliente.getId()%>&operacao=VISUALIZAR3">Meus Dados</a></li>
                     <li class="by"></li>
                     <div class="clearfix"> </div>
                 </ul>
@@ -128,7 +128,7 @@
             <form action="SalvarTrocaDevolucao" method="post">
 
 
-                <table border="3" width="100%" CELLPADDING="4" CELLSPACING="3">
+                <table class="table table-striped table-bordered bootstrap-datatable datatable table-responsive" border="3" width="100%" CELLPADDING="4" CELLSPACING="3">
                     <tr>
                         <th colspan="6"><strong>Pedido</strong></th>
                     </tr>
@@ -143,7 +143,7 @@
                     <%                        for (int i = 0; i < resultado.getEntidades().size(); i++) {
                             TrocaDevolucao td = (TrocaDevolucao) resultado.getEntidades().get(i);
                             for (int j = 0; j < td.getPedido().getItens().size(); j++) {
-                                if (ItemArtesanato.class.getName().equals(td.getPedido().getItens().getClass().getName())) {
+                                if (ItemArtesanato.class.getName().equals(td.getPedido().getItens().get(0).getClass().getName())) {
                                     ItemArtesanato item = (ItemArtesanato) td.getPedido().getItens().get(j);
                     %>
                     <tr>

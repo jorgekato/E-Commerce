@@ -1,7 +1,6 @@
 package e_commer.core.impl.dao;
 
 import e_commer.core.aplicacao.Resultado;
-import e_commer.core.impl.controle.Fachada;
 import e_commer.dominio.AbstractItem;
 import e_commer.dominio.Artesanato;
 import e_commer.dominio.Cidade;
@@ -162,6 +161,15 @@ public class PedidoDAO extends AbstractJdbcDAO {
             pst.setString(4, rel.getStatus());
             pst.executeUpdate();
 
+            //Altera se houver crédito
+            if(pedido.getCredito() != null){
+                
+                CreditoDAO creDAO = new CreditoDAO();
+                creDAO.alterar(pedido.getCredito(), connection);
+                
+            }
+            
+            
             connection.commit();
         } catch (SQLException e) {
             try {

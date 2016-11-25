@@ -18,8 +18,8 @@
 
         <%      if (carrinho != null) {
         %>
-        <form action="SalvarCarrinho" method="post">
-            <TABLE BORDER="5"    WIDTH="100%"   CELLPADDING="4" CELLSPACING="3">
+        <form class="" action="SalvarCarrinho" method="post">
+            <TABLE class="table table-striped table-bordered bootstrap-datatable datatable table-responsive" BORDER="5"    WIDTH="100%"   CELLPADDING="4" CELLSPACING="3">
                 <TR>
                     <TH COLSPAN="7"><BR>
                         <H3>Carrinho de compras</H3>
@@ -75,27 +75,50 @@
                 <%
                                 }//else
                             }//for i
-                        }//if
-                    }
+                        }//if entidade != null
+                    }//if carrinho != null
+%>
+                <TR>
+                    <TD COLSPAN="5"></TD>
+                    <TD>Total Parcial:<input type="text" name="total" value="<%= FormatDouble.formataDouble(carrinhos.getTotal())%>"/></TD>
+                    <TD></TD>
+                </TR>
+                <%if (cliente != null) {%>
+                <TR>
+
+                    <Td COLSPAN="5"><input type="checkbox" name="ckbox" value="sim"/> Utilizar Vale Credito 
+                        <input type="text" name="txtValeCredito" value="<%
+                            if (carrinhos != null && carrinhos.getCredito() != null) {
+                                out.print(carrinhos.getCredito().getCodigo());
+                            }
+                               %>"/>
+                    </Td>
+                    <%
+                        if (carrinhos != null && carrinhos.getCredito() != null) {
+                    %>
+                    <TD>Desconto: <input type="text" name="txtDesconto" value="<%= FormatDouble.formataDouble(carrinhos.getCredito().getSaldo())%>"</TD>
+                        <%} else {%>
+                    <TD></TD>
+                        <%}%>
+                    <TD><input type="submit" name="operacao" value="VALIDAR" /></TD>
+                </TR>
+                <%
+                    if (carrinhos != null && carrinhos.getCredito() != null) {
                 %>
                 <TR>
                     <TD COLSPAN="5"></TD>
-                    <TD>Total:<input type="text" name="total" value="<%= FormatDouble.formataDouble(carrinhos.getTotal()) %>"/></TD>
+                    <TD>Total:<input type="text" name="total" value="<%= FormatDouble.formataDouble(carrinhos.getTotal() - carrinhos.getCredito().getSaldo())%>"/></TD>
                     <TD></TD>
                 </TR>
-                <TR>
-                    <TH COLSPAN="5"><input type="checkbox" name=""/> Utilizar Vale Credito</TH>
-                    <TD></TD>
-                    <TD></TD>
-                </TR>  
+                <%}
+                    }//if cliente != null%>
                 <TR>
                     <TD COLSPAN="5"></TD>
                     <TD>
-                        <%if(cliente != null){%>
-                        <a href="SalvarCliente?txtId=<%= cliente.getId()%>&operacao=CONSULTAR3">Comprar</a>
-                        <%}else{%>
-                        <a href="SalvarCliente?operacao=CONSULTAR3">Comprar</a>
-                        <%}%>
+                        <a href="${pageContext.request.contextPath}/cartconfirmar.jsp">Comprar</a>
+
+
+
                     </TD>
                     <TD></TD>
                 </TR>        
@@ -106,7 +129,7 @@
         <%
         } else {
         %>
-        <h4 class="title">Carrinho Vazio</h4>
+        <h4 class="title">Shopping cart is empty</h4>
         <p class="cart-out">You have no items in your shopping cart.<br>Click<a href="index.jsp"> here</a> to continue shopping</p>
             <%}
             %>

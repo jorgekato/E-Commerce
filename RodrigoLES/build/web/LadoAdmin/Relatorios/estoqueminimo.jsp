@@ -13,9 +13,10 @@
         <div>
             <header><h1>Produtos com o estoque menor ou igual ao mínimo</h1></header></div><br><br><br>
                 <%                    Resultado produtos = (Resultado) request.getAttribute("produtosmin");
-                    if (produtos != null) {
+                    if (produtos.getEntidades().size() > 0) {
+                        
                 %>
-        <TABLE BORDER="6"    WIDTH="90%"   CELLPADDING="4" CELLSPACING="3">
+        <TABLE class="table table-striped table-bordered bootstrap-datatable datatable table-responsive" BORDER="6"    WIDTH="90%"   CELLPADDING="4" CELLSPACING="3">
             <TR>
                 <TH COLSPAN="7"><BR>
                     <H3>PRODUTOS</H3>

@@ -12,13 +12,23 @@ public class Pedido extends EntidadeDominio {
     private double total;
     private Cliente cliente;
     private String status;
-//    private String tipo_item;
-//    public enum Tipo_Item {ARTESANATO, PRODUTO};
     private Date dt_compra;
     private List<AbstractItem> itens = new ArrayList<AbstractItem>();
     private List<Relatorio> historico = new ArrayList<Relatorio>();
     private Endereco endereco;
     
+    //Para a compra com crédito
+    private Credito credito;
+
+    public Credito getCredito() {
+        return credito;
+    }
+
+    public void setCredito(Credito credito) {
+        this.credito = credito;
+    }
+    //.........................................
+
     public Pedido() {
     }
 
@@ -77,14 +87,7 @@ public class Pedido extends EntidadeDominio {
     public void setDt_compra(Date dt_compra) {
         this.dt_compra = dt_compra;
     }
-
-//    public String getTipo_item() {
-//        return tipo_item;
-//    }
-//
-//    public void setTipo_item(String tipo_item) {
-//        this.tipo_item = tipo_item;
-//    }
+    
     public void adiciona(AbstractItem item) {
         itens.add(item);
     }
@@ -104,7 +107,6 @@ public class Pedido extends EntidadeDominio {
     public void addHistorico(Relatorio historico) {
         this.historico.add(historico);
     }
-
     public Endereco getEndereco() {
         return endereco;
     }
@@ -112,7 +114,5 @@ public class Pedido extends EntidadeDominio {
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
-    
-    
 
 }

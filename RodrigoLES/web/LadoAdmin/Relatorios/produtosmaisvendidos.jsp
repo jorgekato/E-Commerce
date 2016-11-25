@@ -12,15 +12,15 @@
 
             <div class="box-chart">
                 <h2>Produtos Mais Vendidos Por Periodo</h2>
-                
+
                 <%                    Resultado grafico = (Resultado) request.getAttribute("grafico");
 
                     if (grafico != null && grafico.getMsg() != null) {
                         out.print(grafico.getMsg());
                     }
-
+                    if (request.getAttribute("retorno") == null) {
                 %>
-                
+
                 <div class=" account-top register">
                     <form action="${pageContext.request.contextPath}/ServletGrafico2" method="POST">
                         <p>Data Inicial: <input type="text" name="txtDataInicial" id="data" f /></p>
@@ -30,13 +30,9 @@
                 </div>
                 <br><br><br>
                 <%
-                    if(grafico != null){
+                } else if (grafico.getEntidades().size() > 0) {
                 %>
                 <canvas id="GraficoLine" style="width:100%;"></canvas>
-                
-                
-                
-
                 <script type="text/javascript">
 
                     var options = {
@@ -67,7 +63,7 @@
                     %>],
                         datasets: [
                             {
-                                label: "Período de : <%= ConverteDate.converteDateString(((FiltroProdutoVendaPeriodo)grafico.getEntidades().get(0)).getDt_inicial()) %> à <%= ConverteDate.converteDateString(((FiltroProdutoVendaPeriodo)grafico.getEntidades().get(0)).getDt_final()) %>. Em quantidade."  ,
+                                label: "Período de : <%= ConverteDate.converteDateString(((FiltroProdutoVendaPeriodo) grafico.getEntidades().get(0)).getDt_inicial())%> à <%= ConverteDate.converteDateString(((FiltroProdutoVendaPeriodo) grafico.getEntidades().get(0)).getDt_final())%>. Em quantidade.",
                                 fillColor: "rgba(220,220,220,0.2)",
                                 strokeColor: "rgba(220,220,220,1)",
                                 pointColor: "rgba(220,220,220,1)",
@@ -107,8 +103,10 @@
                     }
                 </script>
                 <div id="js-legend" class="chart-legend"> </div>
-                <%
-                    }
+                <%                    } else {
+                %>
+                <h2>Não há produto vendido no período selecionado.</h2>
+                <%}
                 %>
             </div>
         </div>

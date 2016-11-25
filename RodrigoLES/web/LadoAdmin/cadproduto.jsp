@@ -6,6 +6,10 @@
 
 
 
+<%@page import="e_commer.dominio.Imagem"%>
+<%@page import="java.io.FileInputStream"%>
+<%@page import="java.io.InputStream"%>
+<%@page import="java.io.File"%>
 <%@page import="e_commer.core.util.ManipulaImagem"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="e_commer.dominio.Categorias"%>
@@ -22,8 +26,9 @@
     <div class="account-in">
         <div>
             <header><h1>Cadastro de produtos</h1></header></div>
-        <div>
-            <form action="${pageContext.request.contextPath}/SalvarProduto" method="POST" enctype="multipart/form-data">
+        <div class="account-top register">
+
+            <form action="${pageContext.request.contextPath}/SalvarProduto" method="POST" enctype="multipart/form-data" id="validate">
                 <!--<p>Código de Barra: <input type="text"/></p>-->
                 <label for="txtId">Id:</label>
                 <input type="text" id="txtId" name="txtId" value=
@@ -61,10 +66,35 @@
                                   ></p>
                 <p>Categoria: <select name="categorias" id="categorias">
                         <%
-                            if (produto != null) {%>
-                        <option value="<%= produto.getCategoria().getId()%>"> <%= produto.getCategoria().getNomeCategoria()%></option>
-                        <%
+                            if (produto != null) {
+                                categoria = (Resultado) request.getAttribute("categorias");
+                                if (categoria != null) {
+                                    List<EntidadeDominio> entidades = categoria.getEntidades();
+                                    StringBuilder sbRegistro = new StringBuilder();
+                                    StringBuilder sbLink = new StringBuilder();
 
+                                    if (entidades != null) {
+                                        for (int i = 0; i < entidades.size(); i++) {
+                                            Categorias cat = (Categorias) entidades.get(i);
+                                            sbRegistro.setLength(0);
+                                            sbLink.setLength(0);
+
+                                            sbRegistro.append("<option value=\"");
+                                            sbRegistro.append(cat.getId());
+                                            sbRegistro.append("\"");
+                                            if (produto.getCategoria().getNomeCategoria().equals(cat.getNomeCategoria())) {
+                                                sbRegistro.append("selected");
+                                            }
+                                            sbRegistro.append(">");
+                                            sbRegistro.append(cat.getNomeCategoria());
+                                            sbRegistro.append("</option>");
+                                            out.print(sbRegistro.toString());
+                                        }
+                                    }
+                                }
+                        %>
+
+                        <%
                             } else {
                                 categoria = (Resultado) request.getAttribute("categorias");
                                 if (categoria != null) {
@@ -80,7 +110,8 @@
 
                                             sbRegistro.append("<option value=\"");
                                             sbRegistro.append(cat.getId());
-                                            sbRegistro.append("\">");
+                                            sbRegistro.append("\"");
+                                            sbRegistro.append(">");
                                             sbRegistro.append(cat.getNomeCategoria());
                                             sbRegistro.append("</option>");
                                             out.print(sbRegistro.toString());
@@ -92,21 +123,17 @@
 
                     </select></p>
 
-                <p>Quantidade: <input type="text" name="qtde" value= 
-
-                                      <%
-                                          if (produto != null) {
-                                              out.print("'" + produto.getQuantidade() + "'");
-                                          }
+                <p>Quantidade: <input type="text" name="qtde" value=<%
+                    if (produto != null) {
+                        out.print("'" + produto.getQuantidade() + "'");
+                    }
                                       %>
                                       ></input></p>
 
-                <p>Qtde Maxima Venda: <input type="text" name="qtdeMaxVenda" value= 
-
-                                             <%
-                                                 if (produto != null) {
-                                                     out.print("'" + produto.getQtdeMaxVenda() + "'");
-                                                 }
+                <p>Qtde Maxima Venda: <input type="text" name="qtdeMaxVenda" value=<%
+                    if (produto != null) {
+                        out.print("'" + produto.getQtdeMaxVenda() + "'");
+                    }
                                              %>
                                              ></input></p>
 
@@ -129,38 +156,62 @@
 
                 <!-- aumentar a textarea -->
                 <p><label for="descricao">Descrição:</label>
-                    <textarea name="descricao" id="coment" 
-
-
-                              ><%
-                                  if (produto != null) {
-                                      out.print(produto.getDescricao());
-                                  }
-                        %></textarea></p>
-                <p> 
-                <label for="txtImagem">Imagem:</label>
-                <br>
-                <img src="data:image/jpg;base64, <% if (produto != null) {
-                        out.print(ManipulaImagem.setImagemDimensao(produto.getFoto().getImagem(), 160, 160));
-                    }%>" id="imgImagem" class="preview" alt="preview da imagem" />
-                <img src="data:image/jpg;base64, <% if (produto != null) {
-                        out.print(ManipulaImagem.setImagemDimensao(produto.getFoto().getImagem(), 160, 160));
-                    }%>" id="imgImagem" class="preview" alt="preview da imagem" />
-                <br>
-                <input type="file" id="imgUpload" name="imgUpload" onchange="imagemPreview();" 
-                       accept="image/jpeg"/></p>
-                <br />
-                <br />
+                    <textarea name="descricao" id="coment"><%
+                        if (produto != null) {
+                            out.print(produto.getDescricao());
+                        }
+                        %></textarea></p><br/>
+                <!--Inicio do tratamento de imagem -->
+                <p>
+                    <%
+                        Imagem[] img = null;
+                        if (produto != null) {
+                            img = produto.getFoto();
+                        }
+                        for (int i = 0; i < 3; i++) {
+                    %>
+                    <label for="txtImagem">Imagem <%out.print(i + 1); %>:</label>
+                    <br>
+                    <img src="data:image/jpg;base64, <%
+                        if (produto != null && img[i] != null) {
+                            for (int j = 0; j < 3; j++) {
+                                if (img[j].getPosicao() == i) {
+                                    out.print(ManipulaImagem.setImagemDimensao(img[j].getImagem(), 160, 160));
+                                    break;
+                                } else {
+                                    continue;
+                                }
+                            }
+                        } else {
+                            String caminho = request.getServletContext().getRealPath("/images/sem_imagem.png");
+                            File file = new File(caminho);
+                            InputStream fis = new FileInputStream(file);
+                            Imagem imagem0 = new Imagem();
+                            imagem0.setImagem(ManipulaImagem.convertImagemBytes(fis));
+                            out.print(ManipulaImagem.setImagemDimensao(imagem0.getImagem(), 160, 160));
+                        }%>" id="imgImagem" class="preview" alt="preview da imagem" />                    
+                    <br>
+                    <input type="file" id="imgUpload" name="imgUpload<%out.print(i + 1); %>" onchange="imagemPreview();" 
+                           accept="image/jpeg"/>
+                    <br />
+                    <%
+                        }
+                    %>                     
+                    <!--Fim tratamento de imagens -->
                 <p><input type="radio" name="txtFlgAtivo" value="TRUE"  <%
-                    if (produto != null) {
+                    if (produto
+                            != null) {
                         if (produto.getFlg_ativo()) {
                             out.print("checked=\"checked\"");
                         }
+                    } else {
+                        out.print("checked=\"checked\"");
                     }
                           %>/>Ativo </p>
                 <p><input type="radio" name="txtFlgAtivo" value="FALSE" <%
-                    if (produto != null) {
-                        if (produto.getFlg_ativo()) {
+                    if (produto
+                            != null) {
+                        if (!produto.getFlg_ativo()) {
                             out.print("checked=\"checked\"");
                         }
 
@@ -168,7 +219,8 @@
                           %>/>Desativado</p>
 
                 <%
-                    if (produto != null) {
+                    if (produto
+                            != null) {
                         String dtCadastro = ConverteDate.converteDateString(produto.getDtCadastro());
                         out.print("<label for='txtDtCadastro'>Data de Cadastro:</label>");
                         out.print("<input type='text' id='txtDtCadastro' name='txtDtCadastro' value='" + dtCadastro + "' readonly />");
@@ -177,10 +229,11 @@
 
                 %>
 
-                <%                    if (produto != null) {
-                        out.print("<input type='submit' id='operacao' name='operacao' value='ALTERAR'/>");
+                <%                    if (produto
+                            != null) {
+                        out.print("<input type='submit'  name='operacao' value='ALTERAR'/>");
                     } else {
-                        out.print("<input type='submit' id='operacao' name='operacao' value='SALVAR'/>");
+                        out.print("<input type='submit'  name='operacao' value='SALVAR'/>");
                     }
 
                 %>

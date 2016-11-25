@@ -124,6 +124,40 @@ public class CreditoDAO extends AbstractJdbcDAO {
         }
     }
 
+    public void alterar(EntidadeDominio entidade, Connection conn) throws SQLException {
+
+        PreparedStatement pst = null;
+        StringBuilder sql = new StringBuilder();
+        Credito cre = (Credito) entidade;
+
+        try {
+            //expirou a data de validade?(cre.getDtValidade().getTime() - new Date().getTime() <= 0)
+            sql.append("UPDATE " + tbCreditos + " SET " + flgAtivo + "=? ");
+            sql.append("WHERE " + codigo +"=?");
+
+            pst = conn.prepareStatement(sql.toString());
+
+            pst.setBoolean(1, false);
+            pst.setString(2, cre.getCodigo());
+
+            pst.executeUpdate();
+
+        } catch (SQLException e) {
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @Override
     public List<EntidadeDominio> consultar(EntidadeDominio entidade) throws SQLException {
         openConnection();
@@ -132,11 +166,24 @@ public class CreditoDAO extends AbstractJdbcDAO {
         Credito cre = (Credito) entidade;
 
         try {
-            sql.append("SELECT * FROM " + tbCreditos + " JOIN  tb_clientes using (cli_id) ");
-            sql.append("WHERE " + flgAtivo + "=true and cli_id =?" );
+
+            if (cre.getCodigo() != null && cre.getCliente().getId() != null) {
+                sql.append("SELECT * FROM " + tbCreditos + " JOIN  tb_clientes using (cli_id) ");
+                sql.append("WHERE cre_codigo =? and cli_id =?");
+            } else if (cre.getCliente().getId() != null) {
+                sql.append("SELECT * FROM " + tbCreditos + " JOIN  tb_clientes using (cli_id) ");
+                sql.append("WHERE " + flgAtivo + "=true and cli_id =?");
+            }
 
             pst = connection.prepareStatement(sql.toString());
-            pst.setInt(1, cre.getCliente().getId());
+
+            if (cre.getCodigo() != null && cre.getCliente().getId() != null) {
+                pst.setString(1, cre.getCodigo());
+                pst.setInt(2, cre.getCliente().getId());
+            } else if (cre.getCliente().getId() != null) {
+                pst.setInt(1, cre.getCliente().getId());
+            }
+
             ResultSet rs = pst.executeQuery();
             List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
             while (rs.next()) {

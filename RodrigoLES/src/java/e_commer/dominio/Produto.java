@@ -13,19 +13,21 @@ public class Produto extends EntidadeDominio {
     private int estoqueMin;
     private boolean flg_ativo;
     private int qtdeMaxVenda;
-    private Imagem foto;
+    private Imagem [] foto;
+    
 
-    public Imagem getFoto() {
+    public Imagem[] getFoto() {
         return foto;
     }
 
-    public void setFoto(Imagem foto) {
+    public void setFoto(Imagem[] foto) {
         this.foto = foto;
     }
     
     //-----fim foto
 
     public Produto() {
+        
     }
 
     public Produto(String nome, String marca, String modelo, Categorias categoria, String fabricante, int quantidade, String descricao, double precoUnit, int estoqueMin) {

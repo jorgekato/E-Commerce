@@ -132,7 +132,7 @@
             <p>* Campos editáveis</p>
             <input type="submit" name="operacao" value="ALTERAR1"/>
             <h3>Meus Endereços</h3>
-            <table  border="3"  width="80%">
+            <table class="table table-striped table-bordered bootstrap-datatable datatable table-responsive" border="3"  width="80%">
                 
                 <%
                 Cliente cli = (Cliente) clientes.getEntidades().get(0);

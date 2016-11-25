@@ -12,7 +12,7 @@
 
         <%      if (carrinho != null) {
         %>
-        <TABLE BORDER="5"    WIDTH="50%"   CELLPADDING="4" CELLSPACING="3">
+        <TABLE class="table table-striped table-bordered bootstrap-datatable datatable table-responsive" BORDER="5"    WIDTH="50%"   CELLPADDING="4" CELLSPACING="3">
             <TR>
                 <TH COLSPAN="6"><BR>
                     <H3>Carrinho de compras</H3>

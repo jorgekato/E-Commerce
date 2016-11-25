@@ -4,6 +4,7 @@
     Author     : Henrique
 --%>
 
+<%@page import="e_commer.core.util.FormatDouble"%>
 <%@page import="e_commer.dominio.Endereco"%>
 <%@page import="e_commer.core.util.ConverteDate"%>
 <%@page import="e_commer.dominio.Artesanato"%>
@@ -13,20 +14,18 @@
 
         <%      if (carrinho != null) {
         %>
-        <TABLE BORDER="5"    WIDTH="50%"   CELLPADDING="4" CELLSPACING="3">
+        <TABLE class="table table-striped table-bordered bootstrap-datatable datatable table-responsive" BORDER="5"    WIDTH="50%"   CELLPADDING="4" CELLSPACING="3">
             <TR>
-                <TH COLSPAN="6"><BR>
-            <H3>Itens</H3>
-            </TH>
+                <TH COLSPAN="3"><BR>
+                    <H3>Itens</H3>
+                </TH>
             </TR>
 
             <TR>
-                <TH ALIGN='CENTER'><input type="checkbox"/></TH>
+
                 <TH>Nome</TH>
                 <TH>Quantidade</TH>                
-                <TH>Status:</TH>
-                <TH>UpDate:</TH>
-                <TH>Excluir todos:</TH>
+                <TH>Valor Unit.</TH>
             </TR>
             <%
                     for (EntidadeDominio e : carrinho.getEntidades()) {
@@ -62,27 +61,19 @@
 
                                 sbRegistro.append("<TD>");
                                 sbRegistro.append(sbLink.toString());
-                                sbRegistro.append("<input type=\"checkbox\"></input>");
-                                sbRegistro.append("</a>");
-                                sbRegistro.append("</TD>");
-
-                                sbRegistro.append("<TD>");
-                                sbRegistro.append(sbLink.toString());
                                 sbRegistro.append(item.getArtesanato().getNome());
                                 sbRegistro.append("</a>");
                                 sbRegistro.append("</TD>");
 
                                 sbRegistro.append("<TD>");
-                                //sbRegistro.append(sbLink.toString());
                                 sbRegistro.append("<input type=\"number\" name=\"quantidade\" id=\"idade\" min=\"1\" max=\"120\" value=\"");
                                 sbRegistro.append(item.getQuantidade());
                                 sbRegistro.append("\" />");
-                                //sbRegistro.append("</a>");
                                 sbRegistro.append("</TD>");
 
                                 sbRegistro.append("<TD>");
                                 sbRegistro.append(sbLink.toString());
-                                sbRegistro.append(item.getArtesanato().getPrecoUnit() * item.getQuantidade());
+                                sbRegistro.append(FormatDouble.formataDouble(item.getArtesanato().getPrecoUnit() * item.getQuantidade()));
                                 sbRegistro.append("</a>");
                                 sbRegistro.append("</TD>");
 
@@ -91,7 +82,7 @@
                                 upDate.append(i);
                                 upDate.append("&");
                                 upDate.append("qtde=");
-                                upDate.append(4); //ver como colocar o valor do campo qtde aqui
+                                upDate.append(item.getQuantidade()); //ver como colocar o valor do campo qtde aqui
                                 upDate.append("&");
                                 upDate.append("operacao=");
                                 upDate.append("ATUALIZAR");
@@ -137,14 +128,7 @@
                                 sbLink.append("&");
                                 sbLink.append("operacao=");
                                 sbLink.append("VISUALIZAR1");
-
                                 sbLink.append(">");
-
-                                sbRegistro.append("<TD>");
-                                sbRegistro.append(sbLink.toString());
-                                sbRegistro.append("<input type=\"checkbox\"></input>");
-                                sbRegistro.append("</a>");
-                                sbRegistro.append("</TD>");
 
                                 sbRegistro.append("<TD>");
                                 sbRegistro.append(sbLink.toString());
@@ -153,47 +137,14 @@
                                 sbRegistro.append("</TD>");
 
                                 sbRegistro.append("<TD>");
-                                //sbRegistro.append(sbLink.toString());
                                 sbRegistro.append("<input type=\"number\" name=\"qtde\" id=\"idade\" min=\"1\" max=\"120\" value=\"");
                                 sbRegistro.append(item.getQuantidade());
                                 sbRegistro.append("\" />");
-                                //sbRegistro.append("</a>");
                                 sbRegistro.append("</TD>");
 
                                 sbRegistro.append("<TD>");
                                 sbRegistro.append(sbLink.toString());
-                                sbRegistro.append(item.getProduto().getPrecoUnit() * item.getQuantidade());
-                                sbRegistro.append("</a>");
-                                sbRegistro.append("</TD>");
-
-                                upDate.append("<a href=SalvarCarrinho?");
-                                upDate.append("idItem=");
-                                upDate.append(i);
-                                upDate.append("&");
-                                upDate.append("qtde=");
-                                upDate.append("5"); //ver como colocar o valor do campo qtde aqui
-                                upDate.append("&");
-                                upDate.append("operacao=");
-                                upDate.append("ATUALIZAR");
-                                upDate.append(">");
-
-                                sbRegistro.append("<TD>");
-                                sbRegistro.append(upDate.toString());
-                                sbRegistro.append("Atualizar");
-                                sbRegistro.append("</a>");
-                                sbRegistro.append("</TD>");
-
-                                sbExcluir.append("<a href=SalvarCarrinho?");
-                                sbExcluir.append("idItem=");
-                                sbExcluir.append(i);
-                                sbExcluir.append("&");
-                                sbExcluir.append("operacao=");
-                                sbExcluir.append("EXCLUIRITEM");
-                                sbExcluir.append(">");
-
-                                sbRegistro.append("<TD>");
-                                sbRegistro.append(sbExcluir.toString());
-                                sbRegistro.append("Remover");
+                                sbRegistro.append(FormatDouble.formataDouble(item.getProduto().getPrecoUnit() * item.getQuantidade()));
                                 sbRegistro.append("</a>");
                                 sbRegistro.append("</TD>");
 
@@ -204,11 +155,23 @@
 
                         }
                     }
-
+                    if(carrinhos.getCredito() != null){
+                
+            %> 
+            <TR>
+                <TD COLSPAN="3" align="right"><b>Desconto:</b><input type="text" name="total" value="<%= FormatDouble.formataDouble(carrinhos.getCredito().getSaldo()) %>"/></TD>                
+            </TR>
+            <TR>
+                <TD COLSPAN="3" align="right"><b>Total:</b><input type="text" name="total" value="<%= FormatDouble.formataDouble(carrinhos.getTotal() - carrinhos.getCredito().getSaldo()) %>"/></TD>                
+            </TR>
+            <% }else { %>
+            <TR>
+                <TD COLSPAN="3" align="right"><b>Total:</b><input type="text" name="total" value="<%= FormatDouble.formataDouble(carrinhos.getTotal()) %>"/></TD>                
+            </TR>
+            <%
                 }
+                }//if carrinhos != null
             %>
-
-
 
         </TABLE>
         <br />
@@ -218,10 +181,9 @@
         <a href="SalvarEndereco?txtId=<%= cliente.getId()%>&operacao=VISUALIZAR3"><font color="red"><b>Alterar Endereço</b></font></a>
 
         <form action="SalvarCarrinho" method="get">
-            <TABLE BORDER="5"    WIDTH="50%"   CELLPADDING="4" CELLSPACING="3">
+            <TABLE class="table table-striped table-bordered bootstrap-datatable datatable table-responsive" BORDER="5"    WIDTH="50%"   CELLPADDING="4" CELLSPACING="3">
                 <TR>
-                    <TH ><BR>
-                        <!--<TH COLSPAN="2"><BR>-->
+                    <TH COLSPAN="2">
                 <H3>Endereço de entrega</h3>
                 </TH>
                 </TR>
@@ -266,14 +228,14 @@
                 %>
             </TABLE><br>
             <h3>Tipo de Entrega</h3>
-            <table width="50%">
+            <table class="table table-striped table-bordered bootstrap-datatable datatable table-responsive" width="50%">
                 <tr>
                     <th>Forma</th>
                     <th>Dias para Entrega</th>
                     <th>Valor</th>
                 </tr>
                 <tr>
-                    <td><input type="radio" name="frete"/> Rápida </td>
+                    <td><input type="radio" name="frete" checked/> Rápida </td>
                     <td>6 Dias</td>
                     <td>Grátis</td>
                 </tr>      

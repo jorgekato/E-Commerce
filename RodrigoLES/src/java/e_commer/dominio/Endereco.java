@@ -57,7 +57,6 @@ public class Endereco extends EntidadeDominio {
     public void setCidade(Cidade cidade) {
         this.cidade = cidade;
     }
-
     public boolean getFlgAtivo() {
         return flgAtivo;
     }

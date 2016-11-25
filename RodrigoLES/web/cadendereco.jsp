@@ -38,7 +38,8 @@
                 <div> 	
                     <span>Estado*</span>
                     <input type="text" name="txtEnderecoEstado"> 
-                </div> 
+                </div>
+                <input type="hidden" name="meusdados" value="TRUE" />
                 <input type="hidden" name="situacao" value="TRUE" />
                 <input type="submit" name="operacao" value="SALVAR"> 
             </form>

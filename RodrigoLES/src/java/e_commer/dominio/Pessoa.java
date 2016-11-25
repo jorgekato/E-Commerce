@@ -39,7 +39,6 @@ public class Pessoa extends EntidadeDominio {
         }
 
     }
-    
 
     public Login getLogin() {
         return login;
