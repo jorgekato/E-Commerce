@@ -121,6 +121,8 @@
             <url-pattern>/meuspedidos.jsp</url-pattern>
             <url-pattern>/meusdados.jsp</url-pattern>
             <url-pattern>/singlepedidos.jsp</url-pattern>
+            <url-pattern>/produtostore.jsp</url-pattern>
+            <url-pattern>/artesanatostore.jsp</url-pattern>
             <url-pattern>/pedidoTrocaDevolucao.jsp</url-pattern>
             <url-pattern>/consultaTrocaDevolucao.jsp</url-pattern>
             <url-pattern>/meusvalecreditos.jsp</url-pattern>
@@ -156,6 +158,7 @@
         <filter-name>FiltroCategoria</filter-name>
         <url-pattern>/LadoAdmin/cadproduto.jsp</url-pattern>
         <url-pattern>/LadoAdmin/cadartesanato.jsp</url-pattern>
+        <url-pattern>*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
         <dispatcher>INCLUDE</dispatcher>

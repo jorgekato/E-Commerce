@@ -157,7 +157,7 @@ public class Servlet extends HttpServlet {
         ICommand command = commands.get(operacao);
 
         /*Executa o command que chamar� a fachada para executar a opera��o requisitada
-		 * o retorno � uma inst�ncia da classe resultado que pode conter mensagens derro 
+		 * o retorno � uma inst�ncia da classe resultado que pode conter mensagens de erro 
 		 * ou entidades de retorno
          */
         Resultado resultado = null;

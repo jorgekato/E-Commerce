@@ -24,14 +24,13 @@
     <%        Produto produto = (Produto) request.getAttribute("produto");
     %>
     <div class="account-in">
-        <div>
-            <header><h1>Cadastro de produtos</h1></header></div>
+        <div><header><h1>Cadastro de produtos</h1></header></div>
         <div class="account-top register">
 
             <form action="${pageContext.request.contextPath}/SalvarProduto" method="POST" enctype="multipart/form-data" id="validate">
                 <!--<p>Código de Barra: <input type="text"/></p>-->
-                <label for="txtId">Id:</label>
-                <input type="text" id="txtId" name="txtId" value=
+                <label hidden for="txtId">Id:</label>
+                <input hidden type="text" id="txtId" name="txtId" value=
 
                        <%
                            if (produto != null) {

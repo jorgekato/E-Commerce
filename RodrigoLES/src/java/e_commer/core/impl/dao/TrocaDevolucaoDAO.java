@@ -143,7 +143,7 @@ public class TrocaDevolucaoDAO extends AbstractJdbcDAO {
             pst = connection.prepareStatement(sql.toString());
             pst.setInt(1, td.getId());
             pst.setTimestamp(2, dtmodificacao);
-            pst.setString(3, td.getRelatorio().get(0).getComentario().toUpperCase());
+            pst.setString(3, td.getRelatorio().get(td.getRelatorio().size()-1).getComentario().toUpperCase());
             pst.setString(4, td.getStatus().toUpperCase());
             pst.executeUpdate();
             

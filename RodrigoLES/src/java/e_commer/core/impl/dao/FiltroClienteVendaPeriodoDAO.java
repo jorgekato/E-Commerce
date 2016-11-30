@@ -50,14 +50,14 @@ public class FiltroClienteVendaPeriodoDAO extends AbstractJdbcDAO {
 
         if (f.getId() == null) {
 
-            sql = "select cli_nome, sum(ite_valor_unit * ite_qtde) as valor\n"
+            sql = "select cli_nome, sum(ite_valor_unit * ite_qtde) as valor, cli_id\n"
                     + "from tb_clientes join \n"
                     + "     tb_pedidos using (cli_id) join \n"
                     + "     tb_itens_pedidos using(ped_id) join \n"
                     + "     tb_produtos using (pro_id) \n"
                     + "     where (ped_dt_compra between ? and ?)\n"
-                    + "     group by (cli_nome)     \n"
-                    + "     order by 2 desc ";
+                    + "     group by (cli_id)     \n"
+                    + "     order by valor desc ";
         } else {
             sql = "SELECT \n"
                     + "  cli_nome, \n"
@@ -115,6 +115,7 @@ public class FiltroClienteVendaPeriodoDAO extends AbstractJdbcDAO {
                     f1.setHmQtde(hmQtde);
                 } else {
                     f1.setValor(rs.getDouble("valor"));
+                    f1.setId(rs.getInt("cli_id"));
                     f1.setDt_inicial(f.getDt_inicial());
                     f1.setDt_final(f.getDt_final());
                 }

@@ -106,6 +106,10 @@
                     }
                 </script>
                 <div id="js-legend" class="chart-legend"> </div>
+                <%List<EntidadeDominio>entidades = grafico.getEntidades();
+                FiltroClienteVendaPeriodo f = (FiltroClienteVendaPeriodo) entidades.get(0);                
+                %>
+                Cliente que mais comprou: <a href="/Artesanatos/ServletGrafico4?operacao=grafico4&txtId=<%= f.getId()%>"><%= f.getNome()%> </a>
                 <%                    } else {
                 %>
                 <h2>Cliente não possui compras no período selecionado.</h2>

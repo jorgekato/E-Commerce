@@ -293,7 +293,7 @@ public class ClienteDAO extends AbstractJdbcDAO {
 //            sql = "SELECT * FROM clientes WHERE cli_nome like ?";
 //        }
         if (cliente.getId() == null && cliente.getNome().equals("") && cliente.getEmail().equals("")) {
-            sql = "SELECT * FROM " + table + " join " + tableLoguin + " using(" + idTable + ") order by cli_nome";
+            sql = "SELECT * FROM " + table + " join " + tableLoguin + " using(" + idTable + ") WHERE " + nivel_acesso + " = '" + Nivel.CLIENTE + "'  order by cli_nome";
         } else if (cliente.getId() == null && cliente.getNome().equals("") && !cliente.getEmail().equals("")) {
             sql = "SELECT * FROM " + table + " join " + tableLoguin + " using(" + idTable + ") where " + email + "=?";
         } else if (cliente.getId() != null && cliente.getNome().equals("")) {

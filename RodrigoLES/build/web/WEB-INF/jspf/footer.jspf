@@ -1,8 +1,8 @@
 <%-- any content can be specified here e.g.: --%>
 <div class="footer">
-    <p class="footer-class">© 2015 Mihstore All Rights Reserved | Template by  <a href="#" target="_blank">W3layouts</a> </p>
+    <p class="footer-class">© 2016 Todos os direitos reservados | Template by  <a href="#" target="_blank">PADOKATO DEVELOPMENT</a> </p>
 
-    <a href="#home" class="scroll to-Top" >  GO TO TOP!</a>
+    <a href="#home" class="scroll to-Top" >  Voltar ao Topo!</a>
     <div class="clearfix"> </div>
 </div>
 

@@ -202,9 +202,12 @@ public class ProdutoDAO extends AbstractJdbcDAO {
         if (produto.getNome() == null) {
             produto.setNome("");
         }
+        
 
-        if (produto.getId() == null && produto.getNome().equals("")) {
+        if (produto.getId() == null && produto.getNome().equals("") && produto.getCategoria().getId() == null) {
             sql = "SELECT * FROM " + table + " JOIN " + tbCategoria + " USING(cat_id) order by pro_nome";
+        } else if (produto.getCategoria().getId() != null) {
+            sql = "SELECT * FROM " + table + " JOIN " + tbCategoria + " USING(cat_id) WHERE " + cat_id + "=?";
         } else if (produto.getId() != null && produto.getNome().equals("")) {
             sql = "SELECT * FROM " + table + " JOIN " + tbCategoria + " USING(cat_id) WHERE " + idTable + "=?";
         } else if (produto.getId() == null && !produto.getNome().equals("")) {
@@ -219,6 +222,8 @@ public class ProdutoDAO extends AbstractJdbcDAO {
                 pst.setInt(1, produto.getId());
             } else if (produto.getId() == null && !produto.getNome().equals("")) {
                 pst.setString(1, "%" + produto.getNome().toUpperCase() + "%");
+            } else if (produto.getCategoria().getId() != null) {
+                pst.setInt(1, produto.getCategoria().getId());
             }
 
             ResultSet rs = pst.executeQuery();
@@ -243,17 +248,16 @@ public class ProdutoDAO extends AbstractJdbcDAO {
                 cat.setId(rs.getInt(cat_id));
                 cat.setNomeCategoria(rs.getString(cat_nome));
                 p.setCategoria(cat);
-                
+
                 ImagemDAO imgDao = new ImagemDAO();
                 List<EntidadeDominio> entidades = imgDao.consultar(p, connection);
                 Imagem[] img = new Imagem[entidades.size()];
-                for(int i = 0; i<entidades.size(); i++){
-                    img[i] =  (Imagem) entidades.get(i);
+                for (int i = 0; i < entidades.size(); i++) {
+                    img[i] = (Imagem) entidades.get(i);
                 }
-                
-                
+
                 p.setFoto(img);
-                
+
                 produtos.add(p);
             }
 

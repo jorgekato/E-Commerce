@@ -256,7 +256,7 @@ public class PedidoDAO extends AbstractJdbcDAO {
             pst.setInt(1, pedido.getId());
             Timestamp dtmodificacao = new Timestamp(new Date().getTime());
             pst.setTimestamp(2, dtmodificacao);
-            pst.setString(3, pedido.getHistorico().get(0).getComentario());
+            pst.setString(3, pedido.getHistorico().get(pedido.getHistorico().size()-1).getComentario());
             pst.setString(4, pedido.getStatus());
             pst.executeUpdate();
 
@@ -304,16 +304,17 @@ public class PedidoDAO extends AbstractJdbcDAO {
                 flg = false;
             }
 
-            if (pedido.getId() == null && pedido.getPagamento().equals("") && pedido.getCliente().getId() == null) {
+            if (pedido.getId() == null && pedido.getPagamento().equals("") && pedido.getCliente().getId() == null && pedido.getCliente().getNome() == null) {
                 sql = "SELECT * FROM " + table + " join  tb_clientes using (cli_id) order by ped_dt_compra desc";
             } else if (pedido.getId() != null && pedido.getPagamento().equals("") && pedido.getCliente().getId() == null) {
                 sql = "SELECT * FROM " + table + " join tb_clientes using (cli_id) WHERE " + idTable + "=? order by ped_dt_compra desc ";
             } else if (pedido.getId() == null && pedido.getPagamento().equals("") && pedido.getCliente().getId() != null) {
                 sql = "SELECT * FROM " + table + " join tb_clientes using (cli_id) WHERE cli_id=? order by ped_dt_compra desc";
             } else if (pedido.getId() == null && !pedido.getPagamento().equals("") && pedido.getCliente().getId() == null) {
-                sql = "SELECT * FROM " + table + " join tb_Clientes using (cli_id) WHERE art_nome like ? order by ped_dt_compra desc";
-
-            }
+                sql = "SELECT * FROM " + table + " join tb_Clientes using (cli_id) WHERE cli_nome like ? order by ped_dt_compra desc";
+            } else if (pedido.getId() == null && pedido.getPagamento().equals("") && pedido.getCliente().getId() == null && pedido.getCliente().getNome() != null) {
+                sql = "SELECT * FROM " + table + " join tb_Clientes using (cli_id) WHERE cli_nome like ? order by ped_dt_compra desc";
+            } 
 
             pst = connection.prepareStatement(sql);
 
@@ -323,8 +324,9 @@ public class PedidoDAO extends AbstractJdbcDAO {
                 pst.setString(1, "%" + pedido.getPagamento() + "%");
             } else if (pedido.getId() == null && pedido.getPagamento().equals("") && pedido.getCliente().getId() != null) {
                 pst.setInt(1, pedido.getCliente().getId());
+            } else if (pedido.getId() == null && pedido.getPagamento().equals("") && pedido.getCliente().getId() == null && pedido.getCliente().getNome() != null) {
+                pst.setString(1, (pedido.getCliente().getNome().toUpperCase()) + "%");
             }
-
             Pedido p = new Pedido();
             Cliente c;
 

@@ -115,6 +115,7 @@
 
             %>    
             ${mensagem}
+            <div class="account-top register">
             <form action="SalvarCliente" method="post">
             <!-- dados obtidos atraves da sessao   -->
             <p><label for="nome">Nome.:</label>

@@ -205,7 +205,7 @@ public class ArtesanatoDAO extends AbstractJdbcDAO {
                 a.setDtCadastro(dtCadastro);
                 Categorias cat = new Categorias();
                 cat.setId(rs.getInt(catId));
-                cat.setNomeCategoria(cat_nome);
+                cat.setNomeCategoria(rs.getString(cat_nome));
                 a.setCategoria(cat);
                 artesanatos.add(a);
             }

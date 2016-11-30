@@ -17,7 +17,7 @@
     <div class="account-in">
         <div>
             <header><h1>Cadastro de categoria</h1></header></div>
-        <div>
+        <div class="account-top register">
             <form action="${pageContext.request.contextPath}/SalvarCategoria" method="POST" id="validate">
                 
                 <p>ID: <input type="text" id="txtId" name="txtId" value=

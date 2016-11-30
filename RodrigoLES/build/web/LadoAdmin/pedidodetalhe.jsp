@@ -90,8 +90,8 @@
                     <td><%= item.getProduto().getId()%></td>
                     <td><%= item.getProduto().getNome()%></td>
                     <td><%= item.getQuantidade()%></td>
-                    <td><%= FormatDouble.formataDouble(item.getValorUnit())%></td>
-                    <td><%= FormatDouble.formataDouble(item.getQuantidade() * item.getValorUnit())%></td>
+                    <td>R$ <%= FormatDouble.formataDouble(item.getValorUnit())%></td>
+                    <td>R$ <%= FormatDouble.formataDouble(item.getQuantidade() * item.getValorUnit())%></td>
                 </tr>
 
                 <%
@@ -102,8 +102,8 @@
                     <td><%= itemA.getArtesanato().getId()%></td>
                     <td><%= itemA.getArtesanato().getNome()%></td>
                     <td><%= itemA.getQuantidade()%></td>
-                    <td><%= FormatDouble.formataDouble(itemA.getValorUnit())%></td>
-                    <td><%= FormatDouble.formataDouble(itemA.getQuantidade() * itemA.getValorUnit())%></td>
+                    <td>R$ <%= FormatDouble.formataDouble(itemA.getValorUnit())%></td>
+                    <td>R$ <%= FormatDouble.formataDouble(itemA.getQuantidade() * itemA.getValorUnit())%></td>
                 </tr>
 
 

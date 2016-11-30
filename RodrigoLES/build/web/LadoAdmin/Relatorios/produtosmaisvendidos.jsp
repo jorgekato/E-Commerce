@@ -64,7 +64,7 @@
                         datasets: [
                             {
                                 label: "Período de : <%= ConverteDate.converteDateString(((FiltroProdutoVendaPeriodo) grafico.getEntidades().get(0)).getDt_inicial())%> à <%= ConverteDate.converteDateString(((FiltroProdutoVendaPeriodo) grafico.getEntidades().get(0)).getDt_final())%>. Em quantidade.",
-                                fillColor: "rgba(220,220,220,0.2)",
+                                fillColor: "rgba(0,220,220,0.2)",
                                 strokeColor: "rgba(220,220,220,1)",
                                 pointColor: "rgba(220,220,220,1)",
                                 pointStrokeColor: "#fff",

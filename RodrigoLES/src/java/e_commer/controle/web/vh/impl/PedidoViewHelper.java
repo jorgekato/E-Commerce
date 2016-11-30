@@ -101,7 +101,7 @@ public class PedidoViewHelper implements IViewHelper {
             String id = request.getParameter("txtId");
             String cli_id = request.getParameter("txtCliId");
             String dtPedido = request.getParameter("txtDtPedido");
-            String cliente = request.getParameter("txtCliente");
+            String cliNome = request.getParameter("txtNome");
             String formPagamento = request.getParameter("txtPagamento");
             String numBoleto = request.getParameter("txtNumBoleto");
             String tipoServico = request.getParameter("txtServico");
@@ -128,6 +128,9 @@ public class PedidoViewHelper implements IViewHelper {
 
             if (cli_id != null && !cli_id.trim().equals("")) {
                 cli.setId(Integer.parseInt(cli_id));
+            }
+            if(cliNome != null && !cliNome.trim().equals("")){
+                cli.setNome(cliNome);
             }
             pedido.setCliente(cli);
 
@@ -219,7 +222,7 @@ public class PedidoViewHelper implements IViewHelper {
             request.setAttribute("pedidos", resultado);
             d = request.getRequestDispatcher("msggeral.jsp");
         } else if (resultado.getMsg() == null && operacao.equals("CONSULTAR")) {
-
+            
             request.setAttribute("pedidos", resultado);
             d = request.getRequestDispatcher("LadoAdmin/pesqpedido.jsp");
 

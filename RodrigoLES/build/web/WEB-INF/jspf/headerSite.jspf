@@ -129,7 +129,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         %>                    
 
 
-                    <li ><a href="${pageContext.request.contextPath}/contact.html" > CONTACT US</a></li>
+                    <li ><a href="${pageContext.request.contextPath}/contact.html" > CONTATO</a></li>
                 </ul>
                 <div class="clearfix"> </div>
             </div>
@@ -184,11 +184,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     </ul> 
                 </div>
                 <div class="cart icon1 sub-icon1">
-                    <h6 >Shopping cart:
+                    <h6 >Carrinho:
                         <span class="item">
                             Qtde de itens
                         </span>
-                        <span class="rate">70$</span>
+                        <span class="rate"></span>
                         <li><a href="#" class="round"> </a>
                             <ul class="sub-icon1 list">
                                 <h3>Quantidade de Itens 
@@ -296,7 +296,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                         }
                                     %>
                                 </div>
-                                <div class="check_button"><a href="${pageContext.request.contextPath}/cart.jsp">View Cart</a></div>
+                                <div class="check_button"><a href="${pageContext.request.contextPath}/cart.jsp">Ver Carrinho</a></div>
                                 <div class="clearfix"></div>
                             </ul>
                         </li>

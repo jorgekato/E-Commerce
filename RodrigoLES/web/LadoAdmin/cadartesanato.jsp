@@ -16,12 +16,11 @@
     <%        Artesanato artesanato = (Artesanato) request.getAttribute("artesanato");
     %>
     <div class="account-in">
-        <div>
-            <header><h1>Cadastro de artesanatos</h1></header></div>
-        <div>
+        <div><header><h1>Cadastro de artesanatos</h1></header></div>
+        <div class="account-top register">
             <form action="${pageContext.request.contextPath}/SalvarArtesanato" method="POST" id="validate">
-                <label for="txtId">Id:</label>
-                <input type="text" id="txtId" name="txtId" value=
+                <label hidden for="txtId">Id:</label>
+                <input hidden type="text" id="txtId" name="txtId" value=
                        <%
                            if (artesanato != null) {
                                out.print("'" + artesanato.getId() + "' readonly>");
@@ -31,14 +30,15 @@
                        %>
 
 
-                       <p>Nome: <input type="text" name="nome"<%
+                       <p>Nome: <input type="text" name="nome"
+                                <%
                                     if (artesanato != null) {
                                         out.print("value='" + artesanato.getNome() + "' readonly>");
                                     } else {
                                         out.print(">");
                                     }
                                 %>
-                </p>
+                        </p>
 
                 <p>Categoria: <select name="catId">
                         <%

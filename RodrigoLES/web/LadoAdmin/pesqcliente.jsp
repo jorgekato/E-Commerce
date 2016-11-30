@@ -49,14 +49,14 @@
             <th colspan="8"><strong>CLIENTES</strong></th>
         </tr>
         <tr>
-            <td>ID</td>
-            <td>NOME</td>
-            <td>CPF</td>
-            <td>SEXO</td>
-            <td>SENHA</td>
-            <td>DT CADASTRO</td>
-            <td>SITUAÇÃO</td>
-            <td>EMAIL</td>
+            <th>ID</th>
+            <th>NOME</th>
+            <th>CPF</th>
+            <th>SEXO</th>
+            <th>SENHA</th>
+            <th>DT CADASTRO</th>
+            <th>SITUAÇÃO</th>
+            <th>EMAIL</th>
 
         </tr>
         <%

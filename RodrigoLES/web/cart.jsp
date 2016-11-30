@@ -129,8 +129,8 @@
         <%
         } else {
         %>
-        <h4 class="title">Shopping cart is empty</h4>
-        <p class="cart-out">You have no items in your shopping cart.<br>Click<a href="index.jsp"> here</a> to continue shopping</p>
+        <h4 class="title">Carrinho vazio!</h4>
+        <p class="cart-out">Voce nao possui itens no carrinho de compras.<br>Clique<a href="index.jsp"> aqui</a> para continuar comprando</p>
             <%}
             %>
 
