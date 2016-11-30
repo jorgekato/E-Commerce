@@ -39,7 +39,7 @@
         <div class="clearfix"> </div>
         <form action="${pageContext.request.contextPath}/SalvarPedidos" method="post">
 
-            <table border="3" width="100%" CELLPADDING="4" CELLSPACING="3">
+            <table class="table table-striped table-bordered bootstrap-datatable datatable table-responsive" border="3" width="100%" CELLPADDING="4" CELLSPACING="3">
 
                 <tr>
                     <th colspan="7"><strong>Pedidos</strong></th>
@@ -60,7 +60,7 @@
                 </tr>
             </table>
             <h3>Relatório</h3>
-            <table border="3" width="1000%" CELLPADDING="4" CELLSPACING="3">
+            <table class="table table-striped table-bordered bootstrap-datatable datatable table-responsive" border="3" width="1000%" CELLPADDING="4" CELLSPACING="3">
                 <tr>
                     <th>Data do Registro</th>
                     <th>Comentário</th>
@@ -78,11 +78,12 @@
                 </tr>
 
                 <%
+                            }
                         }
                     }
-            }
                 %>
             </table>
 
         </form>
     </div>
+</div>

@@ -7,6 +7,8 @@ package e_commer.filtroAnalise;
 
 import e_commer.dominio.EntidadeDominio;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -19,6 +21,28 @@ public class FiltroClienteVendaPeriodo extends EntidadeDominio {
     private Date dt_inicial;
     private Date dt_final;
 
+     //Modificado a partir daqui
+    private HashMap<String, Integer > hmQtde;
+    private boolean flgComparar;
+    
+    public HashMap<String, Integer> getHmQtde() {
+        return hmQtde;
+    }
+
+    public void setHmQtde(HashMap<String, Integer> hmQtde) {
+        this.hmQtde = hmQtde;
+    }
+
+    public boolean getFlgComparar() {
+        return flgComparar;
+    }
+
+    public void setFlgComparar(boolean flgComparar) {
+        this.flgComparar = flgComparar;
+    }
+          
+    //@@@@@@@@@@@@@@@@@2
+    
     public FiltroClienteVendaPeriodo() {
     }
     

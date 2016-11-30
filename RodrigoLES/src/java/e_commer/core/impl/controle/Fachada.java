@@ -17,8 +17,11 @@ import e_commer.core.impl.dao.ProdutoDAO;
 import e_commer.core.impl.dao.CategoriasDAO;
 import e_commer.core.impl.dao.ArtesanatoDAO;
 import e_commer.core.impl.dao.CreditoDAO;
+import e_commer.core.impl.dao.EnderecoDAO;
 import e_commer.core.impl.dao.FiltroClienteVendaPeriodoDAO;
 import e_commer.core.impl.dao.FiltroEstoqueMinimoDAO;
+import e_commer.core.impl.dao.FiltroEstoqueGeralDAO;
+import e_commer.core.impl.dao.FiltroPerfilIdadeSexoDAO;
 import e_commer.core.impl.dao.FiltroProdutoQtdePeriodoDAO;
 import e_commer.core.impl.dao.FiltroProdutoVendaPeriodoDAO;
 import e_commer.core.impl.dao.PedidoDAO;
@@ -32,6 +35,8 @@ import e_commer.core.impl.negocio.ValidadorDadosObrigatoriosFornecedor;
 import e_commer.core.impl.negocio.ValidadorQtdProduto;
 import e_commer.core.impl.negocio.ValidadorQtdeEstoque;
 import e_commer.core.impl.negocio.ValidadorQtdeVendas;
+import e_commer.core.impl.negocio.ValidadorCredito;
+
 //import entidades domínio
 import e_commer.dominio.Cliente;
 import e_commer.dominio.EntidadeDominio;
@@ -39,11 +44,15 @@ import e_commer.dominio.Fornecedor;
 import e_commer.dominio.Produto;
 import e_commer.dominio.Categorias;
 import e_commer.dominio.Artesanato;
+import e_commer.dominio.CarrinhoCompra;
 import e_commer.dominio.Credito;
+import e_commer.dominio.Endereco;
 import e_commer.dominio.Pedido;
 import e_commer.dominio.TrocaDevolucao;
 import e_commer.filtroAnalise.FiltroClienteVendaPeriodo;
 import e_commer.filtroAnalise.FiltroEstoqueMinimo;
+import e_commer.filtroAnalise.FiltroEstoqueGeral;
+import e_commer.filtroAnalise.FiltroPerfilIdadeSexo;
 import e_commer.filtroAnalise.FiltroProdutoQtdePeriodo;
 import e_commer.filtroAnalise.FiltroProdutoVendaPeriodo;
 
@@ -81,8 +90,11 @@ public class Fachada implements IFachada {
         FiltroClienteVendaPeriodoDAO filDAO = new FiltroClienteVendaPeriodoDAO();
         FiltroProdutoVendaPeriodoDAO fprDAO = new FiltroProdutoVendaPeriodoDAO();
         FiltroEstoqueMinimoDAO esmDAO = new FiltroEstoqueMinimoDAO();
+        FiltroEstoqueGeralDAO estDAO = new FiltroEstoqueGeralDAO();
         FiltroProdutoQtdePeriodoDAO fqtDAO = new FiltroProdutoQtdePeriodoDAO();
-        
+        FiltroPerfilIdadeSexoDAO perDAO = new FiltroPerfilIdadeSexoDAO();
+        EnderecoDAO endDAO = new EnderecoDAO();
+
         /* Adicionando cada dao no MAP indexando pelo nome da classe */
         daos.put(Fornecedor.class.getName(), forDAO);
         daos.put(Cliente.class.getName(), cliDAO);
@@ -95,7 +107,11 @@ public class Fachada implements IFachada {
         daos.put(FiltroClienteVendaPeriodo.class.getName(), filDAO);
         daos.put(FiltroProdutoVendaPeriodo.class.getName(), fprDAO);
         daos.put(FiltroEstoqueMinimo.class.getName(), esmDAO);
+        daos.put(FiltroEstoqueGeral.class.getName(), estDAO);
         daos.put(FiltroProdutoQtdePeriodo.class.getName(), fqtDAO);
+        daos.put(FiltroPerfilIdadeSexo.class.getName(), perDAO);
+        daos.put(Endereco.class.getName(), endDAO);
+
         //-------------------------------------------------------------------------------------------
         /* Criando instancias de regras de negocio a serem utilizados*/
         ValidadorDadosObrigatoriosFornecedor vrDadosObrigatoriosFornecedor = new ValidadorDadosObrigatoriosFornecedor();
@@ -106,6 +122,7 @@ public class Fachada implements IFachada {
         ComplementarDtValidadeCredito cDtValidade = new ComplementarDtValidadeCredito();
         ValidadorQtdeEstoque vQtdeEst = new ValidadorQtdeEstoque();
         ValidadorQtdeVendas vQtdeVen = new ValidadorQtdeVendas();
+        ValidadorCredito vCredito = new ValidadorCredito();
 
         //FORNECEDOR------------------------------------------------------------------------------------------
         /* Criando uma lista para conter as regras de neg�cio de fornencedor
@@ -168,6 +185,12 @@ public class Fachada implements IFachada {
         List<IStrategy> rnsAlterarProduto = new ArrayList<IStrategy>();
         /* Adicionando as regras a serem utilizadas na opera��o alterar do produto */
         rnsAlterarProduto.add(vQtd);
+        /* Criando uma lista para conter as regras de neg�cio de produto
+		 * quando a operacao for alterar
+         */
+        List<IStrategy> rnsConsultarQtdeProduto = new ArrayList<IStrategy>();
+        /* Adicionando as regras a serem utilizadas na opera��o alterar do produto */
+        rnsConsultarQtdeProduto.add(vQtd);
 
         /* Cria o mapa que podera conter todas as listas de regras de neg�cio espec�fica 
 		 * por operacao do produto
@@ -181,6 +204,10 @@ public class Fachada implements IFachada {
 		 * Adiciona a listra de regras na opera��o alterar no mapa do produto (lista criada na linha 122)
          */
         rnsProduto.put("ALTERAR", rnsAlterarProduto);
+        /*
+		 * Adiciona a listra de regras na opera��o alterar no mapa do produto (lista criada na linha 122)
+         */
+        //rnsProduto.put("CONSULTAR", rnsAlterarProduto);
 
         /* Adiciona o mapa(criado na linha 129) com as regras indexadas pelas opera��es no mapa geral indexado 
 		 * pelo nome da entidade. Observe que este mapa (rns) � o mesmo utilizado na linha 88.
@@ -228,7 +255,7 @@ public class Fachada implements IFachada {
          * pelo nome da entidade. Observe que este mapa (rns) é o mesmo utilizado na linha 88.
          */
         rns.put(Artesanato.class.getName(), rnsArtesanato);
-        
+
         //PEDIDO-------------------------------------------------------------------------------------------------------------------
         /* Criando uma lista para conter as regras de negócio de Pedidos
          * quando a operação for salvar
@@ -238,6 +265,10 @@ public class Fachada implements IFachada {
         rnsSalvarPedido.add(cDtCadastro);
         rnsSalvarPedido.add(vQtdeEst);
         rnsSalvarPedido.add(vQtdeVen);
+        rnsSalvarPedido.add(vCredito);
+        List<IStrategy> rnsConsultarPedido = new ArrayList<IStrategy>();
+        /* Adicionando as regras a serem utilizadas na operação Consultar do Carrinho */
+        rnsConsultarPedido.add(vQtdeEst);
         /* Cria o mapa que poderá conter todas as listas de regras de negócio específica 
          * por operação do PRODUTO
          */
@@ -246,6 +277,7 @@ public class Fachada implements IFachada {
          * Adiciona a listra de regras na operação salvar no mapa do produto (lista criada na linha 114)
          */
         rnsPedido.put("SALVAR", rnsSalvarPedido);
+        //rnsPedido.put("CONSULTAR", rnsConsultarPedido);
 
         /* Adiciona o mapa(criado na linha 129) com as regras indexadas pelas operações no mapa geral indexado 
          * pelo nome da entidade. Observe que este mapa (rns) é o mesmo utilizado na linha 88.
@@ -259,7 +291,7 @@ public class Fachada implements IFachada {
         List<IStrategy> rnsSalvarTrocaDevolucao = new ArrayList<IStrategy>();
         /* Adicionando as regras a serem utilizadas na operação salvar da CATEGORIA */
         rnsSalvarTrocaDevolucao.add(cDtCadastro);
-         /* Criando uma lista para conter as regras de neg�cio de troca e devolucao
+        /* Criando uma lista para conter as regras de neg�cio de troca e devolucao
 		 * quando a opera��o for alterar
          */
         List<IStrategy> rnsAlterarTrocaDevolucao = new ArrayList<IStrategy>();
@@ -298,12 +330,47 @@ public class Fachada implements IFachada {
          * Adiciona a listra de regras na operação salvar no mapa do produto 
          */
         rnsCredito.put("SALVAR", rnsSalvarCredito);
-        
+
         /* Adiciona o mapa(criado na linha 129) com as regras indexadas pelas operações no mapa geral indexado 
          * pelo nome da entidade.
          */
         rns.put(Credito.class.getName(), rnsCredito);
+
+        //Carrinho-------------------------------------------------------------------------------------------------------------------
+        /* Criando uma lista para conter as regras de negócio de Credito
+         * quando a operação for salvar
+         */
+        List<IStrategy> rnsConsultarCarrinho = new ArrayList<IStrategy>();
+        /* Adicionando as regras a serem utilizadas na operação salvar da CATEGORIA */
+        rnsConsultarCarrinho.add(vQtdeEst);
+        /* Cria o mapa que poderá conter todas as listas de regras de negócio específica 
+         * por operação de Credito
+         */
+        Map<String, List<IStrategy>> rnsCarrinho = new HashMap<String, List<IStrategy>>();
+        /*
+         * Adiciona a listra de regras na operação salvar no mapa do produto 
+         */
+        rnsCarrinho.put("CONSULTAR", rnsConsultarCarrinho);
+
+        /* Adiciona o mapa(criado na linha 129) com as regras indexadas pelas operações no mapa geral indexado 
+         * pelo nome da entidade.
+         */
+        rns.put(CarrinhoCompra.class.getName(), rnsCarrinho);
         
+        //ENDERECO-------------------------------------------------------------------------------------------------------------------
+        /* Criando uma lista para conter as regras de negócio de Endereco
+         * quando a operação for salvar
+         */
+        List<IStrategy> rnsSalvarEndereco = new ArrayList<IStrategy>();
+        /* Adicionando as regras a serem utilizadas na operação salvar do Endereco */
+        rnsSalvarEndereco.add(cDtCadastro);
+               
+        Map<String, List<IStrategy>> rnsEndereco = new HashMap<String, List<IStrategy>>();
+        /*
+         * Adiciona a listra de regras na operação salvar no mapa do endereco 
+         */
+        rnsEndereco.put("SALVAR", rnsSalvarEndereco);
+
     }
 
     @Override
@@ -318,7 +385,7 @@ public class Fachada implements IFachada {
             IDAO dao = daos.get(nmClasse);
             try {
                 dao.salvar(entidade);
-                List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();                
+                List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
                 entidades.add(entidade);
                 resultado.setEntidades(entidades);
             } catch (SQLException e) {
@@ -394,14 +461,16 @@ public class Fachada implements IFachada {
     public Resultado consultar(EntidadeDominio entidade) {
         resultado = new Resultado();
         String nmClasse = entidade.getClass().getName();
+        String msg = null;
 
-        String msg = executarRegras(entidade, "CONSULTAR");//TAVA "EXCLUIR"
+        msg = executarRegras(entidade, "CONSULTAR");//TAVA "EXCLUIR"
 
         if (msg == null) {
             IDAO dao = daos.get(nmClasse);
             try {
-
-                resultado.setEntidades(dao.consultar(entidade));
+                if (dao != null) {
+                    resultado.setEntidades(dao.consultar(entidade));
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
                 resultado.setMsg("Não foi possível realizar a consulta!");

@@ -28,7 +28,7 @@
         <input type="hidden" name="txtIdPed" value="<%= td.getPedido().getId()%>"/>
         <input type="hidden" name="txtIdtd" value="<%= td.getId()%>"/>
 
-        <table border="3" width="1000%" CELLPADDING="4" CELLSPACING="3">
+        <table class="table table-striped table-bordered bootstrap-datatable datatable table-responsive" border="3" width="1000%" CELLPADDING="4" CELLSPACING="3">
             <tr>
                 <th colspan="6"><strong>Pedido</strong></th>
             </tr>
@@ -48,7 +48,7 @@
             </tr>
         </table>
         <h3>Relatório</h3>
-        <table border="3" width="1000%" CELLPADDING="4" CELLSPACING="3">
+        <table class="table table-striped table-bordered bootstrap-datatable datatable table-responsive" border="3" width="1000%" CELLPADDING="4" CELLSPACING="3">
             <tr>
                 <th>Data do Registro</th>
                 <th>Comentário</th>

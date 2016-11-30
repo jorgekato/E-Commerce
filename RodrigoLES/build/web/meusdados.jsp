@@ -4,6 +4,8 @@
     Author     : Henrique
 --%>
 
+<%@page import="e_commer.dominio.Endereco"%>
+<%@page import="e_commer.core.util.ConverteDate"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="content">
     <div class="col-md-3 col-md">
@@ -12,33 +14,36 @@
             <div class="tab1">
                 <ul class="place">
                     <li class="sort">
-                        <a href=SalvarPedidos?txtCliId=<%
-                            StringBuilder sbCliente = new StringBuilder();
-                            sbCliente.setLength(0);
-
-                            sbCliente.append(cliente.getId());
-                            out.print(sbCliente.toString());
-                           %>&operacao=CONSULTAR1>Meus Pedidos</a></li>
+                        <a href="SalvarPedidos?txtCliId=<%= cliente.getId()%>&operacao=CONSULTAR1">Meus Pedidos</a></li>
                     <li class="by"></li>
                     <div class="clearfix"> </div>
                 </ul>
             </div>
             <div class="tab2">
                 <ul class="place">
-                    <li class="sort">Meus Dados</li>
+                    <li class="sort">
+                        <a href="SalvarEndereco?txtId=<%= cliente.getId()%>&operacao=VISUALIZAR3">Meus Dados</a></li>
                     <li class="by"></li>
                     <div class="clearfix"> </div>
                 </ul>
             </div>
             <div class="tab3">
                 <ul class="place">
-                    <li class="sort">Meus Alguma coisa</li>
+                    <li class="sort">                        
+                        <a href="SalvarTrocaDevolucao?txtCliId=<%= cliente.getId()%>&operacao=CONSULTAR1">Minhas Trocas e Cancelamentos</a></li>
+
                     <li class="by"></li>
                     <div class="clearfix"> </div>
                 </ul>
             </div>
             <div class="tab4">
-            </div>
+                <ul class="place">
+                    <li class="sort">
+                        <a href="SalvarCredito?txtCliId=<%= cliente.getId()%>&operacao=CONSULTAR1">Meus Vale-Creditos</a></li>
+                    <li class="by"></li>
+                    <div class="clearfix"> </div>
+                </ul>
+            </div>        
             <div class="tab5">
 
             </div>
@@ -104,8 +109,69 @@
 
         </div>
         <div class="content-bottom">
-            <h3>Featured products</h3>
+            <h3>Meus Dados</h3>
+            <%
+                Resultado clientes = (Resultado) request.getAttribute("clientes");
 
+            %>    
+            ${mensagem}
+            <div class="account-top register">
+            <form action="SalvarCliente" method="post">
+            <!-- dados obtidos atraves da sessao   -->
+            <p><label for="nome">Nome.:</label>
+                <input type="text" id="nome" name="txtNome" value="<%= cliente.getNome()%>" size="50" readonly/></p>
+            <p><label for="nome">* Email.:</label>
+                <input type="text" id="email" name="txtEmail" value="<%= cliente.getEmail()%>" size="30"/></p>
+            <p><label for="telefone">* Telefone.:</label>
+                <input type="text" id="telefon" name="txtTelefone" value="<%= cliente.getTelefone()%>"/></p>
+            <p><label for="nome">CPF.:</label>
+                <input type="text" id="cpf" name="txtCpf" value="<%= cliente.getCpf()%>" readonly/></p>
+            <p><label for="nome">Data de Nascimento.:</label>
+                <input type="text" id="dtNasc" name="txtDataNascimento" value="<%= ConverteDate.converteDateString(cliente.getDtNascimento())%>" readonly/></p>
+            <p><label for="sexo">Sexo.:</label>
+                <input type="text" id="sexo" name="txtSexo" value="<%= cliente.getSexo()%>" readonly/></p>
+            <p>* Campos editáveis</p>
+            <input type="submit" name="operacao" value="ALTERAR1"/>
+            <h3>Meus Endereços</h3>
+            <table class="table table-striped table-bordered bootstrap-datatable datatable table-responsive" border="3"  width="80%">
+                
+                <%
+                Cliente cli = (Cliente) clientes.getEntidades().get(0);
+                    for (int i = 0; i < cli.getEndereco().size(); i++) {
+                        Endereco end = (Endereco) cli.getEndereco().get(i);
+                %>
+                <tr>
+                    <td>
+                        <div>
+                            <p><label for="logradouro"><%= end.getLogradouro()%> </label>
+                            <label for="numero"><%= end.getNumero()%></label></p>
+                            <%if (end.getComplemento() != null) {%>
+                        <p><label for="complemento"><%= end.getComplemento()%></label></p>
+                            <%}%>
+                        <p><label for="bairro"><%= end.getBairro()%></label></p>
+                        <p><label for="cidade"><%= end.getCidade().getNome()%>/ </label>
+                            <label for="estado"><%= end.getCidade().getEstado().getNome()%></label></p>
+                        <p><label for="cep"><%= end.getCep()%></label></p>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <%if (i != 0){%>
+                            <a href="SalvarEndereco?txtId=<%= cliente.getId()%>&endId=<%= end.getId()%>&situacao=false&operacao=ALTERAR">Excluir</a>
+                            <%}%>
+                        </div>
+                    </td>
+                </tr>
+                
+                <%
+                    }
+                %>
+            </table>
+            <input type="hidden" id="idCli" name="txtId" value="<%= cliente.getId()%>" />
+            <input type="hidden" id="flgAtivo" name="txtFlgAtivo" value="TRUE"/>
+            <a href="cadendereco.jsp"><font color="red">Novo Endereço</font></a><br><br><br>
+            
+        </form>
         </div>
 
     </div>

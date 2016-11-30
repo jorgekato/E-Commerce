@@ -17,9 +17,24 @@ import java.util.List;
 public class CarrinhoCompra extends EntidadeDominio{
     
     private List<AbstractItem> itens = new ArrayList<AbstractItem>();
-    private double total = 0.0;
+    private double total = 0.0;    
+    private Endereco endereco;
+    //Para a compra com crédito
+    private Credito credito;
+
+    public Credito getCredito() {
+        return credito;
+    }
+
+    public void setCredito(Credito credito) {
+        this.credito = credito;
+    }
+    //.........................................
 
     public double getTotal() {
+        total = 0.0;
+        for(AbstractItem a : itens)
+            total += (a.getQuantidade()*a.getValorUnit());
         return total;
     }
 
@@ -44,6 +59,14 @@ public class CarrinhoCompra extends EntidadeDominio{
 
     public List<AbstractItem> getItens() {
         return itens;
+    }
+    
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
     
     

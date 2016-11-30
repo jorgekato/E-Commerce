@@ -1,5 +1,7 @@
 package e_commer.controle.web.vh.impl;
 
+import e_commer.controle.web.command.ICommand;
+import e_commer.controle.web.command.impl.ConsultarCommand;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -86,8 +88,8 @@ public class ArtesanatoViewHelper implements IViewHelper {
                 id = Integer.parseInt(txtId);
             }
             artesanato = new Artesanato();
-            Fachada fachada = new Fachada();
-            resultado = fachada.consultar((EntidadeDominio)artesanato);
+            ICommand command = new ConsultarCommand();
+            resultado = command.execute((EntidadeDominio)artesanato);
 
             for (EntidadeDominio e : resultado.getEntidades()) {
                 if (e.getId() == id) {

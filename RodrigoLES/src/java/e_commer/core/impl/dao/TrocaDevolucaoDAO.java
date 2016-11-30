@@ -65,14 +65,14 @@ public class TrocaDevolucaoDAO extends AbstractJdbcDAO {
             pst.setInt(3, td.getQuantidade());
             Timestamp dtSolic = new Timestamp(td.getDtCadastro().getTime());
             pst.setTimestamp(4, dtSolic);
-            pst.setString(5, td.getMotivo());
+            pst.setString(5, td.getMotivo().toUpperCase());
             pst.setString(6, "AGUARDANDO PRODUTO");
-            pst.setString(7, td.getAnotacao());
+            pst.setString(7, td.getAnotacao().toUpperCase());
             pst.setString(8, "");//acao
             pst.executeUpdate();
 
             Relatorio rel = new Relatorio();
-            rel.setComentario("Inicio do Relatorio");
+            rel.setComentario("INICIO DO RELATORIO");
             rel.setStatus("AGUARDANDO PRODUTO");
             td.addRelatorio(rel);
 
@@ -91,8 +91,8 @@ public class TrocaDevolucaoDAO extends AbstractJdbcDAO {
             pst = connection.prepareStatement(sql.toString());
             pst.setInt(1, td.getId());
             pst.setTimestamp(2, dtSolic);
-            pst.setString(3, rel.getComentario());
-            pst.setString(4, rel.getStatus());
+            pst.setString(3, rel.getComentario().toUpperCase());
+            pst.setString(4, rel.getStatus().toUpperCase());
             pst.executeUpdate();
 
             connection.commit();
@@ -126,8 +126,8 @@ public class TrocaDevolucaoDAO extends AbstractJdbcDAO {
             sql.append("UPDATE " + table + " SET " + status + "=?," + acao + "=?," + dtUltModificacao + "=?");
             sql.append(" WHERE " + idTable + "=?");
             pst = connection.prepareStatement(sql.toString());
-            pst.setString(1, td.getStatus());
-            pst.setString(2, td.getAcao());
+            pst.setString(1, td.getStatus().toUpperCase());
+            pst.setString(2, td.getAcao().toUpperCase());
             Timestamp dtmodificacao = new Timestamp(td.getDtCadastro().getTime());
             pst.setTimestamp(3, dtmodificacao);
             pst.setInt(4, td.getId());
@@ -143,8 +143,8 @@ public class TrocaDevolucaoDAO extends AbstractJdbcDAO {
             pst = connection.prepareStatement(sql.toString());
             pst.setInt(1, td.getId());
             pst.setTimestamp(2, dtmodificacao);
-            pst.setString(3, td.getRelatorio().get(0).getComentario());
-            pst.setString(4, td.getStatus());
+            pst.setString(3, td.getRelatorio().get(td.getRelatorio().size()-1).getComentario().toUpperCase());
+            pst.setString(4, td.getStatus().toUpperCase());
             pst.executeUpdate();
             
             //em caso de mudanca de status do pedido para CANCELADO OU ENVIADO

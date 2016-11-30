@@ -5,6 +5,8 @@
  */
 package e_commer.controle.web.vh.impl;
 
+import e_commer.controle.web.command.ICommand;
+import e_commer.controle.web.command.impl.ConsultarCommand;
 import e_commer.controle.web.vh.IViewHelper;
 import e_commer.core.aplicacao.Resultado;
 import e_commer.core.impl.controle.Fachada;
@@ -76,8 +78,8 @@ public class CategoriaViewHelper implements IViewHelper {
             }
             
             categoria = new Categorias();
-            Fachada fachada = new Fachada();
-            resultado = fachada.consultar((EntidadeDominio)categoria);
+            ICommand command = new ConsultarCommand();
+            resultado = command.execute((EntidadeDominio)categoria);
 
             for (EntidadeDominio e : resultado.getEntidades()) {
                 if (e.getId() == id) {
@@ -99,27 +101,20 @@ public class CategoriaViewHelper implements IViewHelper {
             resultado.setMsg("Categoria cadastrada com sucesso!");
             request.setAttribute("resultado", resultado);
             d = request.getRequestDispatcher("LadoAdmin/msggeral.jsp");
-        }
-
-        if (resultado.getMsg() == null && operacao.equals("ALTERAR")) {
+        }else if (resultado.getMsg() == null && operacao.equals("ALTERAR")) {
             resultado.setMsg("Categoria alterada com sucesso!");
             request.setAttribute("resultado", resultado);
             d = request.getRequestDispatcher("LadoAdmin/msggeral.jsp");
-        }
-
-        if (resultado.getMsg() == null && operacao.equals("VISUALIZAR")) {
+        }else if (resultado.getMsg() == null && operacao.equals("VISUALIZAR")) {
 
             request.setAttribute("categoria", resultado.getEntidades().get(0));
             //criar uma pagina para visualização de categorias e referenciar abaixo
             d = request.getRequestDispatcher("LadoAdmin/cadcategoria.jsp");
-        }
-
-        if (resultado.getMsg() == null && operacao.equals("EXCLUIR")) {
+        }else if (resultado.getMsg() == null && operacao.equals("EXCLUIR")) {
             resultado.setMsg("Categoria excluida com sucesso!");
             request.setAttribute("resultado", resultado);
             d = request.getRequestDispatcher("LadoAdmin/msggeral.jsp");
-        }
-        if (resultado.getMsg() == null && operacao.equals("CONSULTAR")) {
+        }else if (resultado.getMsg() == null && operacao.equals("CONSULTAR")) {
 
             request.setAttribute("resultado", resultado);
             d = request.getRequestDispatcher("LadoAdmin/pesqcategoria.jsp");

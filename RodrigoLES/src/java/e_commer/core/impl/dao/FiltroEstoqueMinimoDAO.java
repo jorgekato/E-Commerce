@@ -6,7 +6,6 @@
 package e_commer.core.impl.dao;
 
 import e_commer.dominio.EntidadeDominio;
-import e_commer.dominio.Produto;
 import e_commer.filtroAnalise.FiltroEstoqueMinimo;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

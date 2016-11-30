@@ -45,39 +45,68 @@ public class FiltroProdutoQtdePeriodoDAO extends AbstractJdbcDAO {
         PreparedStatement pst = null;
         String sql = null;
 
-        sql = "SELECT \n"
-                + "  pro_nome, \n"
-                + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 1 then ite_qtde else 0 end) as Jan,\n"
-                + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 2 then ite_qtde else 0 end) as Fev,\n"
-                + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 3 then ite_qtde else 0 end) as Mar,\n"
-                + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 4 then ite_qtde else 0 end) as Abr,\n"
-                + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 5 then ite_qtde else 0 end) as Mai,\n"
-                + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 6 then ite_qtde else 0 end) as Jun,\n"
-                + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 7 then ite_qtde else 0 end) as Jul,\n"
-                + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 8 then ite_qtde else 0 end) as Ago,\n"
-                + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 9 then ite_qtde else 0 end) as Set,\n"
-                + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 10 then ite_qtde else 0 end) as Out,\n"
-                + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 11 then ite_qtde else 0 end) as Nov,\n"
-                + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 12 then ite_qtde else 0 end) as Dez\n"
-                + "from tb_pedidos join \n"
-                + "                tb_itens_pedidos using (ped_id) join\n"
-                + "                tb_produtos using (pro_id)\n"
-                + "where pro_id = ?\n"
-                + "group by\n"
-                + "  pro_nome\n"
-                + "  order by 1";
+        if (!f.getFlgComparar()) {
 
+            sql = "SELECT \n"
+                    + "  pro_nome, \n"
+                    + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 1 then ite_qtde else 0 end) as Jan,\n"
+                    + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 2 then ite_qtde else 0 end) as Fev,\n"
+                    + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 3 then ite_qtde else 0 end) as Mar,\n"
+                    + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 4 then ite_qtde else 0 end) as Abr,\n"
+                    + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 5 then ite_qtde else 0 end) as Mai,\n"
+                    + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 6 then ite_qtde else 0 end) as Jun,\n"
+                    + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 7 then ite_qtde else 0 end) as Jul,\n"
+                    + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 8 then ite_qtde else 0 end) as Ago,\n"
+                    + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 9 then ite_qtde else 0 end) as Set,\n"
+                    + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 10 then ite_qtde else 0 end) as Out,\n"
+                    + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 11 then ite_qtde else 0 end) as Nov,\n"
+                    + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 12 then ite_qtde else 0 end) as Dez\n"
+                    + "from tb_pedidos join \n"
+                    + "                tb_itens_pedidos using (ped_id) join\n"
+                    + "                tb_produtos using (pro_id)\n"
+                    + "where pro_id = ?\n"
+                    + "group by\n"
+                    + "  pro_nome\n"
+                    + "  order by 1";
+        } else {
+            sql = "SELECT \n"
+                    + "  pro_nome, \n"
+                    + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 1 then ite_qtde else 0 end) as Jan,\n"
+                    + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 2 then ite_qtde else 0 end) as Fev,\n"
+                    + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 3 then ite_qtde else 0 end) as Mar,\n"
+                    + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 4 then ite_qtde else 0 end) as Abr,\n"
+                    + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 5 then ite_qtde else 0 end) as Mai,\n"
+                    + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 6 then ite_qtde else 0 end) as Jun,\n"
+                    + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 7 then ite_qtde else 0 end) as Jul,\n"
+                    + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 8 then ite_qtde else 0 end) as Ago,\n"
+                    + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 9 then ite_qtde else 0 end) as Set,\n"
+                    + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 10 then ite_qtde else 0 end) as Out,\n"
+                    + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 11 then ite_qtde else 0 end) as Nov,\n"
+                    + "  sum(case when EXTRACT(MONTH FROM ped_dt_compra)= 12 then ite_qtde else 0 end) as Dez\n"
+                    + "from tb_pedidos join \n"
+                    + "                tb_itens_pedidos using (ped_id) join\n"
+                    + "                tb_produtos using (pro_id)\n"
+                    + "where pro_id = ? or pro_id=?\n"
+                    + "group by\n"
+                    + "  pro_nome\n"
+                    + "  order by 1";
+        }
         try {
             openConnection();
             pst = connection.prepareStatement(sql);
 
-            pst.setInt(1, f.getId());
-            HashMap<String, Integer > hmQtde = new HashMap<>();
+            if (!f.getFlgComparar()) {
+                pst.setInt(1, f.getId());
+            } else {
+                pst.setInt(1, f.getId());
+                pst.setInt(2, f.getfPQP().getId());
+            }
+            HashMap<String, Integer> hmQtde = new HashMap<>();
             ResultSet rs = pst.executeQuery();
             List<EntidadeDominio> grafico = new ArrayList<EntidadeDominio>();
             while (rs.next()) {
                 FiltroProdutoQtdePeriodo f1 = new FiltroProdutoQtdePeriodo();
-
+                hmQtde = new HashMap<>();
                 f1.setNome(rs.getString("pro_nome"));
                 hmQtde.put("Janeiro", rs.getInt("jan"));
                 hmQtde.put("Fevereiro", rs.getInt("fev"));
@@ -98,7 +127,7 @@ public class FiltroProdutoQtdePeriodoDAO extends AbstractJdbcDAO {
         } catch (SQLException erro) {
             erro.printStackTrace();
         }
+//        
         return null;
     }
-
 }

@@ -1,21 +1,26 @@
 package e_commer.controle.web.vh.impl;
 
+import e_commer.controle.web.command.ICommand;
+import e_commer.controle.web.command.impl.ConsultarCommand;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import e_commer.controle.web.vh.IViewHelper;
 import e_commer.core.aplicacao.Resultado;
-import e_commer.core.impl.controle.Fachada;
 import e_commer.core.util.ConverteDate;
+import e_commer.core.util.ManipulaImagem;
 import e_commer.dominio.Categorias;
 import e_commer.dominio.EntidadeDominio;
+import e_commer.dominio.Imagem;
 import e_commer.dominio.Produto;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import javax.servlet.http.Part;
 
 public class ProdutoViewHelper implements IViewHelper {
 
@@ -24,7 +29,7 @@ public class ProdutoViewHelper implements IViewHelper {
         String operacao = request.getParameter("operacao");
         Produto produto = null;
 
-        if (!operacao.equals("VISUALIZAR")&& !operacao.equals("VISUALIZAR1")) {
+        if (!operacao.equals("VISUALIZAR") && !operacao.equals("VISUALIZAR1")) {
             String nome = request.getParameter("nome");  //ok
             String marca = request.getParameter("marca");    //ok        
             String modelo = request.getParameter("modelo");
@@ -39,34 +44,74 @@ public class ProdutoViewHelper implements IViewHelper {
             String catId = request.getParameter("categorias");
             produto = new Produto();
 
+            //para pegar uma (1) imagem que vem da página JSP
+            try {
+
+                Imagem[] imagem = new Imagem[3];
+                Part part = null;
+                for (int i = 0; i < imagem.length; i++) {
+                    part = request.getPart("imgUpload" + (i + 1));
+                    if (part.getInputStream() != null) {
+                        if (!part.getSubmittedFileName().equals("")) {
+                            imagem[i] = new Imagem();
+                            imagem[i].setImagem(ManipulaImagem.convertImagemBytes(part.getInputStream()));
+
+                            //testar ao cadastrar sem imagem
+                            if (imagem[i].getImagem() != null) {
+                                //produto.setFoto(imagem);
+                            } else {
+                                //Pega imagem padrão e salva no BD
+                                String caminho = request.getServletContext().getRealPath("/images/sem_imagem.png");
+                                File file = new File(caminho);
+                                InputStream fis = new FileInputStream(file);
+                                imagem[i].setImagem(ManipulaImagem.convertImagemBytes(fis));
+                                //produto.setFoto(imagem);
+                            }
+                            imagem[i].setPosicao(i);
+                        } else if (operacao.equals("SALVAR")) {
+                            imagem[i] = new Imagem();
+                            String caminho = request.getServletContext().getRealPath("/images/sem_imagem.png");
+                            File file = new File(caminho);
+                            InputStream fis = new FileInputStream(file);
+                            imagem[i].setImagem(ManipulaImagem.convertImagemBytes(fis));
+                            imagem[i].setPosicao(i);
+                        }
+                    }
+                }
+                produto.setFoto(imagem);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             if (nome != null && !nome.trim().equals("")) {
                 produto.setNome(nome);
             }
-            
+
             if (marca != null && !marca.trim().equals("")) {
                 produto.setMarca(marca);
             }
-            
+
             if (modelo != null && !modelo.trim().equals("")) {
                 produto.setModelo(modelo);
             }
-            
+
             if (quantidade != null && !quantidade.trim().equals("")) {
                 produto.setQuantidade(Integer.parseInt(quantidade));
             }
-            
-            if(qtdeMaxVenda != null && !qtdeMaxVenda.trim().equals("")){
+
+            if (qtdeMaxVenda != null && !qtdeMaxVenda.trim().equals("")) {
                 produto.setQtdeMaxVenda(Integer.valueOf(qtdeMaxVenda));
             }
-            
+
             if (valor_unit != null && !valor_unit.trim().equals("")) {
                 produto.setPrecoUnit(Double.parseDouble(valor_unit));
             }
-            
+
             if (estoque_min != null && !estoque_min.trim().equals("")) {
                 produto.setEstoqueMin(Integer.parseInt(estoque_min));
             }
-            
+
             if (descricao
                     != null && !descricao.trim()
                     .equals("")) {
@@ -91,12 +136,12 @@ public class ProdutoViewHelper implements IViewHelper {
                 produto.setDtCadastro(ConverteDate.converteStringDate(dtCadastro));
             }
             Categorias cat = new Categorias();
-            if(catId != null && !catId.trim().equals("")){
+            if (catId != null && !catId.trim().equals("")) {
                 cat.setId(Integer.valueOf(catId));
             }
             produto.setCategoria(cat);
         } else {
-            
+
             Resultado resultado = null;
             String txtId = request.getParameter("txtId");
             int id = 0;
@@ -106,9 +151,9 @@ public class ProdutoViewHelper implements IViewHelper {
             }
 
             produto = new Produto();
-            Fachada fachada = new Fachada();
-            resultado = fachada.consultar((EntidadeDominio) produto);
-            
+            ICommand command = new ConsultarCommand();
+            resultado = command.execute((EntidadeDominio) produto);
+
             for (EntidadeDominio e : resultado.getEntidades()) {
                 if (e.getId() == id) {
                     produto = (Produto) e;
@@ -125,53 +170,40 @@ public class ProdutoViewHelper implements IViewHelper {
 
         String operacao = request.getParameter("operacao");
 
-                
-        if (resultado.getMsg() == null && operacao.equals("SALVAR")) {
-                resultado.setMsg("Produto cadastrado com sucesso!");
+        //transformar em else if
+        if (request.getParameter("graficoproduto") != null) {
+            request.setAttribute("resultado", resultado);
+            d = request.getRequestDispatcher("LadoAdmin/Relatorios/selecionaproduto.jsp");
+        } else if (resultado.getMsg() == null && operacao.equals("SALVAR")) {
+            resultado.setMsg("Produto cadastrado com sucesso!");
             request.setAttribute("resultado", resultado);
             d = request.getRequestDispatcher("LadoAdmin/msggeral.jsp");
-        }
-        
-        if (resultado.getMsg() == null && operacao.equals("CONSULTAR")) {
-                
+        } else if (resultado.getMsg() == null && operacao.equals("CONSULTAR")) {
             request.setAttribute("resultado", resultado);
             d = request.getRequestDispatcher("LadoAdmin/pesqprodutos.jsp");
-        }
-        if (resultado.getMsg() == null && operacao.equals("CONSULTAR1")) {
-
+        } else if (resultado.getMsg() == null && operacao.equals("CONSULTAR1")) {
             request.setAttribute("resultado", resultado);
-            //d = request.getRequestDispatcher("pesqartesanato.jsp");
             d = request.getRequestDispatcher("produtostore.jsp");
-        }
-       
-        if (resultado.getMsg() == null && operacao.equals("ALTERAR")) {
+        } else if (resultado.getMsg() == null && operacao.equals("ALTERAR")) {
 
             resultado.setMsg("Produto alterado com sucesso!");
-            
             request.setAttribute("resultado", resultado);
             d = request.getRequestDispatcher("LadoAdmin/msggeral.jsp");
-        }
-
-        if (resultado.getMsg() == null && operacao.equals("VISUALIZAR")) {
+        } else if (resultado.getMsg() == null && operacao.equals("VISUALIZAR")) {
 
             request.setAttribute("produto", resultado.getEntidades().get(0));
             d = request.getRequestDispatcher("LadoAdmin/cadproduto.jsp");
-        }
-        if (resultado.getMsg() == null && operacao.equals("VISUALIZAR1")) {
+        } else if (resultado.getMsg() == null && operacao.equals("VISUALIZAR1")) {
 
             request.setAttribute("produto", resultado.getEntidades().get(0));
             d = request.getRequestDispatcher("singleproduto.jsp");
-        }
-
-        if (resultado.getMsg() == null && operacao.equals("EXCLUIR")) {
+        } else if (resultado.getMsg() == null && operacao.equals("EXCLUIR")) {
 
             resultado.setMsg("Produto excluido com sucesso!");
-            
+
             request.setAttribute("resultado", resultado);
             d = request.getRequestDispatcher("LadoAdmin/msggeral.jsp");
         }
-
-
 
         d.forward(request, response);
 

@@ -9,6 +9,7 @@ import e_commer.controle.web.command.ICommand;
 import e_commer.controle.web.command.impl.ConsultarCommand;
 import e_commer.core.aplicacao.Resultado;
 import e_commer.core.impl.controle.Fachada;
+import e_commer.dominio.CarrinhoCompra;
 import e_commer.dominio.Cliente;
 import e_commer.dominio.EntidadeDominio;
 import e_commer.dominio.Login;
@@ -57,21 +58,35 @@ public class ServletAutenticacao extends HttpServlet {
 
             resultado = command.execute(cli);
 
-            if (resultado.getEntidades() != null && resultado.getEntidades().size() > 0 ) {
+            if (resultado.getEntidades() != null && resultado.getEntidades().size() > 0) {
                 for (EntidadeDominio e : resultado.getEntidades()) {
 
                     cli = (Cliente) e;
                 }
 
                 if (cli.getLogin().getPassword().equals(password)) {
-                    
+
                     Login log = new Login();
                     log.setPassword("");
                     cli.setLogin(log);
                     request.getSession().setAttribute("usuario", cli);
 
                     if (cli.getNivel() != Cliente.Nivel.ADMINISTRADOR && cli.getNivel() != Cliente.Nivel.COLABORADOR) {
-                        request.getRequestDispatcher("index.jsp").forward(request, response);
+
+                        Resultado carrinho = (Resultado) request.getSession().getAttribute("carrinho");
+
+                        CarrinhoCompra carrinhos = null;
+
+                        if (carrinho != null) {
+                            for (EntidadeDominio e : carrinho.getEntidades()) {
+                                carrinhos = (CarrinhoCompra) e;
+                            }
+                        }
+                        if (carrinhos != null) {
+                            request.getRequestDispatcher("cart.jsp").forward(request, response);
+                        } else {
+                            request.getRequestDispatcher("index.jsp").forward(request, response);
+                        }
                     } else {
                         request.getRequestDispatcher("LadoAdmin/adminprinc.jsp").forward(request, response);
                     }

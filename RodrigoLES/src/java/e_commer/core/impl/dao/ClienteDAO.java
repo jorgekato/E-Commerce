@@ -11,7 +11,6 @@ import e_commer.dominio.Cliente.Nivel;
 import e_commer.dominio.Endereco;
 import e_commer.dominio.EntidadeDominio;
 import e_commer.dominio.Estado;
-import e_commer.dominio.Fornecedor;
 import e_commer.dominio.Login;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -24,6 +23,7 @@ public class ClienteDAO extends AbstractJdbcDAO {
     private final String email = "cli_email";
     private final String cpf = "cli_cpf";
     private final String sexo = "cli_sexo";
+    private final String telefone = "cli_telefone";
     private final String flg_ativo = "cli_flg_ativo";
     private final String nivel_acesso = "cli_nivel";
     private final String dt_nascimento = "cli_dt_nascimento";
@@ -39,7 +39,7 @@ public class ClienteDAO extends AbstractJdbcDAO {
     private final String numero = "end_numero";
     private final String complemento = "end_complemento";
     private final String cep = "end_cep";
-    
+    private final String flgAtivo = "end_flg_ativo";
 
     public ClienteDAO() {
         super("tb_clientes", "cli_id");
@@ -52,100 +52,143 @@ public class ClienteDAO extends AbstractJdbcDAO {
 
         try {
             connection.setAutoCommit(false);
-            
             StringBuilder sql = new StringBuilder();
-            sql.append("INSERT INTO " + table  + " (" );
-            sql.append(nome + ", " + sexo + ", " + email  + ", " + cpf + ", " + flg_ativo + ", ");
-            sql.append(dt_nascimento + ", " + dt_cadastro + ", " + nivel_acesso + ") ");
-            sql.append("VALUES (?,?,?,?,?,?,?,?)");
-
-            pst = connection.prepareStatement(sql.toString(),Statement.RETURN_GENERATED_KEYS);
-
-            pst.setString(1, cliente.getNome().toUpperCase());
-            pst.setString(2, cliente.getSexo());
-            pst.setString(3, cliente.getEmail());
-            pst.setString(4, cliente.getCpf());
-            pst.setBoolean(5, cliente.getFlg_ativo());
-            pst.setDate(6, new java.sql.Date(cliente.getDtNascimento().getTime()));
-            Timestamp time = new Timestamp(cliente.getDtCadastro().getTime());
-            pst.setTimestamp(7, time);
             
-            if (cliente.getNivel() == Cliente.Nivel.ADMINISTRADOR) {
-                pst.setString(8, "ADMINISTRADOR");
-            } else if (cliente.getNivel() == Cliente.Nivel.COLABORADOR) {
-                pst.setString(8, "COLABORADOR");
-            } else if (cliente.getNivel() == Cliente.Nivel.CLIENTE) {
-                pst.setString(8, "CLIENTE");
-            }
+            if (cliente.getId() == null) {//novo cliente
+                
+                
+                sql.append("INSERT INTO " + table + " (");
+                sql.append(nome + ", " + sexo + ", " + email + ", " + cpf + ", " + flg_ativo + ", ");
+                sql.append(dt_nascimento + ", " + dt_cadastro + ", " + nivel_acesso + ", "+ telefone + ") ");
+                sql.append("VALUES (?,?,?,?,?,?,?,?,?)");
+
+                pst = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
+
+                pst.setString(1, cliente.getNome().toUpperCase());
+                pst.setString(2, cliente.getSexo());
+                pst.setString(3, cliente.getEmail());
+                pst.setString(4, cliente.getCpf());
+                pst.setBoolean(5, cliente.getFlg_ativo());
+                pst.setDate(6, new java.sql.Date(cliente.getDtNascimento().getTime()));
+                Timestamp time = new Timestamp(cliente.getDtCadastro().getTime());
+                pst.setTimestamp(7, time);
+
+                if (cliente.getNivel() == Cliente.Nivel.ADMINISTRADOR) {
+                    pst.setString(8, "ADMINISTRADOR");
+                } else if (cliente.getNivel() == Cliente.Nivel.COLABORADOR) {
+                    pst.setString(8, "COLABORADOR");
+                } else if (cliente.getNivel() == Cliente.Nivel.CLIENTE) {
+                    pst.setString(8, "CLIENTE");
+                }
+                pst.setString(9, cliente.getTelefone());
+
+                pst.executeUpdate();
+
+                ResultSet rs = pst.getGeneratedKeys();
+                int id = 0;
+                if (rs.next()) {
+                    id = rs.getInt(1);
+                }
+                cliente.setId(id);
+
+                sql = new StringBuilder();
+                sql.append("INSERT INTO ");
+                sql.append(tableLoguin);
+                sql.append(" (");
+                sql.append(senha);
+                sql.append(", ");
+                sql.append(idTable);
+                sql.append(", ");
+                sql.append(ultimo_acesso);
+                sql.append(") ");
+                sql.append("VALUES (?,?,?)");
+
+                pst = connection.prepareStatement(sql.toString());
+                pst.setString(1, cliente.getLogin().getPassword());
+                pst.setInt(2, cliente.getId());
+                time = new Timestamp(cliente.getDtCadastro().getTime());
+                pst.setTimestamp(3, time);
+
+                pst.executeUpdate();
+
+                sql = new StringBuilder();
+                sql.append("INSERT INTO ");
+                sql.append(tableEndereco);
+                sql.append(" (");
+                sql.append(idTable);
+                sql.append(", ");
+                sql.append(cidade);
+                sql.append(", ");
+                sql.append(estado);
+                sql.append(", ");
+                sql.append(bairro);
+                sql.append(", ");
+                sql.append(logradouro);
+                sql.append(", ");
+                sql.append(complemento);
+                sql.append(", ");
+                sql.append(numero);
+                sql.append(", ");
+                sql.append(cep);
+                sql.append(", ");
+                sql.append(flgAtivo);
+                sql.append(") ");
+                sql.append("VALUES (?,?,?,?,?,?,?,?,?)");
+
+                pst = connection.prepareStatement(sql.toString());
+                pst.setInt(1, cliente.getId());
+                List<EntidadeDominio> endereco = cliente.getEndereco();
+                pst.setString(2, ((Endereco)endereco.get(0)).getCidade().getNome().toUpperCase());
+                pst.setString(3, ((Endereco)endereco.get(0)).getCidade().getEstado().getNome().toUpperCase());
+                pst.setString(4, ((Endereco)endereco.get(0)).getBairro().toUpperCase());
+                pst.setString(5, ((Endereco)endereco.get(0)).getLogradouro().toUpperCase());
+                pst.setString(6, ((Endereco)endereco.get(0)).getComplemento().toUpperCase());
+                pst.setString(7, ((Endereco)endereco.get(0)).getNumero());
+                pst.setString(8, ((Endereco)endereco.get(0)).getCep());
+                pst.setBoolean(9, true);
+                pst.executeUpdate();
             
-            pst.executeUpdate();
+            } else { //adicionando outro endereco
 
-            ResultSet rs = pst.getGeneratedKeys();
-            int id = 0;
-            if (rs.next()) {
-                id = rs.getInt(1);
+                sql = new StringBuilder();
+                sql.append("INSERT INTO ");
+                sql.append(tableEndereco);
+                sql.append(" (");
+                sql.append(idTable);
+                sql.append(", ");
+                sql.append(cidade);
+                sql.append(", ");
+                sql.append(estado);
+                sql.append(", ");
+                sql.append(bairro);
+                sql.append(", ");
+                sql.append(logradouro);
+                sql.append(", ");
+                sql.append(complemento);
+                sql.append(", ");
+                sql.append(numero);
+                sql.append(", ");
+                sql.append(cep);
+                sql.append(", ");
+                sql.append(flgAtivo);
+                sql.append(") ");
+                sql.append("VALUES (?,?,?,?,?,?,?,?,?)");
+
+                pst = connection.prepareStatement(sql.toString());
+                pst.setInt(1, cliente.getId());
+                List<EntidadeDominio> endereco = cliente.getEndereco();
+                //int ultimoEndereco = endereco.lastIndexOf(endereco);
+                int ultimoEndereco = endereco.size()-1;
+                pst.setString(2, ((Endereco)endereco.get(ultimoEndereco)).getCidade().getNome().toUpperCase());
+                pst.setString(3, ((Endereco)endereco.get(ultimoEndereco)).getCidade().getEstado().getNome().toUpperCase());
+                pst.setString(4, ((Endereco)endereco.get(ultimoEndereco)).getBairro().toUpperCase());
+                pst.setString(5, ((Endereco)endereco.get(ultimoEndereco)).getLogradouro().toUpperCase());
+                pst.setString(6, ((Endereco)endereco.get(ultimoEndereco)).getComplemento().toUpperCase());
+                pst.setString(7, ((Endereco)endereco.get(ultimoEndereco)).getNumero());
+                pst.setString(8, ((Endereco)endereco.get(ultimoEndereco)).getCep());
+                pst.setBoolean(9, ((Endereco)endereco.get(0)).getFlgAtivo());
+                pst.executeUpdate();
             }
-            cliente.setId(id);
-
-            sql = new StringBuilder();
-            sql.append("INSERT INTO ");
-            sql.append(tableLoguin);
-            sql.append(" (");
-            sql.append(senha);
-            sql.append(", ");
-//            sql.append(flg_ativo_loguin);//nao existe no banco
-//            sql.append(", ");
-            sql.append(idTable);
-            sql.append(", ");
-            sql.append(ultimo_acesso);
-//            sql.append(", ");
-//            sql.append(dt_cadastro_loguin);   //nao existe no banco
-            sql.append(") ");
-            sql.append("VALUES (?,?,?)");
-
-            pst = connection.prepareStatement(sql.toString());
-            pst.setString(1, cliente.getLogin().getPassword());
-            pst.setInt(2, cliente.getId());
-            time = new Timestamp(cliente.getDtCadastro().getTime());
-            pst.setTimestamp(3, time);
-           
-            pst.executeUpdate();
-
-            sql = new StringBuilder();
-            sql.append("INSERT INTO ");
-            sql.append(tableEndereco);
-            sql.append(" (");
-            sql.append(idTable);
-            sql.append(", ");
-            sql.append(cidade);
-            sql.append(", ");
-            sql.append(estado);
-            sql.append(", ");
-            sql.append(bairro);
-            sql.append(", ");
-            sql.append(logradouro);
-            sql.append(", ");
-            sql.append(complemento);
-            sql.append(", ");
-            sql.append(numero);
-            sql.append(", ");
-            sql.append(cep);
-            sql.append(") ");
-            sql.append("VALUES (?,?,?,?,?,?,?,?)");
-
-            pst = connection.prepareStatement(sql.toString());
-            pst.setInt(1, cliente.getId());
-            pst.setString(2, cliente.getEndereco().getCidade().getNome().toUpperCase());
-            pst.setString(3, cliente.getEndereco().getCidade().getEstado().getNome().toUpperCase());
-            pst.setString(4, cliente.getEndereco().getBairro().toUpperCase());
-            pst.setString(5, cliente.getEndereco().getLogradouro().toUpperCase());
-            pst.setString(6, cliente.getEndereco().getComplento().toUpperCase());
-            pst.setString(7, cliente.getEndereco().getNumero());
-            pst.setString(8, cliente.getEndereco().getCep());
-//            time = new Timestamp(cliente.getDtCadastro().getTime());
-//            pst.setTimestamp(9, time);
-            pst.executeUpdate();
-
             connection.commit();
         } catch (SQLException e) {
             try {
@@ -185,31 +228,24 @@ public class ClienteDAO extends AbstractJdbcDAO {
             sql.append(" SET ");
             sql.append(nome);
             sql.append("=?, ");
-            sql.append(cpf);
+            sql.append(telefone);
             sql.append("=?, ");
             sql.append(flg_ativo);
             sql.append("=?, ");
-            sql.append(nivel_acesso);
+            sql.append(email);
             sql.append("=? ");
             sql.append("WHERE ");
             sql.append(idTable);
             sql.append("=?");
 
             pst = connection.prepareStatement(sql.toString());
-            pst.setString(1, cliente.getNome());
-            pst.setString(2, cliente.getCpf());
-            //pst.setDate(3, new java.sql.Date(cliente.getDtNasc().getTime()));
-            //pst.setString(4, cliente.getSexo());
+            pst.setString(1, cliente.getNome().toUpperCase());
+            pst.setString(2, cliente.getTelefone());
             pst.setBoolean(3, cliente.getFlg_ativo());
-            if (cliente.getNivel() == Cliente.Nivel.ADMINISTRADOR) {
-                pst.setString(4, "ADMINISTRADOR");
-            } else if (cliente.getNivel() == Cliente.Nivel.COLABORADOR) {
-                pst.setString(4, "COLABORADOR");
-            } else if (cliente.getNivel() == Cliente.Nivel.CLIENTE) {
-                pst.setString(4, "CLIENTE");
-            }
+            pst.setString(4, cliente.getEmail());
             pst.setInt(5, cliente.getId());
             pst.executeUpdate();    //executa a alteração dos dados no banco de dados
+            
             connection.commit();    //salva a alteração no banco de dados
         } catch (SQLException erro) {
             try {
@@ -257,13 +293,13 @@ public class ClienteDAO extends AbstractJdbcDAO {
 //            sql = "SELECT * FROM clientes WHERE cli_nome like ?";
 //        }
         if (cliente.getId() == null && cliente.getNome().equals("") && cliente.getEmail().equals("")) {
-            sql = "SELECT * FROM " + table + " join " + tableLoguin + " using(" + idTable + ") join " + tableEndereco + " using (" + idTable + ")";
+            sql = "SELECT * FROM " + table + " join " + tableLoguin + " using(" + idTable + ") WHERE " + nivel_acesso + " = '" + Nivel.CLIENTE + "'  order by cli_nome";
         } else if (cliente.getId() == null && cliente.getNome().equals("") && !cliente.getEmail().equals("")) {
-            sql = "SELECT * FROM " + table + " join " + tableLoguin + " using(" + idTable + ") join " + tableEndereco + " using (" + idTable + ") where " + email + "=?";
+            sql = "SELECT * FROM " + table + " join " + tableLoguin + " using(" + idTable + ") where " + email + "=?";
         } else if (cliente.getId() != null && cliente.getNome().equals("")) {
-            sql = "SELECT * FROM " + table + " join " + tableLoguin + " using(" + idTable + ") join " + tableEndereco + " using (" + idTable + ") WHERE " + idTable + "=?";
+            sql = "SELECT * FROM " + table + " join " + tableLoguin + " using(" + idTable + ") WHERE " + idTable + "=?";
         } else if (cliente.getId() == null && !cliente.getNome().equals("")) {
-            sql = "SELECT * FROM " + table + " join " + tableLoguin + " using(" + idTable + ") join " + tableEndereco + " using (" + idTable + ") WHERE " + nome + " like ?";
+            sql = "SELECT * FROM " + table + " join " + tableLoguin + " using(" + idTable + ")  WHERE " + nome + " like ?";
         }
 
         try {
@@ -283,14 +319,15 @@ public class ClienteDAO extends AbstractJdbcDAO {
             while (rs.next()) {
                 Cliente cli = new Cliente();
                 Login log = new Login();
-                Endereco end = new Endereco();
-                Cidade cid = new Cidade();
-                Estado estado = new Estado();
+//                Endereco end = new Endereco();
+//                Cidade cid = new Cidade();
+//                Estado estado = new Estado();
 
                 cli.setId(rs.getInt(idTable));
                 cli.setNome(rs.getString(nome));
                 cli.setEmail(rs.getString(email));
                 cli.setCpf(rs.getString(cpf));
+                cli.setTelefone(rs.getString(telefone));
                 String nivel = rs.getString(nivel_acesso);
                 if (nivel.equals(Nivel.ADMINISTRADOR.toString())) {
                     cli.setNivel(Nivel.ADMINISTRADOR);
@@ -303,7 +340,7 @@ public class ClienteDAO extends AbstractJdbcDAO {
                 java.sql.Date date = rs.getDate(dt_nascimento);
                 Date dtNasc = new Date(date.getTime());
                 cli.setDtNascimento(dtNasc);
-                
+
                 java.sql.Date datCad = rs.getDate(dt_cadastro);
                 Date dtCad = new Date(datCad.getTime());
                 cli.setDtCadastro(dtCad);
@@ -313,15 +350,17 @@ public class ClienteDAO extends AbstractJdbcDAO {
                 Date dtAcesso = new Date(dtCadastroEmLong.getTime());
                 log.setUltimoAcesso(dtAcesso);
                 cli.setLogin(log);
-                estado.setNome(rs.getString(this.estado));
-                cid.setEstado(estado);
-                cid.setNome(rs.getString(cidade));
-                end.setCidade(cid);
-                end.setLogradouro(rs.getString(logradouro));
-                end.setNumero(rs.getString(numero));
-                end.setCep(rs.getString(cep));
-                end.setBairro(rs.getString(bairro));
-                cli.setEndereco(end);
+//                estado.setNome(rs.getString(this.estado));
+//                cid.setEstado(estado);
+//                cid.setNome(rs.getString(cidade));
+//                end.setCidade(cid);
+//                end.setLogradouro(rs.getString(logradouro));
+//                end.setNumero(rs.getString(numero));
+//                end.setCep(rs.getString(cep));
+//                end.setBairro(rs.getString(bairro));
+                EnderecoDAO endDAO = new EnderecoDAO();
+                cli.setEndereco(endDAO.consultar(cli));
+                //cli.addEndereco(end);
                 cli.setFlg_ativo(rs.getBoolean(flg_ativo));
                 clientes.add(cli);
             }

@@ -15,10 +15,10 @@
                 <h2>Cliente Mais Gastou Por Periodo</h2>
                 <%                    Resultado grafico = (Resultado) request.getAttribute("grafico");
 
-                    if (resultado != null && resultado.getMsg() != null) {
-                        out.print(resultado.getMsg());
+                    if (grafico != null && grafico.getMsg() != null) {
+                        out.print(grafico.getMsg());
                     }
-
+                    if (request.getAttribute("retorno") == null) {
                 %>
                 <div class=" account-top register">
                     <form action="${pageContext.request.contextPath}/ServletGrafico1" method="POST">
@@ -28,13 +28,13 @@
                     </form>
                 </div>
                 <br><br><br>
-                
+
                 <%
-                    if(grafico != null){
+                } else if (grafico.getEntidades().size() > 0) {
                 %>
                 <canvas id="GraficoLine" style="width:100%;"></canvas>
 
-                
+
 
                 <script type="text/javascript">
 
@@ -66,7 +66,7 @@
                     %>],
                         datasets: [
                             {
-                                label: "Período de : <%= ConverteDate.converteDateString(((FiltroClienteVendaPeriodo)grafico.getEntidades().get(0)).getDt_inicial()) %> à <%= ConverteDate.converteDateString(((FiltroClienteVendaPeriodo)grafico.getEntidades().get(0)).getDt_final()) %>. Em R$."  ,
+                                label: "Período de : <%= ConverteDate.converteDateString(((FiltroClienteVendaPeriodo) grafico.getEntidades().get(0)).getDt_inicial())%> à <%= ConverteDate.converteDateString(((FiltroClienteVendaPeriodo) grafico.getEntidades().get(0)).getDt_final())%>. Em R$.",
                                 fillColor: "rgba(220,220,220,0.2)",
                                 strokeColor: "rgba(220,220,220,1)",
                                 pointColor: "rgba(220,220,220,1)",
@@ -105,10 +105,15 @@
                         document.getElementById('js-legend').innerHTML = LineChart.generateLegend();
                     }
                 </script>
-                 <div id="js-legend" class="chart-legend"> </div>
-                 <%
-                    }
+                <div id="js-legend" class="chart-legend"> </div>
+                <%List<EntidadeDominio>entidades = grafico.getEntidades();
+                FiltroClienteVendaPeriodo f = (FiltroClienteVendaPeriodo) entidades.get(0);                
                 %>
+                Cliente que mais comprou: <a href="/Artesanatos/ServletGrafico4?operacao=grafico4&txtId=<%= f.getId()%>"><%= f.getNome()%> </a>
+                <%                    } else {
+                %>
+                <h2>Cliente não possui compras no período selecionado.</h2>
+                <%}%>
             </div>
         </div>
 

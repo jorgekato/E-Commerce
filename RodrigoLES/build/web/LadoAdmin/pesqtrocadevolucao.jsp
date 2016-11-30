@@ -23,7 +23,7 @@
     %>
     <h1>Consulta de Trocas e Devoluções</h1>
 
-    <form action="${pageContext.request.contextPath}/SalvarPedidos" method="post">
+    <form action="${pageContext.request.contextPath}/SalvarTrocaDevolucao" method="post">
         <p> <label for="id">Nº Pedido:</label>
             <input type="text" id="id" name="txtId">
             <label for="nome">Nome Cliente:</label> 
@@ -35,10 +35,12 @@
             out.print(devolucao.getMsg());
         }
     %>
+    <br /><br />
+        
     <div class="clearfix"> </div>
-    <table border="3" width="100%" CELLPADDING="4" CELLSPACING="3">
+    <table class="table table-striped table-bordered bootstrap-datatable datatable table-responsive" border="3" width="100%" CELLPADDING="4" CELLSPACING="3">
         <tr>
-            <th colspan="4" align="center"><strong>Devoluções</strong></th>
+            <th colspan="5" align="center"><strong>Devoluções</strong></th>
         </tr>
         <tr>
             <th>ID</th>

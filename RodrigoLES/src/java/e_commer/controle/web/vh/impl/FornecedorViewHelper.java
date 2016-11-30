@@ -39,15 +39,15 @@ public class FornecedorViewHelper implements IViewHelper {
 			f.setId(Integer.parseInt(id));
 		
 		f.setNome(nome);
-		f.setEndereco(new Endereco());
-		f.getEndereco().setCidade(new Cidade());
-		f.getEndereco().setLogradouro(logradouro);
-		f.getEndereco().getCidade().setNome(cidade);
-		f.getEndereco().getCidade().setEstado(new Estado());
-		f.getEndereco().getCidade().getEstado().setNome(estado);
-		
-		f.getEndereco().setNumero(numero);
-		f.getEndereco().setCep(cep);
+//		f.setEndereco(new Endereco());
+//		f.getEndereco().setCidade(new Cidade());
+//		f.getEndereco().setLogradouro(logradouro);
+//		f.getEndereco().getCidade().setNome(cidade);
+//		f.getEndereco().getCidade().setEstado(new Estado());
+//		f.getEndereco().getCidade().getEstado().setNome(estado);
+//		
+//		f.getEndereco().setNumero(numero);
+//		f.getEndereco().setCep(cep);
 		f.setCnpj(cnpj);
 		return f;
 	}

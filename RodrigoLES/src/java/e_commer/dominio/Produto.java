@@ -1,24 +1,33 @@
-
 package e_commer.dominio;
-
 
 public class Produto extends EntidadeDominio {
 
-	private String nome;
-        private String marca;
-        private String modelo;
-        Categorias categoria;
-        private String fabricante;
-	private int quantidade;
-        private String descricao;
-        private double precoUnit;
-        private int estoqueMin;
-        private boolean flg_ativo;
-        private int qtdeMaxVenda;
-        //ver como criar ou armazenar as imagens
-        
+    private String nome;
+    private String marca;
+    private String modelo;
+    Categorias categoria;
+    private String fabricante;
+    private int quantidade;
+    private String descricao;
+    private double precoUnit;
+    private int estoqueMin;
+    private boolean flg_ativo;
+    private int qtdeMaxVenda;
+    private Imagem [] foto;
+    
+
+    public Imagem[] getFoto() {
+        return foto;
+    }
+
+    public void setFoto(Imagem[] foto) {
+        this.foto = foto;
+    }
+    
+    //-----fim foto
 
     public Produto() {
+        
     }
 
     public Produto(String nome, String marca, String modelo, Categorias categoria, String fabricante, int quantidade, String descricao, double precoUnit, int estoqueMin) {
@@ -56,7 +65,7 @@ public class Produto extends EntidadeDominio {
     public void setModelo(String modelo) {
         this.modelo = modelo;
     }
-    
+
     //verificar como vai incluir a categoria, pois tem 2 atributos e vai usar aqui apenas o nome.
     public Categorias getCategoria() {
         return categoria;
@@ -105,7 +114,7 @@ public class Produto extends EntidadeDominio {
     public void setEstoqueMin(int estoqueMin) {
         this.estoqueMin = estoqueMin;
     }
-    
+
     public boolean getFlg_ativo() {
         return flg_ativo;
     }
@@ -121,7 +130,5 @@ public class Produto extends EntidadeDominio {
     public void setQtdeMaxVenda(int qtdeMaxVenda) {
         this.qtdeMaxVenda = qtdeMaxVenda;
     }
-       
-    
-    
+
 }

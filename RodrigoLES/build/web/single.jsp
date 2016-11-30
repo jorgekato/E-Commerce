@@ -132,13 +132,14 @@
 
         <!---->
     </div>
+    <!-- coluna de busca e indicação -->
     <div class="col-md-3 col-md">
         <div class=" possible-about">
-            <h4>Sort Products</h4>
+            <h4>Fitrar Produtos</h4>
             <div class="tab1">
                 <ul class="place">
 
-                    <li class="sort">Sort by <span>price</span></li>
+                    <li class="sort">Filtrar por <span>preço</span></li>
                     <li class="by"><img src="images/do.png" alt=""></li>
                     <div class="clearfix"> </div>
                 </ul>
@@ -172,7 +173,7 @@
             <div class="tab2">
                 <ul class="place">
 
-                    <li class="sort">Sort by <span>brands</span></li>
+                    <li class="sort">Filtrar por <span>marca</span></li>
                     <li class="by"><img src="images/do.png" alt=""></li>
                     <div class="clearfix"> </div>
                 </ul>
@@ -182,23 +183,23 @@
 
                     <a href="#">
                         <input type="checkbox"  id="nike" value="">
-                        <label for="nike"><span></span><b>Nike</b></label>
+                        <label for="nike"><span></span><b>Acrilex</b></label>
                     </a>
                     <a href="#">
                         <input type="checkbox"  id="nike1" value="">
-                        <label for="nike1"><span></span> <b>Reebok</b></label>
+                        <label for="nike1"><span></span> <b>Cristal</b></label>
                     </a>
                     <a href="#">
                         <input type="checkbox"  id="nike2" value="">
-                        <label for="nike2"><span></span><b> Fila</b></label>
+                        <label for="nike2"><span></span><b> Madeirex</b></label>
                     </a>
                     <a href="#">
                         <input type="checkbox"  id="nike3" value="">
-                        <label for="nike3"><span></span> <b>Puma</b></label>
+                        <label for="nike3"><span></span> <b>Mundial</b></label>
                     </a>
                     <a href="#">
                         <input type="checkbox"  id="nike4" value="">
-                        <label for="nike4"><span></span><b>Sparx</b></label>
+                        <label for="nike4"><span></span><b>Toque e crie</b></label>
                     </a>
                 </div>
 
@@ -206,7 +207,7 @@
             <div class="tab3">
                 <ul class="place">
 
-                    <li class="sort">Sort by <span>colour</span> </li>
+                    <li class="sort">Filtrar por <span>cor</span> </li>
                     <li class="by"><img src="images/do.png" alt=""></li>
                     <div class="clearfix"> </div>
                 </ul>
@@ -236,7 +237,7 @@
             <div class="tab4">
                 <ul class="place">
 
-                    <li class="sort">Sort by <span>discount</span> </li>
+                    <li class="sort">Filtrar por <span>desconto</span> </li>
                     <li class="by"><img src="images/do.png" alt=""></li>
                     <div class="clearfix"> </div>
                 </ul>
@@ -269,7 +270,7 @@
             <div class="tab5">
                 <ul class="place">
 
-                    <li class="sort">Sort by <span>rating</span> </li>
+                    <li class="sort">Filtrar por <span>classificação</span> </li>
                     <li class="by"><img src="images/do.png" alt=""></li>
                     <div class="clearfix"> </div>
                 </ul>
@@ -305,52 +306,52 @@
 
             <!--script-->
             <script>
-            $(document).ready(function () {
-                $(".tab1 .single-bottom").hide();
-                $(".tab2 .single-bottom").hide();
-                $(".tab3 .w_nav2").hide();
-                $(".tab4 .single-bottom").hide();
-                $(".tab5 .star-at").hide();
-                $(".tab1 ul").click(function () {
-                    $(".tab1 .single-bottom").slideToggle(300);
+                $(document).ready(function () {
+                    $(".tab1 .single-bottom").hide();
                     $(".tab2 .single-bottom").hide();
                     $(".tab3 .w_nav2").hide();
                     $(".tab4 .single-bottom").hide();
                     $(".tab5 .star-at").hide();
-                })
-                $(".tab2 ul").click(function () {
-                    $(".tab2 .single-bottom").slideToggle(300);
-                    $(".tab1 .single-bottom").hide();
-                    $(".tab3 .w_nav2").hide();
-                    $(".tab4 .single-bottom").hide();
-                    $(".tab5 .star-at").hide();
-                })
-                $(".tab3 ul").click(function () {
-                    $(".tab3 .w_nav2").slideToggle(300);
-                    $(".tab4 .single-bottom").hide();
-                    $(".tab5 .star-at").hide();
-                    $(".tab2 .single-bottom").hide();
-                    $(".tab1 .single-bottom").hide();
-                })
-                $(".tab4 ul").click(function () {
-                    $(".tab4 .single-bottom").slideToggle(300);
-                    $(".tab5 .star-at").hide();
-                    $(".tab3 .w_nav2").hide();
-                    $(".tab2 .single-bottom").hide();
-                    $(".tab1 .single-bottom").hide();
-                })
-                $(".tab5 ul").click(function () {
-                    $(".tab5 .star-at").slideToggle(300);
-                    $(".tab4 .single-bottom").hide();
-                    $(".tab3 .w_nav2").hide();
-                    $(".tab2 .single-bottom").hide();
-                    $(".tab1 .single-bottom").hide();
-                })
-            });
+                    $(".tab1 ul").click(function () {
+                        $(".tab1 .single-bottom").slideToggle(300);
+                        $(".tab2 .single-bottom").hide();
+                        $(".tab3 .w_nav2").hide();
+                        $(".tab4 .single-bottom").hide();
+                        $(".tab5 .star-at").hide();
+                    })
+                    $(".tab2 ul").click(function () {
+                        $(".tab2 .single-bottom").slideToggle(300);
+                        $(".tab1 .single-bottom").hide();
+                        $(".tab3 .w_nav2").hide();
+                        $(".tab4 .single-bottom").hide();
+                        $(".tab5 .star-at").hide();
+                    })
+                    $(".tab3 ul").click(function () {
+                        $(".tab3 .w_nav2").slideToggle(300);
+                        $(".tab4 .single-bottom").hide();
+                        $(".tab5 .star-at").hide();
+                        $(".tab2 .single-bottom").hide();
+                        $(".tab1 .single-bottom").hide();
+                    })
+                    $(".tab4 ul").click(function () {
+                        $(".tab4 .single-bottom").slideToggle(300);
+                        $(".tab5 .star-at").hide();
+                        $(".tab3 .w_nav2").hide();
+                        $(".tab2 .single-bottom").hide();
+                        $(".tab1 .single-bottom").hide();
+                    })
+                    $(".tab5 ul").click(function () {
+                        $(".tab5 .star-at").slideToggle(300);
+                        $(".tab4 .single-bottom").hide();
+                        $(".tab3 .w_nav2").hide();
+                        $(".tab2 .single-bottom").hide();
+                        $(".tab1 .single-bottom").hide();
+                    })
+                });
             </script>
             <!-- script -->
         </div>
-        <div class="content-bottom-grid">
+       <!-- <div class="content-bottom-grid">
             <h3>Best Sellers</h3>
             <div class="latest-grid">
                 <div class="news">
@@ -411,7 +412,7 @@
         </div>
         <!---->
         <div class="money">
-            <h3>Payment Options</h3>
+            <h3>Opções de Pagamento</h3>
             <ul class="money-in">
                 <li><a href="single.html"><img class="img-responsive" src="images/p1.png" title="name" alt=""></a></li>
                 <li><a href="single.html"><img class="img-responsive" src="images/p2.png" title="name" alt=""></a></li>
@@ -424,7 +425,8 @@
                 <li><a href="single.html"><img class="img-responsive" src="images/p2.png" title="name" alt=""></a></li>
 
             </ul>
-        </div>
+        </div>      
     </div>
+    <!-- fim da coluna de busca e indicação -->
     <div class="clearfix"> </div>
 </div>

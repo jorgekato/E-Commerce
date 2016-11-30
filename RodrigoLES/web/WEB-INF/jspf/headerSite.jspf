@@ -24,14 +24,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
         Cliente cliente = null;
         cliente = (Cliente)request.getSession().getAttribute("usuario");
-        //if (clientes != null) {
-        //    for (EntidadeDominio e : clientes.getEntidades()) {
-       //         cliente = (Cliente) e;
-        //    }
-       // }
     %>
     <head>
-        <title>RH Informática</title>
+        <title>Produtos para Artesanato</title>
         <link href="${pageContext.request.contextPath}/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
@@ -94,6 +89,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         </script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/move-top.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/easing.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.maskedinput.min.js"></script>
         <script type="text/javascript">
             jQuery(document).ready(function ($) {
                 $(".scroll").click(function (event) {
@@ -108,7 +104,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <script>$(document).ready(function () {
                 $(".megamenu").megamenu();
             });</script>				
-
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.validate.min.js"></script>
     </head>
     <body> 
         <!--header-->
@@ -124,7 +120,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             sbCliente.setLength(0);
 
                             sbCliente.append(cliente.getNome());
-                            sbCliente.append("<li><a href=\"ServletAutenticacao?operacao=SAIR\">Sair</a> </li>");
+                            sbCliente.append("<li><a href=\"do.logar?operacao=SAIR\">Sair</a> </li>");
                             sbCliente.append("<li><a href=\"minhaconta.jsp\">Minha Conta</a> </li>");
                             out.print(sbCliente.toString());
                         } else {%>
@@ -133,7 +129,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         %>                    
 
 
-                    <li ><a href="${pageContext.request.contextPath}/contact.html" > CONTACT US</a></li>
+                    <li ><a href="${pageContext.request.contextPath}/contact.html" > CONTATO</a></li>
                 </ul>
                 <div class="clearfix"> </div>
             </div>
@@ -188,11 +184,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     </ul> 
                 </div>
                 <div class="cart icon1 sub-icon1">
-                    <h6 >Shopping cart:
+                    <h6 >Carrinho:
                         <span class="item">
                             Qtde de itens
                         </span>
-                        <span class="rate">70$</span>
+                        <span class="rate"></span>
                         <li><a href="#" class="round"> </a>
                             <ul class="sub-icon1 list">
                                 <h3>Quantidade de Itens 
@@ -300,7 +296,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                         }
                                     %>
                                 </div>
-                                <div class="check_button"><a href="${pageContext.request.contextPath}/cart.jsp">View Cart</a></div>
+                                <div class="check_button"><a href="${pageContext.request.contextPath}/cart.jsp">Ver Carrinho</a></div>
                                 <div class="clearfix"></div>
                             </ul>
                         </li>

@@ -22,27 +22,34 @@ import e_commer.controle.web.vh.impl.FornecedorViewHelper;
 import e_commer.controle.web.vh.impl.ProdutoViewHelper;
 import e_commer.controle.web.vh.impl.CategoriaViewHelper;
 import e_commer.controle.web.vh.impl.CarrinhoViewHelper;
+import e_commer.controle.web.vh.impl.ConsulProdArtViewHelper;
 import e_commer.controle.web.vh.impl.CreditoViewHelper;
+import e_commer.controle.web.vh.impl.EnderecoViewHelper;
 import e_commer.controle.web.vh.impl.FiltroClienteVendaPeriodoViewHelper;
-import e_commer.controle.web.vh.impl.FiltroEstoqueMinimoViewHelper;
-import e_commer.controle.web.vh.impl.FiltroProdutoQtdePeriodoViewHelper;
 import e_commer.controle.web.vh.impl.FiltroProdutoVendaPeriodoViewHelper;
+import e_commer.controle.web.vh.impl.FiltroEstoqueMinimoViewHelper;
+import e_commer.controle.web.vh.impl.FiltroEstoqueGeralViewHelper;
+import e_commer.controle.web.vh.impl.FiltroPerfilIdadeSexoViewHelper;
+import e_commer.controle.web.vh.impl.FiltroProdutoQtdePeriodoViewHelper;
 import e_commer.controle.web.vh.impl.PedidoViewHelper;
 import e_commer.controle.web.vh.impl.TrocaDevolucaoViewHelper;
 import e_commer.core.aplicacao.Resultado;
 import e_commer.dominio.EntidadeDominio;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.annotation.MultipartConfig;
 
 /**
  * Servlet implementation class Servlet
  */
+//Para tratar as imagens dos produtos
+@MultipartConfig
 public class Servlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
     private static Map<String, ICommand> commands;
-    private static Map<String, IViewHelper> vhs;    
+    private static Map<String, IViewHelper> vhs;
 
     /**
      * Default constructor.
@@ -67,7 +74,13 @@ public class Servlet extends HttpServlet {
         commands.put("HISTORICO", new ConsultarCommand());
         commands.put("grafico1", new ConsultarCommand());
         commands.put("grafico2", new ConsultarCommand());
-       // commands.put("ATUALIZAR", new AlterarCommand());
+        commands.put("grafico4", new ConsultarCommand());
+        commands.put("graficoPerfil", new ConsultarCommand());
+        
+        
+        
+        
+        // commands.put("ATUALIZAR", new AlterarCommand());
 
         /* Utilizando o ViewHelper para tratar especificações de qualquer tela e indexando 
     	 * cada viewhelper pela url em que esta servlet é chamada no form
@@ -76,19 +89,26 @@ public class Servlet extends HttpServlet {
         /*A chave do mapa é o mapeamento da servlet para cada form que 
     	 * está configurado no web.xml e sendo utilizada no action do html
          */
-        vhs.put("/RodrigoLES/SalvarFornecedor", new FornecedorViewHelper());
-        vhs.put("/RodrigoLES/SalvarCliente", new ClienteViewHelper());
-        vhs.put("/RodrigoLES/SalvarProduto", new ProdutoViewHelper());
-        vhs.put("/RodrigoLES/SalvarCategoria", new CategoriaViewHelper());
-        vhs.put("/RodrigoLES/SalvarArtesanato", new ArtesanatoViewHelper());        
-        vhs.put("/RodrigoLES/SalvarCarrinho", new CarrinhoViewHelper());
-        vhs.put("/RodrigoLES/SalvarPedidos", new PedidoViewHelper());
-        vhs.put("/RodrigoLES/SalvarTrocaDevolucao", new TrocaDevolucaoViewHelper());
-        vhs.put("/RodrigoLES/SalvarCredito", new CreditoViewHelper());
-        vhs.put("/RodrigoLES/ServletGrafico1", new FiltroClienteVendaPeriodoViewHelper());
-        vhs.put("/RodrigoLES/ServletGrafico2", new FiltroProdutoVendaPeriodoViewHelper());
-        vhs.put("/RodrigoLES/EstoqueMin", new FiltroEstoqueMinimoViewHelper());
-        vhs.put("/RodrigoLES/ServletGrafico3", new FiltroProdutoQtdePeriodoViewHelper());
+        vhs.put("/Artesanatos/SalvarFornecedor", new FornecedorViewHelper());
+        vhs.put("/Artesanatos/SalvarCliente", new ClienteViewHelper());
+        vhs.put("/Artesanatos/SalvarProduto", new ProdutoViewHelper());
+        vhs.put("/Artesanatos/SalvarCategoria", new CategoriaViewHelper());
+        vhs.put("/Artesanatos/SalvarArtesanato", new ArtesanatoViewHelper());
+        vhs.put("/Artesanatos/SalvarCarrinho", new CarrinhoViewHelper());
+        vhs.put("/Artesanatos/SalvarPedidos", new PedidoViewHelper());
+        vhs.put("/Artesanatos/SalvarTrocaDevolucao", new TrocaDevolucaoViewHelper());
+        vhs.put("/Artesanatos/SalvarCredito", new CreditoViewHelper());
+        vhs.put("/Artesanatos/ServletGrafico1", new FiltroClienteVendaPeriodoViewHelper());
+        vhs.put("/Artesanatos/ServletGrafico2", new FiltroProdutoVendaPeriodoViewHelper());
+        vhs.put("/Artesanatos/EstoqueMin", new FiltroEstoqueMinimoViewHelper());
+        vhs.put("/Artesanatos/EstoqueGeral", new FiltroEstoqueGeralViewHelper());
+        vhs.put("/Artesanatos/ServletGrafico3", new FiltroProdutoQtdePeriodoViewHelper());
+        vhs.put("/Artesanatos/ServletGrafico4", new FiltroClienteVendaPeriodoViewHelper());
+        vhs.put("/Artesanatos/SalvarEndereco", new EnderecoViewHelper());
+        vhs.put("/Artesanatos/CONSULPRODART", new ConsulProdArtViewHelper());
+        vhs.put("/Artesanatos/ServletGraficoPerfil", new FiltroPerfilIdadeSexoViewHelper());
+        
+        
     }
 
     /**
@@ -133,33 +153,34 @@ public class Servlet extends HttpServlet {
         //Aqui é onde seta os atributos que vem do front end, menos a data
         EntidadeDominio entidade = vh.getEntidade(request);
 
-        
         //Obt�m o command para executar a respectiva opera��o
         ICommand command = commands.get(operacao);
 
         /*Executa o command que chamar� a fachada para executar a opera��o requisitada
-		 * o retorno � uma inst�ncia da classe resultado que pode conter mensagens derro 
+		 * o retorno � uma inst�ncia da classe resultado que pode conter mensagens de erro 
 		 * ou entidades de retorno
          */
         Resultado resultado = null;
-        
-        if(command != null){
+
+        if (command != null) {
             resultado = command.execute(entidade);
-        }
-        else
-        {
+        } else {
             //Usado para o carrinho de compras
-            List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
-            entidades.add(entidade);
             resultado = new Resultado();
-            resultado.setEntidades(entidades);
+            if (entidade != null) {
+                List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
+                entidades.add(entidade);
+                resultado.setEntidades(entidades);
+            } else {
+                resultado.setEntidades(null);
+            }
+
         }
         /*
 		 * Executa o m�todo setView do view helper espec�fico para definir como dever� ser apresentado 
 		 * o resultado para o usu�rio
          */
         vh.setView(resultado, request, response);
-        
 
     }
 }

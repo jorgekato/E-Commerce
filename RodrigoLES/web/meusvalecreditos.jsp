@@ -4,6 +4,7 @@
     Author     : Jorge
 --%>
 
+<%@page import="e_commer.core.util.FormatDouble"%>
 <%@page import="e_commer.core.util.ConverteDate"%>
 <%@page import="e_commer.dominio.Credito"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -21,7 +22,8 @@
             </div>
             <div class="tab2">
                 <ul class="place">
-                    <li class="sort">Meus Dados</li>
+                    <li class="sort">
+                        <a href="SalvarEndereco?txtId=<%= cliente.getId()%>&operacao=VISUALIZAR3">Meus Dados</a></li>
                     <li class="by"></li>
                     <div class="clearfix"> </div>
                 </ul>
@@ -110,7 +112,7 @@
         </div>
         <div class="content-bottom">
             <h3>Meu Vale-Credito</h3>
-            <table border="3" width="1000%" CELLPADDING="4" CELLSPACING="3">
+            <table class="table table-striped table-bordered bootstrap-datatable datatable table-responsive" border="3" width="1000%" CELLPADDING="4" CELLSPACING="3">
                 <tr>
                     <th>Código</th>
                     <th>Valor</th>
@@ -140,7 +142,7 @@
             %>
             </table>
             <label for="total">Valor Total do Crédito: R$ </label>
-            <input type="text" value="<%= total%>" readonly/>
+            <input type="text" value="<%= FormatDouble.formataDouble(total) %>" readonly/>
         </div>
 
     </div>

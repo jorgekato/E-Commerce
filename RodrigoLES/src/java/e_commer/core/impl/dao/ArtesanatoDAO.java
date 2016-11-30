@@ -129,9 +129,9 @@ public class ArtesanatoDAO extends AbstractJdbcDAO {
             sql.append("=?");
 
             pst = connection.prepareStatement(sql.toString());
-            pst.setString(1, artesanato.getNome());
+            pst.setString(1, artesanato.getNome().toUpperCase());
             pst.setDouble(2, artesanato.getPrecoUnit());
-            pst.setString(3, artesanato.getDescricao());
+            pst.setString(3, artesanato.getDescricao().toUpperCase());
             pst.setBoolean(4, artesanato.getFlg_ativo());
             pst.setInt(5, artesanato.getId());
             pst.executeUpdate();
@@ -173,7 +173,7 @@ public class ArtesanatoDAO extends AbstractJdbcDAO {
         }
 
         if (artesanato.getId() == null && artesanato.getNome().equals("")) {
-            sql = "SELECT * FROM " + table + " JOIN " + tbCategorias + " USING(cat_id)";
+            sql = "SELECT * FROM " + table + " JOIN " + tbCategorias + " USING(cat_id) order by art_nome";
         } else if (artesanato.getId() != null && artesanato.getNome().equals("")) {
             sql = "SELECT * FROM " + table +  " JOIN " + tbCategorias + " USING(cat_id) WHERE " + idTable + "=?";
         } else if (artesanato.getId() == null && !artesanato.getNome().equals("")) {
@@ -188,7 +188,7 @@ public class ArtesanatoDAO extends AbstractJdbcDAO {
             if (artesanato.getId() != null && artesanato.getNome().equals("")) {
                 pst.setInt(1, artesanato.getId());
             } else if (artesanato.getId() == null && !artesanato.getNome().equals("")) {
-                pst.setString(1, "%" + artesanato.getNome()+ "%");
+                pst.setString(1, "%" + artesanato.getNome().toUpperCase()+ "%");
             }
 
             ResultSet rs = pst.executeQuery();
@@ -205,7 +205,7 @@ public class ArtesanatoDAO extends AbstractJdbcDAO {
                 a.setDtCadastro(dtCadastro);
                 Categorias cat = new Categorias();
                 cat.setId(rs.getInt(catId));
-                cat.setNomeCategoria(cat_nome);
+                cat.setNomeCategoria(rs.getString(cat_nome));
                 a.setCategoria(cat);
                 artesanatos.add(a);
             }

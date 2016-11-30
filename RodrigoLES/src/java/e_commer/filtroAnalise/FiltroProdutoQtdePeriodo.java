@@ -8,6 +8,7 @@ package e_commer.filtroAnalise;
 import e_commer.dominio.EntidadeDominio;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -22,7 +23,10 @@ public class FiltroProdutoQtdePeriodo extends EntidadeDominio{
     
     //Modificado a partir daqui
     private HashMap<String, Integer > hmQtde;
-
+    private boolean flgComparar;
+    private List<HashMap> listHash;
+    private FiltroProdutoQtdePeriodo fPQP;
+    
     public HashMap<String, Integer> getHmQtde() {
         return hmQtde;
     }
@@ -30,6 +34,31 @@ public class FiltroProdutoQtdePeriodo extends EntidadeDominio{
     public void setHmQtde(HashMap<String, Integer> hmQtde) {
         this.hmQtde = hmQtde;
     }
+
+    public boolean getFlgComparar() {
+        return flgComparar;
+    }
+
+    public void setFlgComparar(boolean flgComparar) {
+        this.flgComparar = flgComparar;
+    }
+
+    public List<HashMap> getListHash() {
+        return listHash;
+    }
+
+    public void setListHash(List<HashMap> listHash) {
+        this.listHash = listHash;
+    }
+
+    public FiltroProdutoQtdePeriodo getfPQP() {
+        return fPQP;
+    }
+
+    public void setfPQP(FiltroProdutoQtdePeriodo fPQP) {
+        this.fPQP = fPQP;
+    }
+    
     
     //@@@@@@@@@@@@@@@@@2
     

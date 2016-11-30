@@ -17,8 +17,8 @@
     <div class="account-in">
         <div>
             <header><h1>Cadastro de categoria</h1></header></div>
-        <div>
-            <form action="${pageContext.request.contextPath}/SalvarCategoria" method="POST">
+        <div class="account-top register">
+            <form action="${pageContext.request.contextPath}/SalvarCategoria" method="POST" id="validate">
                 
                 <p>ID: <input type="text" id="txtId" name="txtId" value=
 		
@@ -44,20 +44,23 @@
                         }
                     %>"></textarea></p>
                 
-                <p><input type="radio" name="txtFlgAtivo" value="TRUE"  <%
+                <p><label for="situacao">Situação: </label>
+                    <input type="radio" name="txtFlgAtivo" value="TRUE"  <%
                     if (cat != null) {
                         if (cat.getFlg_ativo()) {
                             out.print("checked=\"checked\"");
                         }
+                    }else{
+                        out.print("checked=\"checked\"");
                     }
-                          %>/>Ativo </p>
-                <p><input type="radio" name="txtFlgAtivo" value="FALSE" <%
+                          %>/>Ativo
+                <input type="radio" name="txtFlgAtivo" value="FALSE" <%
                     if (cat != null) {
                         if (!cat.getFlg_ativo()) {
                             out.print("checked=\"checked\"");
                         }
                     }
-                          %>/>Desativado</p>
+                          %>/>Inativo</p>
 
                 <%
                     if (cat != null) {
@@ -71,7 +74,6 @@
 
                 <%                                 if (cat != null) {
                         out.print("<input type='submit' id='operacao' name='operacao' value='ALTERAR'/>");
-                        out.print("<input type='submit' id='operacao' name='operacao' value='EXCLUIR'/>");
                     } else {
                         out.print("<input type='submit' id='operacao' name='operacao' value='SALVAR'/>");
                     }

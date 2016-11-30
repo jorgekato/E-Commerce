@@ -1,0 +1,8 @@
+incluir chart.js - Jorge
+incluir bootstrap - Jorge
+incluir apendice de gráfico - Henrique
+alterar diagrama de sequencia - Henrique
+alterar conclusão
+alterar nome dos apendices - Henrique
+alterar a data dos casos de teste - Henrique
+conclusão citar webshoper - Jorge

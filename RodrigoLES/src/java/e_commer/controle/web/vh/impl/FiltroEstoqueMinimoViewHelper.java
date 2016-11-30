@@ -1,12 +1,13 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package e_commer.controle.web.vh.impl;
 
 import e_commer.controle.web.vh.IViewHelper;
 import e_commer.core.aplicacao.Resultado;
-import e_commer.core.impl.controle.Fachada;
-import e_commer.core.util.ConverteDate;
-import e_commer.dominio.Categorias;
 import e_commer.dominio.EntidadeDominio;
-import e_commer.dominio.Produto;
 import e_commer.filtroAnalise.FiltroEstoqueMinimo;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
@@ -32,7 +33,7 @@ public class FiltroEstoqueMinimoViewHelper implements IViewHelper {
         
         RequestDispatcher d = null;
         request.setAttribute("produtosmin", resultado);
-        //d = request.getRequestDispatcher("LadoAdmin/graficobarra.jsp");
+        request.setAttribute("retorno","1");
         d = request.getRequestDispatcher("LadoAdmin/Relatorios/estoqueminimo.jsp");
         d.forward(request, response);
     }

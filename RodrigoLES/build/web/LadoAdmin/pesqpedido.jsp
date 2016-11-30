@@ -20,8 +20,8 @@
     <form action="${pageContext.request.contextPath}/SalvarPedidos" method="post">
         <p> <label for="id">Nº Pedido:</label>
             <input type="text" id="id" name="txtId">
-            <label for="txtCliente">Nome Cliente:</label> 
-            <input type="text" id="txtCliente" name="txtCliente">
+            <label for="nome">Nome Cliente:</label> 
+            <input type="text" id="nome" name="txtNome">
             <input type="submit" id="operacao" name="operacao" value="CONSULTAR"/></p>
     </form>
     <%
@@ -30,7 +30,7 @@
         }
     %>
     <div class="clearfix"> </div>
-    <table border="3" width="100%" CELLPADDING="4" CELLSPACING="3">
+    <table class="table table-striped table-bordered bootstrap-datatable datatable table-responsive" border="3" width="100%" CELLPADDING="4" CELLSPACING="3">
         <tr>
             <th colspan="4"><strong>Pedidos</strong></th>
         </tr>

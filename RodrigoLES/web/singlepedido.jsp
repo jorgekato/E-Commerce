@@ -4,6 +4,7 @@
     Author     : Henrique
 --%>
 
+<%@page import="e_commer.core.util.FormatDouble"%>
 <%@page import="e_commer.core.util.ConverteDate"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="e_commer.dominio.Cliente"%>
@@ -30,7 +31,8 @@
             </div>
             <div class="tab2">
                 <ul class="place">
-                    <li class="sort">Meus Dados</li>
+                    <li class="sort">
+                        <a href="SalvarEndereco?txtId=<%= cliente.getId()%>&operacao=VISUALIZAR3">Meus Dados</a></li>
                     <li class="by"></li>
                     <div class="clearfix"> </div>
                 </ul>
@@ -51,8 +53,10 @@
                     <li class="by"></li>
                     <div class="clearfix"> </div>
                 </ul>
-            </div>        
+            </div>  
             <div class="tab5">
+            </div>
+            <div class="tab6">
 
             </div>
 
@@ -135,7 +139,7 @@
                             p = (Pedido) entidades.get(i);
             %>
             <div class="clearfix"> </div>
-            <table border="3" width="1000%" CELLPADDING="4" CELLSPACING="3">
+            <table class="table table-striped table-bordered bootstrap-datatable datatable table-responsive" border="3" width="1000%" CELLPADDING="4" CELLSPACING="3">
                 <tr>
                     <th colspan="6"><strong>Pedido</strong></th>
                 </tr>
@@ -155,7 +159,7 @@
                 </tr>
             </table>
             <h3>Produtos</h3>
-            <table border="3" width="1000%" CELLPADDING="4" CELLSPACING="3">
+            <table class="table table-striped table-bordered bootstrap-datatable datatable table-responsive" border="3" width="1000%" CELLPADDING="4" CELLSPACING="3">
                 <tr>
                     <th>Cod Produto</th>
                     <th>Produto</th>
@@ -187,8 +191,8 @@
                     <td><%= item.getProduto().getId()%></td>
                     <td><%= item.getProduto().getNome()%></td>
                     <td><%= item.getQuantidade()%></td>
-                    <td><%= item.getValorUnit()%></td>
-                    <td><%= item.getQuantidade() * item.getValorUnit()%></td>
+                    <td><%= FormatDouble.formataDouble(item.getValorUnit())%></td>
+                    <td><%= FormatDouble.formataDouble(item.getQuantidade() * item.getValorUnit())%></td>
                     <td><a href="SalvarPedidos?operacao=CONSULTAR2&txtId=<%= p.getId()%>&txtIdPro=<%= item.getProduto().getId()%>">Troca/Devolução</a></td>
                 </tr>  
                 <%
@@ -202,12 +206,12 @@
                 if (!p.getStatus().equals("CONCLUIDO")) {
             %>
             <a href="SalvarPedidos?txtId=<%= pedido.getEntidades().get(0).getId()%>&txtStatus=CANCELAR&operacao=ALTERAR">
-                <input type="button" name="operacao" value="Cancelar Pedido" /></a>
+                
                 <%
                             }
                         }//if(entidade)
                     }//if(resultado)
-%>
+                %>
         </div>
 
     </div>

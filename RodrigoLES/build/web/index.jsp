@@ -9,97 +9,73 @@
 <%@page import="e_commer.core.util.ConverteDate"%>
 <%@page import="e_commer.dominio.Artesanato"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%    
-    resultado = (Resultado) request.getAttribute("resultado");
+<%    resultado = (Resultado) request.getAttribute("resultado");
 %>
 <div class="content">
 
     <div class="col-md-9">
-        <div class="shoe">
-            <img class="img-responsive" src="${pageContext.request.contextPath}/images/banner.jpg" alt="" >
-            <div class="shop">
-                <h4>SHOP <span>WOMEN</span></h4>
-                <p>SHOES FALL 2014</p>
+        <div class="account-in">
+            <h2>Pesquisa</h2>
+            <div class="col-md-7 account-top">
+
+                <form method="POST" action="${pageContext.request.contextPath}/CONSULPRODART">
+
+                    <p><input type="text" name="nome" placeholder="Digite o nome do produto"></p> <br />
+                    <p><input type="radio" name="tipo" id="tipo" value="Produto" checked="checked">Produto  
+                        <input type="radio" name="tipo" id="tipo" value="Artesanato" >Artesanato</p><br />
+                    <p><input type="submit" name="operacao" value="CONSULTAR1"></p>
+
+                </form>
             </div>
-        </div>
-        <div class="content-bottom">
 
-            <h3>Featured products</h3>
-
-            <%       if (resultado != null) {
-                    List<EntidadeDominio> entidades = resultado.getEntidades();
-                    StringBuilder sbRegistro = new StringBuilder();
-                    StringBuilder sbLink = new StringBuilder();
-                    int contador = 0;
-
-                    if (entidades != null) {
-                        for (int i = 0; i < entidades.size(); i++) {
-
-                            Artesanato art = (Artesanato) entidades.get(i);
-
-                            sbRegistro.setLength(0);
-                            sbLink.setLength(0);
-
-                            sbRegistro.append("<div class=\"col-md-4 shirt\">");
-                            sbRegistro.append("<div class=\"bottom-grid-top\">");
-
-                            sbLink.append("<a href=SalvarArtesanato?");
-                            sbLink.append("txtId=");
-                            sbLink.append(art.getId());
-                            sbLink.append("&");
-                            sbLink.append("operacao=");
-                            sbLink.append("VISUALIZAR1>");
-                            sbLink.append("<img class=\"img-responsive\" src=\"images/sh.png\" alt=\"\" />");
-                            sbLink.append("</a>");
-
-                            sbRegistro.append(sbLink.toString());
-                            sbRegistro.append("<div class=\"five\">");
-                            sbRegistro.append("<h6 >-50%</h6>");
-                            sbRegistro.append("</div>");
-                            sbRegistro.append("<div class=\"pre\">");
-                            sbRegistro.append("<p>");
-                            sbRegistro.append(art.getNome());
-                            sbRegistro.append("</p>");
-                            sbRegistro.append("<span>R$");
-                            sbRegistro.append(art.getPrecoUnit());
-                            sbRegistro.append("</span>");
-                            sbRegistro.append("<div class=\"clearfix\"> </div>");
-                            sbRegistro.append("</div></a>");
-
-                            sbRegistro.append("</div>");
-                            sbRegistro.append(" </div>");
-                            contador++;
-
-                            out.print(sbRegistro.toString());
-
+            <div class="clearfix"> </div>
+            <ul id="flexiselDemo1">
+                <li><img src="images/branca de neve feltro mini.jpg" /><div class="grid-flex"><a href="#">Branca de Neve em feltro</a><p>Rs 69.99</p></div></li>
+                <li><img src="images/cinderela de pano mini.jpg" /><div class="grid-flex"><a href="#">Cinderela em pano</a><p>Rs 38.45</p></div></li>
+                <li><img src="images/mdf quadrada mini.jpg" /><div class="grid-flex"><a href="#">Caixa em mdf</a><p>Rs 10.00</p></div></li>
+                <li><img src="images/furador-gigante-alavanca-floco-de-neve mini.jpg" /><div class="grid-flex"><a href="#">Furador</a><p>Rs 19.50</p></div></li>
+                <li><img src="images/quadro-maternidade-bastidor-ursinha-bebe mini.jpg" /><div class="grid-flex"><a href="#">Sit</a><p>Rs 23.99</p></div></li>
+            </ul>
+            <script type="text/javascript">
+                $(window).load(function () {
+                    $("#flexiselDemo1").flexisel({
+                        visibleItems: 5,
+                        animationSpeed: 1000,
+                        autoPlay: true,
+                        autoPlaySpeed: 3000,
+                        pauseOnHover: true,
+                        enableResponsiveBreakpoints: true,
+                        responsiveBreakpoints: {
+                            portrait: {
+                                changePoint: 480,
+                                visibleItems: 1
+                            },
+                            landscape: {
+                                changePoint: 640,
+                                visibleItems: 2
+                            },
+                            tablet: {
+                                changePoint: 768,
+                                visibleItems: 3
+                            }
                         }
+                    });
 
-                    }
-
-                }
-
-            %>
-
+                });
+            </script>
+            <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.flexisel.js"></script>
+            <!---->
         </div>
-        <ul class="start">
-            <!-- onde vai fazer a paginação-->
-            <li><span>1</span></li>
-            <li class="arrow"><a href="#">2</a></li>
-            <li class="arrow"><a href="#">3</a></li>
-            <li class="arrow"><a href="#">4</a></li>
-            <li class="arrow"><a href="#">5</a></li>
-            <li class="arrow"><a href="#">6</a></li>
-        </ul>
-    </div>
 
+    </div>
     <!-- coluna de busca e indicação -->
     <div class="col-md-3 col-md">
         <div class=" possible-about">
-            <h4>Sort Products</h4>
+            <h4>Fitrar Produtos</h4>
             <div class="tab1">
                 <ul class="place">
 
-                    <li class="sort">Sort by <span>price</span></li>
+                    <li class="sort">Filtrar por <span>preço</span></li>
                     <li class="by"><img src="images/do.png" alt=""></li>
                     <div class="clearfix"> </div>
                 </ul>
@@ -133,7 +109,7 @@
             <div class="tab2">
                 <ul class="place">
 
-                    <li class="sort">Sort by <span>brands</span></li>
+                    <li class="sort">Filtrar por <span>marca</span></li>
                     <li class="by"><img src="images/do.png" alt=""></li>
                     <div class="clearfix"> </div>
                 </ul>
@@ -143,23 +119,23 @@
 
                     <a href="#">
                         <input type="checkbox"  id="nike" value="">
-                        <label for="nike"><span></span><b>Nike</b></label>
+                        <label for="nike"><span></span><b>Acrilex</b></label>
                     </a>
                     <a href="#">
                         <input type="checkbox"  id="nike1" value="">
-                        <label for="nike1"><span></span> <b>Reebok</b></label>
+                        <label for="nike1"><span></span> <b>Cristal</b></label>
                     </a>
                     <a href="#">
                         <input type="checkbox"  id="nike2" value="">
-                        <label for="nike2"><span></span><b> Fila</b></label>
+                        <label for="nike2"><span></span><b> Madeirex</b></label>
                     </a>
                     <a href="#">
                         <input type="checkbox"  id="nike3" value="">
-                        <label for="nike3"><span></span> <b>Puma</b></label>
+                        <label for="nike3"><span></span> <b>Mundial</b></label>
                     </a>
                     <a href="#">
                         <input type="checkbox"  id="nike4" value="">
-                        <label for="nike4"><span></span><b>Sparx</b></label>
+                        <label for="nike4"><span></span><b>Toque e crie</b></label>
                     </a>
                 </div>
 
@@ -167,7 +143,7 @@
             <div class="tab3">
                 <ul class="place">
 
-                    <li class="sort">Sort by <span>colour</span> </li>
+                    <li class="sort">Filtrar por <span>cor</span> </li>
                     <li class="by"><img src="images/do.png" alt=""></li>
                     <div class="clearfix"> </div>
                 </ul>
@@ -197,7 +173,7 @@
             <div class="tab4">
                 <ul class="place">
 
-                    <li class="sort">Sort by <span>discount</span> </li>
+                    <li class="sort">Filtrar por <span>desconto</span> </li>
                     <li class="by"><img src="images/do.png" alt=""></li>
                     <div class="clearfix"> </div>
                 </ul>
@@ -230,7 +206,7 @@
             <div class="tab5">
                 <ul class="place">
 
-                    <li class="sort">Sort by <span>rating</span> </li>
+                    <li class="sort">Filtrar por <span>classificação</span> </li>
                     <li class="by"><img src="images/do.png" alt=""></li>
                     <div class="clearfix"> </div>
                 </ul>
@@ -266,113 +242,113 @@
 
             <!--script-->
             <script>
-                $(document).ready(function () {
-                    $(".tab1 .single-bottom").hide();
+            $(document).ready(function () {
+                $(".tab1 .single-bottom").hide();
+                $(".tab2 .single-bottom").hide();
+                $(".tab3 .w_nav2").hide();
+                $(".tab4 .single-bottom").hide();
+                $(".tab5 .star-at").hide();
+                $(".tab1 ul").click(function () {
+                    $(".tab1 .single-bottom").slideToggle(300);
                     $(".tab2 .single-bottom").hide();
                     $(".tab3 .w_nav2").hide();
                     $(".tab4 .single-bottom").hide();
                     $(".tab5 .star-at").hide();
-                    $(".tab1 ul").click(function () {
-                        $(".tab1 .single-bottom").slideToggle(300);
-                        $(".tab2 .single-bottom").hide();
-                        $(".tab3 .w_nav2").hide();
-                        $(".tab4 .single-bottom").hide();
-                        $(".tab5 .star-at").hide();
-                    })
-                    $(".tab2 ul").click(function () {
-                        $(".tab2 .single-bottom").slideToggle(300);
-                        $(".tab1 .single-bottom").hide();
-                        $(".tab3 .w_nav2").hide();
-                        $(".tab4 .single-bottom").hide();
-                        $(".tab5 .star-at").hide();
-                    })
-                    $(".tab3 ul").click(function () {
-                        $(".tab3 .w_nav2").slideToggle(300);
-                        $(".tab4 .single-bottom").hide();
-                        $(".tab5 .star-at").hide();
-                        $(".tab2 .single-bottom").hide();
-                        $(".tab1 .single-bottom").hide();
-                    })
-                    $(".tab4 ul").click(function () {
-                        $(".tab4 .single-bottom").slideToggle(300);
-                        $(".tab5 .star-at").hide();
-                        $(".tab3 .w_nav2").hide();
-                        $(".tab2 .single-bottom").hide();
-                        $(".tab1 .single-bottom").hide();
-                    })
-                    $(".tab5 ul").click(function () {
-                        $(".tab5 .star-at").slideToggle(300);
-                        $(".tab4 .single-bottom").hide();
-                        $(".tab3 .w_nav2").hide();
-                        $(".tab2 .single-bottom").hide();
-                        $(".tab1 .single-bottom").hide();
-                    })
-                });
+                })
+                $(".tab2 ul").click(function () {
+                    $(".tab2 .single-bottom").slideToggle(300);
+                    $(".tab1 .single-bottom").hide();
+                    $(".tab3 .w_nav2").hide();
+                    $(".tab4 .single-bottom").hide();
+                    $(".tab5 .star-at").hide();
+                })
+                $(".tab3 ul").click(function () {
+                    $(".tab3 .w_nav2").slideToggle(300);
+                    $(".tab4 .single-bottom").hide();
+                    $(".tab5 .star-at").hide();
+                    $(".tab2 .single-bottom").hide();
+                    $(".tab1 .single-bottom").hide();
+                })
+                $(".tab4 ul").click(function () {
+                    $(".tab4 .single-bottom").slideToggle(300);
+                    $(".tab5 .star-at").hide();
+                    $(".tab3 .w_nav2").hide();
+                    $(".tab2 .single-bottom").hide();
+                    $(".tab1 .single-bottom").hide();
+                })
+                $(".tab5 ul").click(function () {
+                    $(".tab5 .star-at").slideToggle(300);
+                    $(".tab4 .single-bottom").hide();
+                    $(".tab3 .w_nav2").hide();
+                    $(".tab2 .single-bottom").hide();
+                    $(".tab1 .single-bottom").hide();
+                })
+            });
             </script>
             <!-- script -->
         </div>
-        <div class="content-bottom-grid">
-            <h3>Best Sellers</h3>
-            <div class="latest-grid">
-                <div class="news">
-                    <a href="single.html"><img class="img-responsive" src="images/si.jpg" title="name" alt=""></a>
-                </div>
-                <div class="news-in">
-                    <h6><a href="single.html">Product name here</a></h6>
-                    <p>Description Lorem ipsum </p>
-                    <ul>
-                        <li>Price: <span>$110</span> </li><b>|</b>
-                        <li>Country: <span>US</span></li>
-                    </ul>
-                </div>
-                <div class="clearfix"> </div>
-            </div>
-            <div class="latest-grid">
-                <div class="news">
-                    <a href="single.html"><img class="img-responsive" src="images/si1.jpg" title="name" alt=""></a>
-                </div>
-                <div class="news-in">
-                    <h6><a href="single.html">Product name here</a></h6>
-                    <p>Description Lorem ipsum </p>
-                    <ul>
-                        <li>Price: <span>$110</span> </li><b>|</b>
-                        <li>Country: <span>US</span></li>
-                    </ul>
-                </div>
-                <div class="clearfix"> </div>
-            </div>
-            <div class="latest-grid">
-                <div class="news">
-                    <a href="single.html"><img class="img-responsive" src="images/si.jpg" title="name" alt=""></a>
-                </div>
-                <div class="news-in">
-                    <h6><a href="single.html">Product name here</a></h6>
-                    <p>Description Lorem ipsum</p>
-                    <ul>
-                        <li>Price: <span>$110</span> </li><b>|</b>
-                        <li>Country: <span>US</span></li>
-                    </ul>
-                </div>
-                <div class="clearfix"> </div>
-            </div>
-            <div class="latest-grid">
-                <div class="news">
-                    <a href="single.html"><img class="img-responsive" src="images/si1.jpg" title="name" alt=""></a>
-                </div>
-                <div class="news-in">
-                    <h6><a href="single.html">Product name here</a></h6>
-                    <p>Description Lorem ipsum </p>
-                    <ul>
-                        <li>Price: <span>$110</span> </li><b>|</b>
-                        <li>Country: <span>US</span></li>
-                    </ul>
-                </div>
-                <div class="clearfix"> </div>
-            </div>
-        </div>
+        <!-- <div class="content-bottom-grid">
+             <h3>Best Sellers</h3>
+             <div class="latest-grid">
+                 <div class="news">
+                     <a href="single.html"><img class="img-responsive" src="images/si.jpg" title="name" alt=""></a>
+                 </div>
+                 <div class="news-in">
+                     <h6><a href="single.html">Product name here</a></h6>
+                     <p>Description Lorem ipsum </p>
+                     <ul>
+                         <li>Price: <span>$110</span> </li><b>|</b>
+                         <li>Country: <span>US</span></li>
+                     </ul>
+                 </div>
+                 <div class="clearfix"> </div>
+             </div>
+             <div class="latest-grid">
+                 <div class="news">
+                     <a href="single.html"><img class="img-responsive" src="images/si1.jpg" title="name" alt=""></a>
+                 </div>
+                 <div class="news-in">
+                     <h6><a href="single.html">Product name here</a></h6>
+                     <p>Description Lorem ipsum </p>
+                     <ul>
+                         <li>Price: <span>$110</span> </li><b>|</b>
+                         <li>Country: <span>US</span></li>
+                     </ul>
+                 </div>
+                 <div class="clearfix"> </div>
+             </div>
+             <div class="latest-grid">
+                 <div class="news">
+                     <a href="single.html"><img class="img-responsive" src="images/si.jpg" title="name" alt=""></a>
+                 </div>
+                 <div class="news-in">
+                     <h6><a href="single.html">Product name here</a></h6>
+                     <p>Description Lorem ipsum</p>
+                     <ul>
+                         <li>Price: <span>$110</span> </li><b>|</b>
+                         <li>Country: <span>US</span></li>
+                     </ul>
+                 </div>
+                 <div class="clearfix"> </div>
+             </div>
+             <div class="latest-grid">
+                 <div class="news">
+                     <a href="single.html"><img class="img-responsive" src="images/si1.jpg" title="name" alt=""></a>
+                 </div>
+                 <div class="news-in">
+                     <h6><a href="single.html">Product name here</a></h6>
+                     <p>Description Lorem ipsum </p>
+                     <ul>
+                         <li>Price: <span>$110</span> </li><b>|</b>
+                         <li>Country: <span>US</span></li>
+                     </ul>
+                 </div>
+                 <div class="clearfix"> </div>
+             </div>
+         </div>
         <!---->
         <div class="money">
-            <h3>Payment Options</h3>
+            <h3>Opções de Pagamento</h3>
             <ul class="money-in">
                 <li><a href="single.html"><img class="img-responsive" src="images/p1.png" title="name" alt=""></a></li>
                 <li><a href="single.html"><img class="img-responsive" src="images/p2.png" title="name" alt=""></a></li>
@@ -385,7 +361,7 @@
                 <li><a href="single.html"><img class="img-responsive" src="images/p2.png" title="name" alt=""></a></li>
 
             </ul>
-        </div>
+        </div>      
     </div>
     <!-- fim da coluna de busca e indicação -->
     <div class="clearfix"> </div>
